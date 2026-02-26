@@ -1,4 +1,4 @@
-import moment from 'moment';
+import {formatTime as formatTimeHelper} from './time';
 
 const formatTime = (time: number, options: any) => {
   options = {
@@ -7,16 +7,10 @@ const formatTime = (time: number, options: any) => {
   };
 
   const durationFormatted = options.extra
-    ? `  (${format(options.extra, options)})`
+    ? `  (${formatTimeHelper(options.extra, options)})`
     : '';
 
-  return `${format(time, options)}${durationFormatted}`;
-};
-
-const format = (time: number, {showMilliseconds} = {showMilliseconds: false}) => {
-  const formatString = `${time >= 60 * 60 ? 'hh:m' : ''}m:ss${showMilliseconds ? '.SS' : ''}`;
-
-  return moment().startOf('day').millisecond(time * 1000).format(formatString);
+  return `${formatTimeHelper(time, options)}${durationFormatted}`;
 };
 
 export default formatTime;

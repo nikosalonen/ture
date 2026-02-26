@@ -7,8 +7,6 @@ import fs from 'node:fs';
 import {saveSnapshot} from '../utils/image-preview';
 import {windowManager} from './manager';
 
-const pify = require('pify');
-
 const OPTIONS_BAR_HEIGHT = 48;
 const VIDEO_ASPECT = 9 / 16;
 const MIN_VIDEO_WIDTH = 900;
@@ -128,7 +126,7 @@ const saveOriginal = async (video: Video) => {
   });
 
   if (filePath) {
-    await pify(fs.copyFile)(video.filePath, filePath, fs.constants.COPYFILE_FICLONE);
+    await fs.promises.copyFile(video.filePath, filePath, fs.constants.COPYFILE_FICLONE);
   }
 };
 

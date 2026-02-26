@@ -1,11 +1,18 @@
-import moment from 'moment';
 import execa from 'execa';
 
 const ffmpegPath = require('ffmpeg-static');
 
 const getDuration = (text: string): number => {
   const durationString = /Duration: ([\d:.]*)/.exec(text)?.[1];
-  return moment.duration(durationString).asSeconds();
+  if (!durationString) {
+    return 0;
+  }
+
+  const parts = durationString.split(':');
+  const hours = Number.parseFloat(parts[0]);
+  const minutes = Number.parseFloat(parts[1]);
+  const seconds = Number.parseFloat(parts[2]);
+  return (hours * 3600) + (minutes * 60) + seconds;
 };
 
 const getEncoding = (text: string) => /Stream.*Video: (.*?)[, ]/.exec(text)?.[1];

@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     macos:
-      xcode: '13.4.1'
+      xcode: '16.0'
     steps:
       - checkout
       - run: yarn
@@ -18,20 +18,6 @@ jobs:
           path: dist/Kap-arm64.dmg
       - store_test_results:
           path: ~/reports
-  sentry-release:
-    docker:
-      - image: cimg/node:lts
-    environment:
-      SENTRY_ORG: wulkano-l0
-      SENTRY_PROJECT: kap
-    steps:
-      - checkout
-      - run: |
-          curl -sL https://sentry.io/get-cli/ | bash
-          export SENTRY_RELEASE=$(yarn run -s sentry-version)
-          sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
-          sentry-cli releases set-commits --auto $SENTRY_RELEASE
-          sentry-cli releases finalize $SENTRY_RELEASE
 
 workflows:
   version: 2
@@ -41,11 +27,3 @@ workflows:
           filters:
             tags:
               only: /.*/ # Force CircleCI to build on tags
-      - sentry-release:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/

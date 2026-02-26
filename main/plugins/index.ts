@@ -2,7 +2,6 @@ import {app} from 'electron';
 import {EventEmitter} from 'node:events';
 import path from 'node:path';
 import fs from 'node:fs';
-import makeDir from 'make-dir';
 import execa from 'execa';
 import {track} from '../common/analytics';
 import {InstalledPlugin, NpmPlugin} from './plugin';
@@ -11,8 +10,6 @@ import {notify} from '../utils/notifications';
 import packageJson from 'package-json';
 import {NormalizedPackageJson} from 'read-pkg';
 import {windowManager} from '../windows/manager';
-
-const got = require('got');
 
 type PackageJson = {
   dependencies: Record<string, string>;
@@ -134,12 +131,11 @@ export class Plugins extends EventEmitter {
 
   async getFromNpm() {
     const url = 'https://api.npms.io/v2/search?q=keywords:kap-plugin+not:deprecated';
-    const response = (await got(url, {json: true})) as {
-      body: {results: Array<{package: NormalizedPackageJson}>};
-    };
+    const response = await fetch(url);
+    const data = await response.json() as {results: Array<{package: NormalizedPackageJson}>};
     const installed = this.pluginNames;
 
-    return Promise.all(response.body.results
+    return Promise.all(data.results
       .map(x => x.package)
       .filter(x => x.name.startsWith('kap-'))
       .filter(x => !installed.includes(x.name)) // Filter out installed plugins
@@ -176,7 +172,7 @@ export class Plugins extends EventEmitter {
 
   private makePluginsDir() {
     if (!fs.existsSync(this.packageJsonPath)) {
-      makeDir.sync(this.pluginsDir);
+      fs.mkdirSync(this.pluginsDir, {recursive: true});
       fs.writeFileSync(this.packageJsonPath, JSON.stringify({dependencies: {}}, null, 2));
     }
   }

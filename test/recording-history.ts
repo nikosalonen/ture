@@ -3,6 +3,7 @@ import tempy from 'tempy';
 import fs from 'node:fs';
 import sinon, {type SinonFakeTimers} from 'sinon';
 import path from 'node:path';
+import {generateTimestampedName} from '../main/utils/timestamped-name';
 import {type MockWindowManager, windowManager} from './mocks/window-manager';
 
 const test = anyTest.serial as unknown as TestFn<{
@@ -210,7 +211,7 @@ test('`setCurrentRecording()`', t => {
 
   t.deepEqual(recordingHistory.get('activeRecording'), {
     filePath: 'some/path',
-    name: 'Kapture 2020-07-21 at 11.27.26',
+    name: generateTimestampedName(),
     date: t.context.now.toISOString(),
     apertureOptions: {some: 'options'} as any,
     plugins: {some: 'plugins'} as any,

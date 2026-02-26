@@ -1,5 +1,5 @@
-import moment from 'moment';
 import prettyMilliseconds from 'pretty-ms';
+import {parseTimeStringToMs} from '../utils/time';
 
 export interface ConvertOptions {
   inputPath: string;
@@ -28,7 +28,8 @@ export const extractProgressFromStderr = (stderr: string, conversionStartTime: n
   const data = stderr.trim();
 
   const speed = Number.parseFloat(/speed=\s*(-?\d+(,\d+)*(\.\d+(e\d+)?)?)/gm.exec(data)?.[1] ?? '0');
-  const processedMs = moment.duration(/time=\s*(\d\d:\d\d:\d\d.\d\d)/gm.exec(data)?.[1] ?? 0).asMilliseconds();
+  const timeMatch = /time=\s*(\d\d:\d\d:\d\d.\d\d)/gm.exec(data)?.[1];
+  const processedMs = timeMatch ? parseTimeStringToMs(timeMatch) : 0;
 
   if (speed > 0) {
     const progress = processedMs / durationMs;

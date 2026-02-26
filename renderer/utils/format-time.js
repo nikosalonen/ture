@@ -1,4 +1,27 @@
-import moment from 'moment';
+const format = (seconds, {showMilliseconds} = {}) => {
+  const totalMs = Math.round(seconds * 1000);
+  const hours = Math.floor(totalMs / 3_600_000);
+  const minutes = Math.floor((totalMs % 3_600_000) / 60_000);
+  const secs = Math.floor((totalMs % 60_000) / 1000);
+  const ms = totalMs % 1000;
+
+  const pad2 = n => String(n).padStart(2, '0');
+
+  let result = '';
+
+  if (hours > 0) {
+    result = `${hours}:${pad2(minutes)}:${pad2(secs)}`;
+  } else {
+    result = `${minutes}:${pad2(secs)}`;
+  }
+
+  if (showMilliseconds) {
+    const centiseconds = Math.floor(ms / 10);
+    result += `.${pad2(centiseconds)}`;
+  }
+
+  return result;
+};
 
 const formatTime = (time, options) => {
   options = {
@@ -11,12 +34,6 @@ const formatTime = (time, options) => {
     : '';
 
   return `${format(time, options)}${durationFormatted}`;
-};
-
-const format = (time, {showMilliseconds} = {}) => {
-  const formatString = `${time >= 60 * 60 ? 'hh:m' : ''}m:ss${showMilliseconds ? '.SS' : ''}`;
-
-  return moment().startOf('day').millisecond(time * 1000).format(formatString);
 };
 
 export default formatTime;

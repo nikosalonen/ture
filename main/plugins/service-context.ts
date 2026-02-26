@@ -1,6 +1,5 @@
 import {app, clipboard} from 'electron';
 import Store from 'electron-store';
-import got, {GotFn, GotPromise} from 'got';
 import {ApertureOptions, Format} from '../common/types';
 import {InstalledPlugin} from './plugin';
 import {addPluginPromise} from '../utils/deep-linking';
@@ -13,7 +12,7 @@ interface ServiceContextOptions {
 }
 
 class ServiceContext {
-  requests: Array<GotPromise<any>> = [];
+  abortControllers: AbortController[] = [];
   config: Store;
 
   private readonly plugin: InstalledPlugin;
@@ -23,10 +22,10 @@ class ServiceContext {
     this.config = this.plugin.config;
   }
 
-  request = (...args: Parameters<GotFn>) => {
-    const request = got(...args);
-    this.requests.push(request);
-    return request;
+  request = (url: string, options?: RequestInit) => {
+    const controller = new AbortController();
+    this.abortControllers.push(controller);
+    return fetch(url, {...options, signal: controller.signal});
   };
 
   copyToClipboard = (text: string) => {
@@ -89,8 +88,8 @@ export class ShareServiceContext extends ServiceContext {
     this.isCanceled = true;
     this.options.onCancel();
 
-    for (const request of this.requests) {
-      request.cancel();
+    for (const controller of this.abortControllers) {
+      controller.abort();
     }
   };
 }
@@ -146,8 +145,8 @@ export class EditServiceContext extends ServiceContext {
     this.isCanceled = true;
     this.options.onCancel();
 
-    for (const request of this.requests) {
-      request.cancel();
+    for (const controller of this.abortControllers) {
+      controller.abort();
     }
   };
 }
