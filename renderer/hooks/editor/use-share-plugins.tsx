@@ -1,5 +1,7 @@
 import OptionsContainer from 'components/editor/options-container';
-import {remote, ipcRenderer} from 'electron';
+import {ipcRenderer} from 'electron';
+
+const remote = require('utils/electron-remote') as typeof import('@electron/remote');
 import {useMemo} from 'react';
 
 const useSharePlugins = () => {

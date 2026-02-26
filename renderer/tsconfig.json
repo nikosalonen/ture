@@ -21,13 +21,26 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
-      "utils/*": ["./utils/*"],
-      "components/*": ["./components/*"],
-      "containers/*": ["./containers/*"],
-      "hooks/*": ["./hooks/*"],
-      "common/*": ["./common/*"],
-      "vectors": ["./vectors"]
-    }
+      "utils/*": [
+        "./utils/*"
+      ],
+      "components/*": [
+        "./components/*"
+      ],
+      "containers/*": [
+        "./containers/*"
+      ],
+      "hooks/*": [
+        "./hooks/*"
+      ],
+      "common/*": [
+        "./common/*"
+      ],
+      "vectors": [
+        "./vectors"
+      ]
+    },
+    "incremental": true
   },
   "exclude": [
     "node_modules",

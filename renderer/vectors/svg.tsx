@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {type FunctionComponent, type ReactNode} from 'react';
 import classNames from 'classnames';
 
 import {handleKeyboardActivation} from '../utils/inputs';
@@ -104,6 +104,7 @@ export interface SvgProps {
   shadow?: boolean;
   tabIndex?: number;
   isMenu?: boolean;
+  children?: ReactNode;
 }
 
 export default Svg;
