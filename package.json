@@ -72,7 +72,7 @@
     "string-math": "^1.2.2",
     "tempy": "^1.0.0",
     "tildify": "^2.0.0",
-    "tmp": "^0.2.5"
+    "tmp": "^0.2.4"
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "^2.0.0",
