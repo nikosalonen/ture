@@ -1,4 +1,5 @@
 import {BrowserWindow, ipcMain} from 'electron';
+import {enable as enableRemote} from '@electron/remote/main';
 import pEvent from 'p-event';
 
 import {loadRoute} from '../utils/routes';
@@ -34,13 +35,13 @@ const openPrefsWindow = async (options?: PreferencesWindowOptions) => {
     show: false,
     frame: false,
     transparent: true,
-    vibrancy: 'window',
+    vibrancy: 'under-window',
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
+  enableRemote(prefsWindow.webContents);
 
   const titlebarHeight = 85;
   prefsWindow.setSheetOffset(titlebarHeight);

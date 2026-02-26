@@ -17,7 +17,7 @@ const openExportsWindow = async () => {
       titleBarStyle: 'hiddenInset',
       frame: false,
       transparent: true,
-      vibrancy: 'window',
+      vibrancy: 'under-window',
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false

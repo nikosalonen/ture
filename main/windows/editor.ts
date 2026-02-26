@@ -43,7 +43,7 @@ const open = async (video: Video) => {
     },
     frame: false,
     transparent: true,
-    vibrancy: 'window',
+    vibrancy: 'under-window',
     route: 'editor',
     initialState: {
       previewFilePath: video.previewPath!,

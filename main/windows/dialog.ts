@@ -1,6 +1,7 @@
 'use strict';
 
 import {BrowserWindow, ipcMain} from 'electron';
+import {enable as enableRemote} from '@electron/remote/main';
 import {loadRoute} from '../utils/routes';
 import {windowManager} from './manager';
 
@@ -17,7 +18,7 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
     minimizable: false,
     maximizable: false,
     fullscreenable: false,
-    vibrancy: 'window',
+    vibrancy: 'under-window',
     show: false,
     alwaysOnTop: true,
     center: true,
@@ -25,10 +26,10 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
     useContentSize: true,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
+  enableRemote(dialogWindow.webContents);
 
   loadRoute(dialogWindow, 'dialog');
 

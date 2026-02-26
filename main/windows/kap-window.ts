@@ -1,4 +1,5 @@
 import {app, BrowserWindow, ipcMain, Menu} from 'electron';
+import {enable as enableRemote} from '@electron/remote/main';
 import pEvent from 'p-event';
 import {customApplicationMenu, defaultApplicationMenu, MenuModifier} from '../menus/application';
 import {loadRoute} from '../utils/routes';
@@ -52,12 +53,12 @@ export default class KapWindow<State = any> {
       ...rest,
       webPreferences: {
         nodeIntegration: true,
-        enableRemoteModule: true,
         contextIsolation: false,
         ...rest.webPreferences
       },
       show: false
     });
+    enableRemote(this.browserWindow.webContents);
     this.id = this.browserWindow.id;
     KapWindow.windows.set(this.id, this);
 
@@ -145,8 +146,8 @@ export default class KapWindow<State = any> {
     KapWindow.windows.set(this.id, this);
 
     this.browserWindow.on('show', () => {
-      if (this.options.dock && !app.dock.isVisible) {
-        app.dock.show();
+      if (this.options.dock && !app.dock!.isVisible()) {
+        app.dock!.show();
       }
     });
 

@@ -1,6 +1,7 @@
 
 import {windowManager} from './manager';
 import {BrowserWindow, systemPreferences, dialog, screen, Display, app} from 'electron';
+import {enable as enableRemote} from '@electron/remote/main';
 import delay from 'delay';
 
 import {settings} from '../common/settings';
@@ -47,10 +48,10 @@ const openCropper = (display: Display, activeDisplayId?: number) => {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
+  enableRemote(cropper.webContents);
 
   loadRoute(cropper, 'cropper');
 
@@ -231,7 +232,7 @@ app.on('before-quit', closeAllCroppers);
 
 app.on('browser-window-created', () => {
   if (!isCropperOpen()) {
-    app.dock.show();
+    app.dock!.show();
   }
 });
 

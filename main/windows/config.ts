@@ -1,6 +1,7 @@
 'use strict';
 
 import {BrowserWindow, ipcMain} from 'electron';
+import {enable as enableRemote} from '@electron/remote/main';
 import pEvent from 'p-event';
 
 import {loadRoute} from '../utils/routes';
@@ -22,10 +23,10 @@ const openConfigWindow = async (pluginName: string) => {
     modal: true,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
+  enableRemote(configWindow.webContents);
 
   loadRoute(configWindow, 'config');
 
@@ -52,10 +53,10 @@ const openEditorConfigWindow = async (pluginName: string, serviceTitle: string, 
     modal: true,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       contextIsolation: false
     }
   });
+  enableRemote(configWindow.webContents);
 
   loadRoute(configWindow, 'config');
 

@@ -1,3 +1,5 @@
+import {createServer} from 'http';
+import path from 'path';
 import {app} from 'electron';
 import {initialize as initializeRemote} from '@electron/remote/main';
 import log from 'electron-log';
@@ -24,8 +26,6 @@ import {setUpExportsListeners} from './export';
 import {windowManager} from './windows/manager';
 import {setupProtocol} from './utils/protocol';
 import {stopRecordingWithNoEdit} from './aperture';
-
-const prepareNext = require('electron-next');
 
 const filesToOpen: string[] = [];
 
@@ -91,7 +91,7 @@ const checkForUpdates = () => {
 
   setupProtocol();
 
-  app.dock.hide();
+  app.dock?.hide();
   app.setAboutPanelOptions({copyright: 'Copyright © Wulkano'});
 
   // Ensure the app is in the Applications folder
@@ -99,7 +99,16 @@ const checkForUpdates = () => {
     app.moveToApplicationsFolder();
   }
 
-  await prepareNext('./renderer');
+  // In dev mode, start a Next.js dev server (replaces electron-next)
+  if (!app.isPackaged) {
+    const next = require('next')({dev: true, dir: path.join(app.getAppPath(), 'renderer')});
+    const requestHandler = next.getRequestHandler();
+    await next.prepare();
+    const server = createServer(requestHandler);
+    server.listen(8000, () => {
+      app.on('before-quit', () => server.close());
+    });
+  }
 
   // Ensure all plugins are up to date
   initializePlugins();
@@ -129,9 +138,8 @@ const checkForUpdates = () => {
   checkForUpdates();
 })();
 
-app.on('window-all-closed', (event: any) => {
-  app.dock.hide();
-  event.preventDefault();
+app.on('window-all-closed', () => {
+  app.dock?.hide();
 });
 
 app.on('will-finish-launching', () => {
