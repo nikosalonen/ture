@@ -59,7 +59,7 @@ class BasePlugin {
   }
 }
 
-export interface KapPlugin<Config = any> {
+export interface KapPlugin<Config extends Record<string, any> = any> {
   shareServices?: Array<ShareService<Config>>;
   editServices?: Array<EditService<Config>>;
   recordServices?: Array<RecordService<Config>>;
@@ -74,7 +74,7 @@ export class InstalledPlugin extends BasePlugin {
   pluginsPath = path.join(app.getPath('userData'), 'plugins');
 
   pluginPath: string;
-  json?: readPkg.NormalizedPackageJson;
+  override json?: readPkg.NormalizedPackageJson;
   content: KapPlugin;
   config: PluginConfig;
   hasConfig: boolean;

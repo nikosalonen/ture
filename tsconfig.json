@@ -10,7 +10,11 @@
     "inlineSources": true,
     "lib": [
       "esnext"
-    ]
+    ],
+    "noUncheckedIndexedAccess": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "useDefineForClassFields": false,
+    "resolveJsonModule": true
   },
   "include": [
     "node_modules/type-fest/index.d.ts",
