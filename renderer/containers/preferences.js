@@ -1,5 +1,5 @@
 import electron from 'electron';
-import {Container} from 'unstated';
+import {Container} from '../utils/unstated-shim';
 import {ipcRenderer as ipc} from 'electron-better-ipc';
 // Import {defaultInputDeviceId} from 'common/constants';
 

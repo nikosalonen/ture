@@ -1,5 +1,5 @@
 import React, {FunctionComponent, PropsWithChildren} from 'react';
-import {Container} from 'unstated-next';
+import {Container} from './create-container';
 
 type ContainerOrWithInitialState<T = any> = Container<any, T> | [Container<any, T>, T];
 

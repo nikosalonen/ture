@@ -57,7 +57,6 @@
     "ffmpeg-static": "^4.4.1",
     "gifsicle": "^5.2.0",
     "got": "^9.6.0",
-    "insight": "^0.10.3",
     "is-online": "^8.4.0",
     "lodash": "^4.17.21",
     "mac-open-with": "^1.2.3",
@@ -88,10 +87,7 @@
     "string-math": "^1.2.2",
     "tempy": "^1.0.0",
     "tildify": "^2.0.0",
-    "tmp": "^0.2.0",
-    "unstated": "^1.2.0",
-    "unstated-next": "^1.1.0",
-    "yarn": "^1.22.10"
+    "tmp": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -99,7 +95,6 @@
     "@sindresorhus/tsconfig": "^2.0.0",
     "@types/ffmpeg-static": "^3.0.0",
     "@types/got": "9.6.12",
-    "@types/insight": "^0.8.0",
     "@types/lodash": "^4.14.168",
     "@types/module-alias": "^2.0.0",
     "@types/node": "^14.11.10",

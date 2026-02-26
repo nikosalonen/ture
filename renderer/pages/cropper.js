@@ -1,6 +1,6 @@
 import electron from 'electron';
 import React from 'react';
-import {Provider} from 'unstated';
+import {Provider} from '../utils/unstated-shim';
 
 import Overlay from '../components/cropper/overlay';
 import Cropper from '../components/cropper';

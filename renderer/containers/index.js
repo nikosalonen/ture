@@ -1,5 +1,5 @@
 import React from 'react';
-import {Subscribe} from 'unstated';
+import {Subscribe} from '../utils/unstated-shim';
 
 import CropperContainer from './cropper';
 import CursorContainer from './cursor';

@@ -1,5 +1,5 @@
 import {useState, useEffect, useMemo} from 'react';
-import {createContainer} from 'unstated-next';
+import {createContainer} from '../../utils/create-container';
 import {debounce, DebouncedFunc} from 'lodash';
 
 import VideoMetadataContainer from './video-metadata-container';

@@ -1,6 +1,6 @@
 import electron from 'electron';
 import nearestNormalAspectRatio from 'nearest-normal-aspect-ratio';
-import {Container} from 'unstated';
+import {Container} from '../utils/unstated-shim';
 
 import {minHeight, minWidth, resizeTo, setScreenSize} from '../utils/inputs';
 

@@ -1,5 +1,5 @@
 import electron from 'electron';
-import {Container} from 'unstated';
+import {Container} from '../utils/unstated-shim';
 
 export default class ConfigContainer extends Container {
   remote = electron.remote || false;

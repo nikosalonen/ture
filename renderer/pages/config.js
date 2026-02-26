@@ -1,5 +1,5 @@
 import React from 'react';
-import {Provider} from 'unstated';
+import {Provider} from '../utils/unstated-shim';
 import {ipcRenderer as ipc} from 'electron-better-ipc';
 
 import {ConfigContainer} from '../containers';

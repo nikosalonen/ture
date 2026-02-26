@@ -55,22 +55,24 @@ const Select = <T, >(props: Props<T>) => {
         return {type: 'separator'};
       }
 
-      if (option.subMenu) {
+      const opt = option as Option<T>;
+
+      if (opt.subMenu) {
         return {
-          label: option.label,
-          submenu: option.subMenu.map(opt => convertToMenuTemplate(opt)),
-          checked: option.checked
+          label: opt.label,
+          submenu: opt.subMenu.map(o => convertToMenuTemplate(o)),
+          checked: opt.checked
         };
       }
 
       return {
-        label: option.label,
-        type: option.type as any || 'checkbox',
-        checked: option.checked ?? (option.value === value),
-        click: option.click ?? (() => {
-          props.onChange(option.value);
+        label: opt.label,
+        type: opt.type as any || 'checkbox',
+        checked: opt.checked ?? (opt.value === value),
+        click: opt.click ?? (() => {
+          props.onChange(opt.value);
         }),
-        icon: option.icon
+        icon: opt.icon
       };
     };
 

@@ -1,5 +1,5 @@
 import electron from 'electron';
-import {Container} from 'unstated';
+import {Container} from '../utils/unstated-shim';
 
 const barWidth = 464;
 const barHeight = 64;

@@ -1,4 +1,4 @@
-import {Container} from 'unstated';
+import {Container} from '../utils/unstated-shim';
 
 export default class CursorContainer extends Container {
   state = {
