@@ -1,4 +1,4 @@
-import moduleAlias from 'module-alias';
+import {addAlias} from 'module-alias';
 import path from 'node:path';
 import fs from 'node:fs';
 
@@ -15,7 +15,7 @@ export const mockModule = (name: string) => {
     throw new Error(`Missing mock implementation at ${mockModulePath}`.replace('js', '(ts|js)'));
   }
 
-  moduleAlias.addAlias(name, mockPath);
+  addAlias(name, mockPath);
   return require(mockPath);
 };
 
@@ -32,6 +32,6 @@ export const mockImport = (importPath: string, mock: string) => {
     throw new Error(`Missing mock implementation at ${mockModulePath}`.replace('js', '(ts|js)'));
   }
 
-  moduleAlias.addAlias(importPath, mockPath);
+  addAlias(importPath, mockPath);
   return require(mockPath);
 };

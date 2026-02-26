@@ -16,7 +16,6 @@ type PackageJson = {
 };
 
 export class Plugins extends EventEmitter {
-  yarnBin = path.join(__dirname, '../../node_modules/yarn/bin/yarn.js');
   appVersion = app.getVersion();
   pluginsDir = path.join(app.getPath('userData'), 'plugins');
   builtInDir = path.join(__dirname, 'built-in');
@@ -44,7 +43,7 @@ export class Plugins extends EventEmitter {
     });
 
     try {
-      await this.yarnInstall();
+      await this.npmInstall();
 
       const plugin = new InstalledPlugin(name);
       this.installedPlugins.push(plugin);
@@ -126,7 +125,7 @@ export class Plugins extends EventEmitter {
   }
 
   async upgrade() {
-    return this.yarnInstall();
+    return this.npmInstall();
   }
 
   async getFromNpm() {
@@ -183,11 +182,11 @@ export class Plugins extends EventEmitter {
     fs.writeFileSync(this.packageJsonPath, JSON.stringify(pkg, null, 2));
   }
 
-  private async runYarn(...args: string[]) {
-    await execa(process.execPath, [this.yarnBin, ...args], {
+  private async runNpm(...args: string[]) {
+    await execa('npm', args, {
       cwd: this.pluginsDir,
       env: {
-        ELECTRON_RUN_AS_NODE: '1',
+        ...process.env,
         NODE_ENV: 'development',
       },
     });
@@ -198,8 +197,8 @@ export class Plugins extends EventEmitter {
     return Object.keys(JSON.parse(pkg).dependencies || {});
   }
 
-  private async yarnInstall() {
-    await this.runYarn('install', '--no-lockfile', '--registry', 'https://registry.npmjs.org');
+  private async npmInstall() {
+    await this.runNpm('install', '--no-package-lock', '--registry', 'https://registry.npmjs.org');
   }
 
   private loadPlugins() {

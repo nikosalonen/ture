@@ -12,18 +12,19 @@
     "url": "https://wulkano.com"
   },
   "private": true,
+  "packageManager": "pnpm@10.30.3",
   "main": "dist-js/index.js",
   "scripts": {
     "lint": "xo",
     "lint:fix": "xo --fix",
     "test:main": "TS_NODE_PROJECT=test/tsconfig.json ava",
-    "test": "yarn lint && yarn test:main",
+    "test": "pnpm lint && pnpm test:main",
     "start": "tsc && run-electron .",
     "build-main": "tsc",
     "build-renderer": "next build renderer",
-    "build": "yarn build-main && yarn build-renderer",
-    "dist": "npm run build && electron-builder",
-    "pack": "npm run build && electron-builder --dir",
+    "build": "pnpm build-main && pnpm build-renderer",
+    "dist": "pnpm build && electron-builder",
+    "pack": "pnpm build && electron-builder --dir",
     "prepare": "husky",
     "postinstall": "electron-builder install-app-deps",
     "dev": "next dev renderer"
@@ -183,5 +184,13 @@
         }
       ]
     }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "ffmpeg-static",
+      "gifsicle",
+      "unrs-resolver"
+    ]
   }
 }
