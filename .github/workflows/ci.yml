@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: ['*']
+    tags: ['*']
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - run: yarn install
+
+      - run: yarn lint
+
+      - run: yarn test:main
+
+      - run: yarn run dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dmg
+          path: |
+            dist/*-x64.dmg
+            dist/*-arm64.dmg
