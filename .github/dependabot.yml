@@ -1,0 +1,72 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      electron:
+        patterns:
+          - "electron"
+          - "electron-*"
+          - "@electron/*"
+          - "run-electron"
+        update-types:
+          - "minor"
+          - "patch"
+      next-react:
+        patterns:
+          - "next"
+          - "react"
+          - "react-dom"
+          - "@types/react"
+        update-types:
+          - "minor"
+          - "patch"
+      linting:
+        patterns:
+          - "xo"
+          - "typescript"
+          - "@sindresorhus/tsconfig"
+        update-types:
+          - "minor"
+          - "patch"
+      testing:
+        patterns:
+          - "ava"
+          - "sinon"
+          - "@types/sinon"
+          - "ts-node"
+        update-types:
+          - "minor"
+          - "patch"
+      types:
+        patterns:
+          - "@types/*"
+        exclude-patterns:
+          - "@types/react"
+          - "@types/sinon"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Electron major upgrades need manual migration
+      - dependency-name: "electron"
+        update-types: ["version-update:semver-major"]
+      # Next.js/React major upgrades need manual migration
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
