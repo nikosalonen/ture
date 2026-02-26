@@ -51,5 +51,5 @@ export {
   OpenConfigIcon,
   OpenOnGithubIcon,
   HelpIcon,
-  BackPlainIcon
+  BackPlainIcon,
 };

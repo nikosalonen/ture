@@ -5,5 +5,5 @@ import type {Plugins} from '../../main/plugins';
 export const plugins: PartialDeep<Writable<Plugins>> = {
   recordingPlugins: [],
   sharePlugins: [],
-  editPlugins: []
+  editPlugins: [],
 };

@@ -23,7 +23,7 @@ const triggerPluginAction = (action: string) => (name: string) => windowManager.
 const routes = new Map([
   ['plugins', handlePluginsDeepLink],
   ['install-plugin', triggerPluginAction('install')],
-  ['configure-plugin', triggerPluginAction('configure')]
+  ['configure-plugin', triggerPluginAction('configure')],
 ]);
 
 export const handleDeepLink = (url: string) => {

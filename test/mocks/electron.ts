@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import tempy from 'tempy';
-import path from 'path';
+import path from 'node:path';
 
 const temporaryDir = tempy.directory();
 
@@ -10,15 +10,15 @@ process.env.TZ = 'America/New_York';
 export const app = {
   getPath: (name: string) => path.resolve(temporaryDir, name),
   isPackaged: false,
-  getVersion: ''
+  getVersion: '',
 };
 
 export const shell = {
-  showItemInFolder: sinon.fake()
+  showItemInFolder: sinon.fake(),
 };
 
 export const clipboard = {
-  writeText: sinon.fake()
+  writeText: sinon.fake(),
 };
 
 // remote module is now provided by @electron/remote package, not electron itself

@@ -1,7 +1,9 @@
 import Actions from '../components/dialog/actions';
 import Icon from '../components/dialog/icon';
 import Body from '../components/dialog/body';
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {
+  useState, useEffect, useRef, useCallback,
+} from 'react';
 import {ipcRenderer} from 'electron';
 
 let measureResolve;
@@ -66,9 +68,9 @@ const Dialog = () => {
   }
 
   return (
-    <div ref={container} className="dialog-container">
+    <div ref={container} className='dialog-container'>
       <Icon/>
-      <div className="dialog-content">
+      <div className='dialog-content'>
         <Body title={data.title} message={data.message} detail={data.detail}/>
         <Actions buttons={data.buttons} performAction={performAction} defaultId={data.defaultId}/>
       </div>

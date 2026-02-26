@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class Category extends React.Component {
   render() {
     return (
-      <div className="category">
+      <div className='category'>
         {this.props.children}
         <style jsx>{`
             .category {
@@ -22,8 +22,8 @@ class Category extends React.Component {
 Category.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default Category;

@@ -9,7 +9,7 @@ const presets = [
   'Command+Shift+3',
   'Command+Shift+4',
   'Command+Shift+5',
-  'Command+Shift+6'
+  'Command+Shift+6',
 ];
 
 const Key = ({children}) => (
@@ -40,8 +40,8 @@ const Key = ({children}) => (
 Key.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired
+    PropTypes.node,
+  ]).isRequired,
 };
 
 const metaCharacters = new Map([
@@ -51,7 +51,7 @@ const metaCharacters = new Map([
   ['Shift', '⇧'],
   ['Cmd', '⌘'],
   ['Control', '⌃'],
-  ['Ctrl', '⌃']
+  ['Ctrl', '⌃'],
 ]);
 
 const ShortcutInput = ({shortcut = '', onChange, tabIndex}) => {
@@ -81,7 +81,7 @@ const ShortcutInput = ({shortcut = '', onChange, tabIndex}) => {
       metaKey && 'Command',
       altKey && 'Alt',
       ctrlKey && 'Control',
-      shiftKey && 'Shift'
+      shiftKey && 'Shift',
     ].filter(Boolean);
 
     if (metaKeys.length > 0 && ['Shift', 'Control', 'Alt', 'Meta'].includes(key)) {
@@ -101,7 +101,7 @@ const ShortcutInput = ({shortcut = '', onChange, tabIndex}) => {
       metaKey && 'Command',
       altKey && 'Alt',
       ctrlKey && 'Control',
-      shiftKey && 'Shift'
+      shiftKey && 'Shift',
     ].filter(Boolean);
 
     if (metaKeys.length === 0) {
@@ -157,24 +157,24 @@ const ShortcutInput = ({shortcut = '', onChange, tabIndex}) => {
     const {Menu} = require('@electron/remote');
     const menu = Menu.buildFromTemplate(presets.map(accelerator => ({
       label: accelerator.split('+').map(key => metaCharacters.get(key) || key).join(''),
-      click: () => {
+      click() {
         onChange(accelerator);
-      }
+      },
     })));
 
     const {left, top} = boxRef.current.getBoundingClientRect();
     menu.popup({
       x: Math.round(left),
-      y: Math.round(top)
+      y: Math.round(top),
     });
   };
 
   const className = classNames('box', {invalid: false});
 
   return (
-    <div className="shortcut-input">
+    <div className='shortcut-input'>
       <div ref={boxRef} className={className} onClick={() => inputRef.current.focus()}>
-        <div className="key-container">
+        <div className='key-container'>
           {keysToRender.map(key => <Key key={key}>{key}</Key>)}
           <input
             ref={inputRef}
@@ -185,13 +185,13 @@ const ShortcutInput = ({shortcut = '', onChange, tabIndex}) => {
             onPaste={paste}
           />
         </div>
-        <div className="dropdown">
+        <div className='dropdown'>
           <DropdownArrowIcon onClick={openMenu}/>
         </div>
       </div>
-      <button type="button" tabIndex={tabIndex} onClick={clearShortcut}>
-        <svg style={{width: '20px', height: '20px'}} viewBox="0 0 24 24">
-          <path fill="var(--icon-color)" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+      <button type='button' tabIndex={tabIndex} onClick={clearShortcut}>
+        <svg style={{width: '20px', height: '20px'}} viewBox='0 0 24 24'>
+          <path fill='var(--icon-color)' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'/>
         </svg>
       </button>
       <style jsx>{`
@@ -272,7 +272,7 @@ const ShortcutInput = ({shortcut = '', onChange, tabIndex}) => {
 ShortcutInput.propTypes = {
   shortcut: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  tabIndex: PropTypes.number.isRequired
+  tabIndex: PropTypes.number.isRequired,
 };
 
 export default ShortcutInput;

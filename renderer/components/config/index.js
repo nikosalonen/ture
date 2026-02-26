@@ -15,7 +15,7 @@ class Config extends React.Component {
       closeWindow,
       openConfig,
       viewOnGithub,
-      serviceTitle
+      serviceTitle,
     } = this.props;
 
     if (!validators) {
@@ -23,48 +23,44 @@ class Config extends React.Component {
     }
 
     return (
-      <div className="container">
+      <div className='container'>
         {
           validators.length > 1 && (
-            <nav className="service-nav">
+            <nav className='service-nav'>
               {
-                validators.map((validator, index) => {
-                  return (
-                    <div
-                      key={validator.title}
-                      className={selectedTab === index ? 'selected' : ''}
-                      onClick={() => selectTab(index)}
-                    >
-                      {validator.title}
-                    </div>
-                  );
-                })
+                validators.map((validator, index) => (
+                  <div
+                    key={validator.title}
+                    className={selectedTab === index ? 'selected' : ''}
+                    onClick={() => selectTab(index)}
+                  >
+                    {validator.title}
+                  </div>
+                ))
               }
             </nav>
           )
         }
-        <div className="tab-container">
-          <div className="switcher"/>
+        <div className='tab-container'>
+          <div className='switcher'/>
           {
-            validators.map(validator => {
-              return (
-                <div key={validator.title} className="tab">
-                  <Tab
-                    validator={validator}
-                    values={values}
-                    openConfig={openConfig}
-                    viewOnGithub={viewOnGithub}
-                    serviceTitle={serviceTitle}
-                    onChange={onChange}
-                  />
-                </div>
-              );
-            })
+            validators.map(validator => (
+              <div key={validator.title} className='tab'>
+                <Tab
+                  validator={validator}
+                  values={values}
+                  openConfig={openConfig}
+                  viewOnGithub={viewOnGithub}
+                  serviceTitle={serviceTitle}
+                  onChange={onChange}
+                />
+              </div>
+            ))
           }
         </div>
         <footer>
-          <div className="fade"/>
-          <button type="button" onClick={closeWindow}>Done</button>
+          <div className='fade'/>
+          <button type='button' onClick={closeWindow}>Done</button>
         </footer>
         <style jsx>{`
           .container {
@@ -170,11 +166,15 @@ Config.propTypes = {
   closeWindow: PropTypes.elementType.isRequired,
   openConfig: PropTypes.elementType.isRequired,
   viewOnGithub: PropTypes.elementType.isRequired,
-  serviceTitle: PropTypes.string
+  serviceTitle: PropTypes.string,
 };
 
 export default connect(
   [ConfigContainer],
-  ({validators, values, selectedTab, serviceTitle}) => ({validators, values, selectedTab, serviceTitle}),
-  ({onChange, selectTab, closeWindow, openConfig, viewOnGithub}) => ({onChange, selectTab, closeWindow, openConfig, viewOnGithub})
+  ({validators, values, selectedTab, serviceTitle}) => ({
+    validators, values, selectedTab, serviceTitle,
+  }),
+  ({onChange, selectTab, closeWindow, openConfig, viewOnGithub}) => ({
+    onChange, selectTab, closeWindow, openConfig, viewOnGithub,
+  }),
 )(Config);

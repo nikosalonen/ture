@@ -10,7 +10,7 @@ class Plugins extends React.Component {
   static defaultProps = {
     pluginsInstalled: [],
     pluginsFromNpm: [],
-    category: 'general'
+    category: 'general',
   };
 
   render() {
@@ -26,13 +26,13 @@ class Plugins extends React.Component {
       npmError,
       fetchFromNpm,
       openPluginsConfig,
-      category
+      category,
     } = this.props;
 
     const tabIndex = category === 'plugins' ? 0 : -1;
     const allPlugins = [
       ...pluginsInstalled,
-      ...pluginsFromNpm
+      ...pluginsFromNpm,
     ].sort((a, b) => {
       if (a.isCompatible !== b.isCompatible) {
         return b.isCompatible - a.isCompatible;
@@ -43,8 +43,8 @@ class Plugins extends React.Component {
 
     return (
       <Category>
-        <div className="container">
-          <nav className="plugins-nav">
+        <div className='container'>
+          <nav className='plugins-nav'>
             <div
               tabIndex={tabIndex}
               className={tab === 'discover' ? 'selected' : ''}
@@ -62,48 +62,52 @@ class Plugins extends React.Component {
               Installed
             </div>
           </nav>
-          <div className="tab-container">
-            <div className="switcher"/>
-            <div className="tab" id="discover">
+          <div className='tab-container'>
+            <div className='switcher'/>
+            <div className='tab' id='discover'>
               {
-                npmError ? (
-                  <EmptyTab
-                    showIcon
-                    title="Oops!"
-                    subtitle="Something went wrong…"
-                    link="Refresh"
-                    onClick={fetchFromNpm}/>
-                ) : (
-                  <Tab
-                    tabIndex={tabIndex === 0 && tab === 'discover' ? 0 : -1}
-                    current={pluginBeingInstalled || pluginBeingUninstalled}
-                    plugins={allPlugins}
-                    openConfig={openPluginsConfig}
-                    disabled={Boolean(pluginBeingInstalled || pluginBeingUninstalled)}
-                    onTransitionEnd={onTransitionEnd}
-                    onClick={togglePlugin}/>
-                )
+                npmError
+                  ? (
+                    <EmptyTab
+                      showIcon
+                      title='Oops!'
+                      subtitle='Something went wrong…'
+                      link='Refresh'
+                      onClick={fetchFromNpm}/>
+                  )
+                  : (
+                    <Tab
+                      tabIndex={tabIndex === 0 && tab === 'discover' ? 0 : -1}
+                      current={pluginBeingInstalled || pluginBeingUninstalled}
+                      plugins={allPlugins}
+                      openConfig={openPluginsConfig}
+                      disabled={Boolean(pluginBeingInstalled || pluginBeingUninstalled)}
+                      onTransitionEnd={onTransitionEnd}
+                      onClick={togglePlugin}/>
+                  )
               }
             </div>
-            <div className="tab" id="installed">
+            <div className='tab' id='installed'>
               {
-                pluginsInstalled.length === 0 ? (
-                  <EmptyTab
-                    showIcon
-                    title="No plugins yet"
-                    subtitle="Customize Kap to your liking with plugins."
-                    link="Browse"
-                    onClick={() => selectTab('discover')}/>
-                ) : (
-                  <Tab
-                    tabIndex={tabIndex === 0 && tab === 'installed' ? 0 : -1}
-                    disabled={Boolean(pluginBeingInstalled)}
-                    current={pluginBeingUninstalled}
-                    plugins={pluginsInstalled}
-                    openConfig={openPluginsConfig}
-                    onClick={togglePlugin}
-                    onTransitionEnd={onTransitionEnd}/>
-                )
+                pluginsInstalled.length === 0
+                  ? (
+                    <EmptyTab
+                      showIcon
+                      title='No plugins yet'
+                      subtitle='Customize Kap to your liking with plugins.'
+                      link='Browse'
+                      onClick={() => selectTab('discover')}/>
+                  )
+                  : (
+                    <Tab
+                      tabIndex={tabIndex === 0 && tab === 'installed' ? 0 : -1}
+                      disabled={Boolean(pluginBeingInstalled)}
+                      current={pluginBeingUninstalled}
+                      plugins={pluginsInstalled}
+                      openConfig={openPluginsConfig}
+                      onClick={togglePlugin}
+                      onTransitionEnd={onTransitionEnd}/>
+                  )
               }
             </div>
           </div>
@@ -189,7 +193,7 @@ Plugins.propTypes = {
   npmError: PropTypes.bool,
   fetchFromNpm: PropTypes.func.isRequired,
   openPluginsConfig: PropTypes.func.isRequired,
-  category: PropTypes.string
+  category: PropTypes.string,
 };
 
 export default connect(
@@ -202,7 +206,7 @@ export default connect(
     onTransitionEnd,
     tab,
     npmError,
-    category
+    category,
   }) => ({
     pluginsInstalled,
     pluginsFromNpm,
@@ -211,16 +215,17 @@ export default connect(
     onTransitionEnd,
     tab,
     npmError,
-    category
-  }), ({
+    category,
+  }),
+  ({
     togglePlugin,
     selectTab,
     fetchFromNpm,
-    openPluginsConfig
+    openPluginsConfig,
   }) => ({
     togglePlugin,
     selectTab,
     fetchFromNpm,
-    openPluginsConfig
-  })
+    openPluginsConfig,
+  }),
 )(Plugins);

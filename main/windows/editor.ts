@@ -3,7 +3,7 @@ import type {Video} from '../video';
 import KapWindow from './kap-window';
 import {MenuItemId} from '../menus/utils';
 import {app, BrowserWindow, dialog} from 'electron';
-import fs from 'fs';
+import fs from 'node:fs';
 import {saveSnapshot} from '../utils/image-preview';
 import {windowManager} from './manager';
 
@@ -39,7 +39,7 @@ const open = async (video: Video) => {
     height: MIN_WINDOW_HEIGHT,
     backgroundColor: '#222222',
     webPreferences: {
-      webSecurity: app.isPackaged // Disable webSecurity in dev to load video over file:// protocol while serving over insecure http, this is not needed in production where we use file:// protocol for html serving.
+      webSecurity: app.isPackaged, // Disable webSecurity in dev to load video over file:// protocol while serving over insecure http, this is not needed in production where we use file:// protocol for html serving.
     },
     frame: false,
     transparent: true,
@@ -49,9 +49,9 @@ const open = async (video: Video) => {
       previewFilePath: video.previewPath!,
       filePath: video.filePath,
       fps: video.fps!,
-      title: video.title
+      title: video.title,
     },
-    menu: defaultMenu => {
+    menu(defaultMenu) {
       if (!video.isNewRecording) {
         return;
       }
@@ -65,16 +65,16 @@ const open = async (video: Video) => {
 
         if (index > -1) {
           submenu.splice(index + 1, 0, {
-            type: 'separator'
+            type: 'separator',
           }, {
             label: 'Save Original…',
             id: MenuItemId.saveOriginal,
             accelerator: 'Command+S',
-            click: async () => saveOriginal(video)
+            click: async () => saveOriginal(video),
           });
         }
       }
-    }
+    },
   });
 
   const editorWindow = editorKapWindow.browserWindow;
@@ -89,12 +89,12 @@ const open = async (video: Video) => {
         type: 'question',
         buttons: [
           'Discard',
-          'Cancel'
+          'Cancel',
         ],
         defaultId: 0,
         cancelId: 1,
         message: 'Are you sure that you want to discard this recording?',
-        detail: 'You will no longer be able to edit and export the original recording.'
+        detail: 'You will no longer be able to edit and export the original recording.',
       });
 
       if (buttonIndex === 1) {
@@ -124,7 +124,7 @@ const open = async (video: Video) => {
 
 const saveOriginal = async (video: Video) => {
   const {filePath} = await dialog.showSaveDialog(BrowserWindow.getFocusedWindow()!, {
-    defaultPath: `${video.title}.mp4`
+    defaultPath: `${video.title}.mp4`,
   });
 
   if (filePath) {
@@ -144,5 +144,5 @@ const areAnyBlocking = () => {
 
 windowManager.setEditor({
   open,
-  areAnyBlocking
+  areAnyBlocking,
 });

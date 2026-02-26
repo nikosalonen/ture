@@ -1,18 +1,18 @@
 'use strict';
 
-import {homedir} from 'os';
+import {homedir} from 'node:os';
 import Store from 'electron-store';
 
 const {defaultInputDeviceId} = require('./constants');
 const shortcutToAccelerator = require('../utils/shortcut-to-accelerator');
 
 export const shortcuts = {
-  triggerCropper: 'Toggle Kap'
+  triggerCropper: 'Toggle Kap',
 };
 
 const shortcutSchema = {
   type: 'string',
-  default: ''
+  default: '',
 };
 
 interface Settings {
@@ -44,87 +44,87 @@ export const settings = new Store<Settings>({
   schema: {
     kapturesDir: {
       type: 'string',
-      default: `${homedir()}/Movies/Kaptures`
+      default: `${homedir()}/Movies/Kaptures`,
     },
     allowAnalytics: {
       type: 'boolean',
-      default: true
+      default: true,
     },
     showCursor: {
       type: 'boolean',
-      default: true
+      default: true,
     },
     highlightClicks: {
       type: 'boolean',
-      default: false
+      default: false,
     },
     record60fps: {
       type: 'boolean',
-      default: false
+      default: false,
     },
     loopExports: {
       type: 'boolean',
-      default: true
+      default: true,
     },
     recordKeyboardShortcut: {
       type: 'boolean',
-      default: true
+      default: true,
     },
     recordAudio: {
       type: 'boolean',
-      default: false
+      default: false,
     },
     audioInputDeviceId: {
       type: [
         'string',
-        'null'
+        'null',
       ],
-      default: defaultInputDeviceId
+      default: defaultInputDeviceId,
     },
     cropperShortcut: {
       type: 'object',
       properties: {
         metaKey: {
           type: 'boolean',
-          default: true
+          default: true,
         },
         altKey: {
           type: 'boolean',
-          default: false
+          default: false,
         },
         ctrlKey: {
           type: 'boolean',
-          default: false
+          default: false,
         },
         shiftKey: {
           type: 'boolean',
-          default: true
+          default: true,
         },
         character: {
           type: 'string',
-          default: '5'
-        }
-      }
+          default: '5',
+        },
+      },
     },
     lossyCompression: {
       type: 'boolean',
-      default: false
+      default: false,
     },
     enableShortcuts: {
       type: 'boolean',
-      default: true
+      default: true,
     },
     shortcuts: {
       type: 'object',
       // eslint-disable-next-line unicorn/no-array-reduce
       properties: Object.keys(shortcuts).reduce((acc, key) => ({...acc, [key]: shortcutSchema}), {}),
-      default: {}
+      default: {},
     },
     version: {
       type: 'string',
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 });
 
 // TODO: Remove this when we feel like everyone has migrated

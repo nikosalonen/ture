@@ -49,28 +49,28 @@ const VideoPreview = ({conversion, cancel, showInFolder}: {conversion: UseConver
   return (
     <div
       ref={tooltipRef}
-      data-tip="Plz"
+      data-tip='Plz'
       draggable={done}
       className={classNames('video-preview', {'hide-tooltip': !tooltipShowing})}
-      data-for="tooltip"
+      data-for='tooltip'
       onDragStart={onDragStart}
       onClick={showInFolder}
     >
       {
-        done && conversion?.canPreviewExport ?
-          <img src={`file://${conversion?.filePath}`}/> :
-          <video src={src}/>
+        done && conversion?.canPreviewExport
+          ? <img src={`file://${conversion?.filePath}`}/>
+          : <video src={src}/>
       }
-      <div className="overlay" style={{display: done ? 'none' : 'flex'}}>
-        <div className="progress-indicator">
+      <div className='overlay' style={{display: done ? 'none' : 'flex'}}>
+        <div className='progress-indicator'>
           {
-            percentage === 0 ?
-              <IndeterminateSpinner/> :
-              <ProgressCircle percent={percentage}/>
+            percentage === 0
+              ? <IndeterminateSpinner/>
+              : <ProgressCircle percent={percentage}/>
           }
         </div>
-        <div className="cancel" title="Cancel" onClick={cancel}>
-          <CancelIcon fill="white" hoverFill="white" activeFill="white" size="100%"/>
+        <div className='cancel' title='Cancel' onClick={cancel}>
+          <CancelIcon fill='white' hoverFill='white' activeFill='white' size='100%'/>
         </div>
       </div>
       <ReactTooltip
@@ -78,17 +78,17 @@ const VideoPreview = ({conversion, cancel, showInFolder}: {conversion: UseConver
         multiline
         clickable
         disable={!tooltipShowing}
-        place="bottom"
-        event="dblclick"
-        eventOff="dblclick"
-        className="tooltip"
-        id="tooltip"
-        backgroundColor="var(--background-color)"
-        effect="solid"
-        borderColor="rgba(255, 255, 255, 0.4)"
+        place='bottom'
+        event='dblclick'
+        eventOff='dblclick'
+        className='tooltip'
+        id='tooltip'
+        backgroundColor='var(--background-color)'
+        effect='solid'
+        borderColor='rgba(255, 255, 255, 0.4)'
         afterHide={onTooltipHide}
       >
-        <div className="tooltip-content" onClick={onTooltipClick}>Drag and drop to copy the recording to your desktop or an application. Click to open its parent directory</div>
+        <div className='tooltip-content' onClick={onTooltipClick}>Drag and drop to copy the recording to your desktop or an application. Click to open its parent directory</div>
       </ReactTooltip>
       <style jsx>{`
         .video-preview {
@@ -147,8 +147,8 @@ const VideoPreview = ({conversion, cancel, showInFolder}: {conversion: UseConver
 };
 
 const IndeterminateSpinner = () => (
-  <div className="container">
-    <SpinnerIcon stroke="#fff"/>
+  <div className='container'>
+    <SpinnerIcon stroke='#fff'/>
     <style jsx>{`
           .container {
             width: 100%;
@@ -178,8 +178,8 @@ const ProgressCircle = ({percent}: {percent: number}) => {
   const offset = circumference * (1 - percent);
 
   return (
-    <svg viewBox="0 0 24 24">
-      <circle stroke="white" strokeWidth="2" fill="transparent" cx="12" cy="12" r="12"/>
+    <svg viewBox='0 0 24 24'>
+      <circle stroke='white' strokeWidth='2' fill='transparent' cx='12' cy='12' r='12'/>
       <style jsx>{`
           svg {
             width: 100%;

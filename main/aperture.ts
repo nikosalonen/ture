@@ -1,5 +1,7 @@
 import {windowManager} from './windows/manager';
-import {setRecordingTray, setPausedTray, disableTray, resetTray} from './tray';
+import {
+  setRecordingTray, setPausedTray, disableTray, resetTray,
+} from './tray';
 import {setCropperShortcutAction} from './global-accelerators';
 import {settings} from './common/settings';
 import {track} from './common/analytics';
@@ -12,7 +14,9 @@ import {Recording} from './video';
 import {ApertureOptions, StartRecordingOptions} from './common/types';
 import {InstalledPlugin} from './plugins/plugin';
 import {RecordService, RecordServiceHook} from './plugins/service';
-import {getCurrentDurationStart, getOverallDuration, setCurrentDurationStart, setOverallDuration} from './utils/track-duration';
+import {
+  getCurrentDurationStart, getOverallDuration, setCurrentDurationStart, setOverallDuration,
+} from './utils/track-duration';
 
 const createAperture = require('aperture');
 const aperture = createAperture();
@@ -31,10 +35,7 @@ const serializeEditPluginState = () => {
   const result: Record<string, Record<string, Record<string, unknown> | undefined>> = {};
 
   for (const {plugin, service} of recordingPlugins) {
-    if (!result[plugin.name]) {
-      result[plugin.name] = {};
-    }
-
+    result[plugin.name] ||= {};
     result[plugin.name][service.title] = serviceState.get(service.title)?.persistedState;
   }
 
@@ -44,14 +45,12 @@ const serializeEditPluginState = () => {
 const callPlugins = async (method: RecordServiceHook) => Promise.all(recordingPlugins.map(async ({plugin, service}) => {
   if (service[method] && typeof service[method] === 'function') {
     try {
-      await service[method]?.(
-        new RecordServiceContext({
-          plugin,
-          apertureOptions,
-          state: serviceState.get(service.title) ?? {},
-          setRecordingName
-        })
-      );
+      await service[method]?.(new RecordServiceContext({
+        plugin,
+        apertureOptions,
+        state: serviceState.get(service.title) ?? {},
+        setRecordingName,
+      }));
     } catch (error) {
       showError(error as any, {title: `Something went wrong while using the plugin “${plugin.prettyName}”`, plugin});
     }
@@ -88,7 +87,7 @@ export const startRecording = async (options: StartRecordingOptions) => {
     record60fps,
     showCursor,
     highlightClicks,
-    recordAudio
+    recordAudio,
   } = settings.store;
 
   apertureOptions = {
@@ -96,7 +95,7 @@ export const startRecording = async (options: StartRecordingOptions) => {
     cropArea: cropperBounds,
     showCursor,
     highlightClicks,
-    screenId: displayId
+    screenId: displayId,
   };
 
   if (recordAudio) {
@@ -120,15 +119,13 @@ export const startRecording = async (options: StartRecordingOptions) => {
 
   recordingPlugins = plugins
     .recordingPlugins
-    .flatMap(
-      plugin => {
-        const validServices = plugin.config.validServices;
-        return plugin.recordServicesWithStatus
-          // Make sure service is valid and enabled
-          .filter(({title, isEnabled}) => isEnabled && validServices.includes(title))
-          .map(service => ({plugin, service}));
-      }
-    );
+    .flatMap(plugin => {
+      const validServices = plugin.config.validServices;
+      return plugin.recordServicesWithStatus
+      // Make sure service is valid and enabled
+        .filter(({title, isEnabled}) => isEnabled && validServices.includes(title))
+        .map(service => ({plugin, service}));
+    });
 
   for (const {service, plugin} of recordingPlugins) {
     serviceState.set(service.title, {persistedState: {}});
@@ -146,7 +143,7 @@ export const startRecording = async (options: StartRecordingOptions) => {
       filePath,
       name: recordingName,
       apertureOptions,
-      plugins: serializeEditPluginState()
+      plugins: serializeEditPluginState(),
     });
   } catch (error) {
     track('recording/stopped/error');
@@ -214,7 +211,7 @@ export const stopRecording = async () => {
     const recording = new Recording({
       filePath,
       title: recordingName,
-      apertureOptions
+      apertureOptions,
     });
     await recording.openEditorWindow();
 

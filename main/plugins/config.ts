@@ -40,13 +40,13 @@ export default class PluginConfig extends Store {
           format: 'full',
           useDefaults: true,
           errorDataPath: 'property',
-          allErrors: true
+          allErrors: true,
         });
 
         const validator = ajv.compile({
           type: 'object',
           properties: schema,
-          required: requiredKeys
+          required: requiredKeys,
         });
 
         validator(defaults);
@@ -54,14 +54,14 @@ export default class PluginConfig extends Store {
           validate: validator,
           title: service.title,
           description: service.configDescription,
-          config
+          config,
         };
       });
 
     super({
       name,
       cwd: 'plugins',
-      defaults
+      defaults,
     });
 
     this.servicesWithNoConfig = services.filter(({config}) => !config);
@@ -75,7 +75,7 @@ export default class PluginConfig extends Store {
   get validServices() {
     return [
       ...this.validators.filter(validator => validator.validate(this.store)),
-      ...this.servicesWithNoConfig
+      ...this.servicesWithNoConfig,
     ].map(service => service.title);
   }
 }

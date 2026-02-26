@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Button = ({title, onClick, tabIndex}) => (
-  <button type="button" tabIndex={tabIndex} onClick={onClick}>
+  <button type='button' tabIndex={tabIndex} onClick={onClick}>
     {title}
     <style jsx>{`
       border: 1px solid var(--input-border-color);
@@ -31,7 +31,7 @@ const Button = ({title, onClick, tabIndex}) => (
 Button.propTypes = {
   title: PropTypes.string,
   onClick: PropTypes.func.isRequired,
-  tabIndex: PropTypes.number.isRequired
+  tabIndex: PropTypes.number.isRequired,
 };
 
 export default Button;

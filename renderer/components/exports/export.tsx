@@ -30,7 +30,7 @@ const Export = ({id}: {id: string}) => {
 
   const fileNameClassName = classNames({
     title: true,
-    disabled: !isActionable
+    disabled: !isActionable,
   });
 
   const onDragStart = useCallback(event => {
@@ -43,24 +43,24 @@ const Export = ({id}: {id: string}) => {
   const template = useMemo(() => {
     const menuTemplate: MenuItemConstructorOptions[] = [{
       label: 'Open Original',
-      click: () => openInEditor()
+      click: () => openInEditor(),
     }];
 
     if (state?.canCopy) {
       menuTemplate.unshift({
         label: 'Copy',
-        click: () => copy()
+        click: () => copy(),
       }, {
-        type: 'separator'
+        type: 'separator',
       });
     }
 
     if (canRetry) {
       menuTemplate.unshift({
         label: 'Retry',
-        click: () => retry()
+        click: () => retry(),
       }, {
-        type: 'separator'
+        type: 'separator',
       });
     }
 
@@ -72,40 +72,42 @@ const Export = ({id}: {id: string}) => {
   }
 
   return (
-    <div draggable className="export-container" onClick={onClick} onDragStart={onDragStart}>
-      <div className="thumbnail">
-        <div className="overlay"/>
-        <div className="icon" onClick={stopPropagation}>
+    <div draggable className='export-container' onClick={onClick} onDragStart={onDragStart}>
+      <div className='thumbnail'>
+        <div className='overlay'/>
+        <div className='icon' onClick={stopPropagation}>
           {
-            isCancelable ?
-              <div className="icon" onClick={onCancel}>
-                <CancelIcon fill="white" hoverFill="white" activeFill="white"/>
-              </div> :
-              <IconMenu
+            isCancelable
+              ? <div className='icon' onClick={onCancel}>
+                <CancelIcon fill='white' hoverFill='white' activeFill='white'/>
+              </div>
+              /* eslint-disable react/jsx-indent-props */
+              : <IconMenu
                 fillParent
                 icon={MoreIcon}
-                fill="white"
-                hoverFill="white"
-                activeFill="white"
+                fill='white'
+                hoverFill='white'
+                activeFill='white'
                 template={template}
               />
+              /* eslint-enable react/jsx-indent-props */
           }
         </div>
-        <div className="progress">
+        <div className='progress'>
           {
             state.status === ExportStatus.inProgress && (
-              state.progress === 0 ?
-                <ProgressSpinner/> :
-                <Progress percent={Math.min(state.progress, 1)}/>
+              state.progress === 0
+                ? <ProgressSpinner/>
+                : <Progress percent={Math.min(state.progress, 1)}/>
             )
           }
         </div>
       </div>
-      <div className="details">
+      <div className='details'>
         <div className={fileNameClassName} title={state.titleWithFormat}>
           {state.titleWithFormat}
         </div>
-        <div className="subtitle" title={state.error?.message}>{state.message}{state.error && ` - ${state.error.message}`}</div>
+        <div className='subtitle' title={state.error?.message}>{state.message}{state.error && ` - ${state.error.message}`}</div>
       </div>
       <style jsx>{`
           .export-container {

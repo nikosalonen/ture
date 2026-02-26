@@ -26,5 +26,5 @@ export {
   CursorContainer,
   ActionBarContainer,
   PreferencesContainer,
-  ConfigContainer
+  ConfigContainer,
 };

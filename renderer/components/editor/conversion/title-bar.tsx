@@ -17,7 +17,7 @@ const TitleBar = ({conversion, cancel, copy, retry, showInFolder}: {conversion: 
         type: 'info',
         message: 'Your export will continue in the background. You can access it through the Export History window.',
         buttons: ['Ok'],
-        defaultId: 0
+        defaultId: 0,
       });
       flags.set('backgroundEditorConversion', true);
     }
@@ -31,16 +31,16 @@ const TitleBar = ({conversion, cancel, copy, retry, showInFolder}: {conversion: 
     if (conversion?.canCopy) {
       template.push({
         label: 'Copy',
-        click: () => copy()
+        click: () => copy(),
       }, {
-        type: 'separator'
+        type: 'separator',
       });
     }
 
     if (conversion?.status === ExportStatus.completed) {
       template.push({
         label: 'Show in Finder',
-        click: () => showInFolder()
+        click: () => showInFolder(),
       });
     }
 
@@ -50,24 +50,24 @@ const TitleBar = ({conversion, cancel, copy, retry, showInFolder}: {conversion: 
   const canRetry = [ExportStatus.canceled, ExportStatus.failed].includes(conversion?.status);
 
   return (
-    <div className="title-bar">
-      <div className="left">
+    <div className='title-bar'>
+      <div className='left'>
         <TrafficLights shouldClose={shouldClose}/>
-        <div className="icon" onClick={cancel}>
-          <BackPlainIcon fill="white" hoverFill="white" size="100%"/>
+        <div className='icon' onClick={cancel}>
+          <BackPlainIcon fill='white' hoverFill='white' size='100%'/>
         </div>
       </div>
-      <div className="right">
-        {canRetry && <div className="button" onClick={retry}>Retry</div>}
+      <div className='right'>
+        {canRetry && <div className='button' onClick={retry}>Retry</div>}
         {
           menuTemplate.length > 0 && (
-            <div className="icon">
+            <div className='icon'>
               <IconMenu
                 icon={MoreIcon}
-                fill="white"
-                hoverFill="white"
-                activeFill="white"
-                size="20px"
+                fill='white'
+                hoverFill='white'
+                activeFill='white'
+                size='20px'
                 template={menuTemplate}
               />
             </div>

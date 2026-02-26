@@ -25,7 +25,6 @@ let lastRatioLockState = null;
 
 export default class CropperPage extends React.Component {
   remote = remote;
-
   dev = false;
 
   constructor(props) {
@@ -106,7 +105,7 @@ export default class CropperPage extends React.Component {
 
   render() {
     return (
-      <div className="cover-screen">
+      <div className='cover-screen'>
         <Provider inject={[cursorContainer, cropperContainer, actionBarContainer]}>
           <Overlay>
             <Cropper/>

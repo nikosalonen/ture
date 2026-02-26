@@ -4,7 +4,6 @@ const remote = require('../utils/electron-remote');
 
 export default class ConfigContainer extends Container {
   remote = remote;
-
   state = {selectedTab: 0};
 
   setPlugin(pluginName) {
@@ -16,7 +15,7 @@ export default class ConfigContainer extends Container {
     this.setState({
       validators: this.validators,
       values: this.config.store,
-      pluginName
+      pluginName,
     });
   }
 
@@ -30,22 +29,17 @@ export default class ConfigContainer extends Container {
       validators: this.validators,
       values: this.config.store,
       pluginName,
-      serviceTitle
+      serviceTitle,
     });
   };
-
   validate = () => {
     for (const validator of this.validators) {
       validator.validate(this.config.store);
     }
   };
-
   closeWindow = () => remote.getCurrentWindow().close();
-
   openConfig = () => this.plugin.openConfigInEditor();
-
   viewOnGithub = () => this.plugin.viewOnGithub();
-
   onChange = (key, value) => {
     if (value === undefined) {
       this.config.delete(key);
@@ -56,7 +50,6 @@ export default class ConfigContainer extends Container {
     this.validate();
     this.setState({values: this.config.store});
   };
-
   selectTab = selectedTab => {
     this.setState({selectedTab});
   };

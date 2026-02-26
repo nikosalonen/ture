@@ -13,7 +13,7 @@ const ContainerProvider = combineUnstatedContainers([
   OptionsContainer,
   VideoMetadataContainer,
   VideoTimeContainer,
-  VideoControlsContainer
+  VideoControlsContainer,
 ]) as any;
 
 const EditorPage = () => {
@@ -24,9 +24,9 @@ const EditorPage = () => {
   }
 
   return (
-    <div className="cover-window">
+    <div className='cover-window'>
       <Head>
-        <meta httpEquiv="Content-Security-Policy" content="media-src file:;"/>
+        <meta httpEquiv='Content-Security-Policy' content='media-src file:;'/>
       </Head>
       <ConversionIdContextProvider>
         <ContainerProvider>

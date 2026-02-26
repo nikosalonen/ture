@@ -6,7 +6,7 @@ import {
   connect,
   CursorContainer,
   CropperContainer,
-  ActionBarContainer
+  ActionBarContainer,
 } from '../../containers';
 
 import {getResizingCursor} from './handles';
@@ -17,7 +17,7 @@ class Overlay extends React.Component {
     y: 0,
     width: 0,
     height: 0,
-    isReady: false
+    isReady: false,
   };
 
   render() {
@@ -37,7 +37,7 @@ class Overlay extends React.Component {
       screenWidth,
       screenHeight,
       isRecording,
-      selectedApp
+      selectedApp,
     } = this.props;
 
     const contentClassName = classNames('content', {'not-ready': !isReady});
@@ -45,25 +45,25 @@ class Overlay extends React.Component {
     const className = classNames('overlay', {
       recording: isRecording,
       picking: !isRecording && !isResizing && !isMoving,
-      'no-transition': isResizing || isMoving || !isActive || Boolean(selectedApp)
+      'no-transition': isResizing || isMoving || !isActive || Boolean(selectedApp),
     });
 
     return (
       <div
         className={contentClassName}
-        id="container"
+        id='container'
         onMouseMove={setCursor}
         onMouseUp={onMouseUp}
       >
-        <div id="top" className={className} onMouseDown={startPicking}/>
-        <div id="middle">
-          <div id="left" className={className} onMouseDown={startPicking}/>
-          <div id="center">
+        <div id='top' className={className} onMouseDown={startPicking}/>
+        <div id='middle'>
+          <div id='left' className={className} onMouseDown={startPicking}/>
+          <div id='center'>
             { isReady && this.props.children }
           </div>
-          <div id="right" className={className} onMouseDown={startPicking}/>
+          <div id='right' className={className} onMouseDown={startPicking}/>
         </div>
-        <div id="bottom" className={className} onMouseDown={startPicking}/>
+        <div id='bottom' className={className} onMouseDown={startPicking}/>
         <style jsx>{`
           .overlay {
             background-color: rgba(0, 0, 0, 0.5);
@@ -148,28 +148,28 @@ Overlay.propTypes = {
   currentHandle: PropTypes.object,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]).isRequired,
   isActive: PropTypes.bool,
   isReady: PropTypes.bool,
   screenWidth: PropTypes.number,
   screenHeight: PropTypes.number,
-  isRecording: PropTypes.bool
+  isRecording: PropTypes.bool,
 };
 
 export default connect(
   [CropperContainer, ActionBarContainer, CursorContainer],
   ({x, y, width, height, isMoving, isResizing, currentHandle, screenWidth, screenHeight, isReady, isActive, isRecording, selectedApp}, actionBar) => ({
-    x, y, width, height, isResizing, currentHandle, screenWidth, screenHeight, isReady, isActive, isRecording, isMoving: isMoving || actionBar.isMoving, selectedApp
+    x, y, width, height, isResizing, currentHandle, screenWidth, screenHeight, isReady, isActive, isRecording, isMoving: isMoving || actionBar.isMoving, selectedApp,
   }),
   ({stopMoving, stopResizing, stopPicking, startPicking}, actionBar, {setCursor}) => ({
-    onMouseUp: () => {
+    onMouseUp() {
       stopMoving();
       stopResizing();
       stopPicking();
       actionBar.stopMoving();
     },
     setCursor,
-    startPicking
-  })
+    startPicking,
+  }),
 )(Overlay);

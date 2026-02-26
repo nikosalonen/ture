@@ -7,7 +7,7 @@ const useSharePlugins = () => {
     formats,
     format,
     sharePlugin,
-    updateSharePlugin
+    updateSharePlugin,
   } = OptionsContainer.useContainer();
 
   const menuOptions = useMemo(() => {
@@ -23,9 +23,9 @@ const useSharePlugins = () => {
           value: {
             pluginName: plugin.pluginName,
             serviceTitle: plugin.title,
-            app
+            app,
           },
-          icon: remote.nativeImage.createFromDataURL(app.icon).resize({width: 16, height: 16})
+          icon: remote.nativeImage.createFromDataURL(app.icon).resize({width: 16, height: 16}),
         }));
 
         if (plugin.apps[0].isDefault) {
@@ -38,10 +38,10 @@ const useSharePlugins = () => {
           value: {
             pluginName: plugin.pluginName,
             serviceTitle: plugin.title,
-            app: plugin.apps[0]
+            app: plugin.apps[0],
           },
           checked: sharePlugin.pluginName === plugin.pluginName,
-          label: 'Open With…'
+          label: 'Open With…',
         };
       }
 
@@ -52,22 +52,22 @@ const useSharePlugins = () => {
       return {
         value: {
           pluginName: plugin.pluginName,
-          serviceTitle: plugin.title
+          serviceTitle: plugin.title,
         },
         checked: sharePlugin.pluginName === plugin.pluginName,
-        label: plugin.title
+        label: plugin.title,
       };
     });
 
     if (onlyBuiltIn) {
       options?.push({
-        separator: true
+        separator: true,
       } as any, {
         label: 'Get Plugins…',
         checked: false,
-        click: () => {
+        click() {
           ipcRenderer.invoke('open-preferences', {category: 'plugins', tab: 'discover'});
-        }
+        },
       } as any);
     }
 

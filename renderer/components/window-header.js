@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class WindowHeader extends React.Component {
   render() {
     return (
-      <header className="window-header">
+      <header className='window-header'>
         <span>{this.props.title}</span>
         {this.props.children}
         <style jsx>{`
@@ -37,8 +37,8 @@ WindowHeader.propTypes = {
   title: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
+    PropTypes.node,
+  ]),
 };
 
 export default WindowHeader;

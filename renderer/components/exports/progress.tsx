@@ -4,8 +4,8 @@ import React from 'react';
 import {SpinnerIcon} from '../../vectors';
 
 export const ProgressSpinner = () => (
-  <div className="container">
-    <SpinnerIcon stroke="#fff"/>
+  <div className='container'>
+    <SpinnerIcon stroke='#fff'/>
     <style jsx>{`
       .container {
         width: 24px;
@@ -35,8 +35,8 @@ export const Progress = ({percent}: {percent: number}) => {
   const offset = circumference - (percent * circumference);
 
   return (
-    <svg viewBox="0 0 24 24">
-      <circle stroke="white" strokeWidth="2" fill="transparent" cx="12" cy="12" r="12"/>
+    <svg viewBox='0 0 24 24'>
+      <circle stroke='white' strokeWidth='2' fill='transparent' cx='12' cy='12' r='12'/>
       <style jsx>{`
           svg {
             width: 24px;

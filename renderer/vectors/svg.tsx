@@ -10,7 +10,7 @@ const defaultProps: SvgProps = {
   size: '24px',
   active: false,
   viewBox: '0 0 24 24',
-  tabIndex: -1
+  tabIndex: -1,
 };
 
 const stopPropagation = event => {
@@ -29,10 +29,10 @@ const Svg: FunctionComponent<SvgProps> = props => {
     viewBox,
     shadow,
     tabIndex,
-    isMenu
+    isMenu,
   } = {
     ...defaultProps,
-    ...props
+    ...props,
   };
 
   const className = classNames({active, shadow, focusable: tabIndex >= 0});

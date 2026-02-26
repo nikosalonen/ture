@@ -10,8 +10,8 @@ const useEditorOptions = createRemoteStateHook<EditorOptionsRemoteState>('editor
     av1: 60,
     webm: 60,
     apng: 60,
-    hevc: 60
-  }
+    hevc: 60,
+  },
 });
 
 export type EditorOptionsState = ReturnType<typeof useEditorOptions>['state'];

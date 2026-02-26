@@ -26,8 +26,8 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
     useContentSize: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
-    }
+      contextIsolation: false,
+    },
   });
   enableRemote(dialogWindow.webContents);
 
@@ -57,7 +57,7 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
         ...options,
         ...newOptions,
         buttons: buttons.map(({label, activeLabel}) => ({label, activeLabel})),
-        id: dialogWindow.id
+        id: dialogWindow.id,
       });
     });
 
@@ -66,7 +66,7 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
 
     dialogWindow.setBounds({
       width: Math.max(width, bounds.width, DIALOG_MIN_WIDTH),
-      height: Math.max(height + titleBarHeight, bounds.height, DIALOG_MIN_HEIGHT)
+      height: Math.max(height + titleBarHeight, bounds.height, DIALOG_MIN_HEIGHT),
     });
   };
 
@@ -101,5 +101,5 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
 });
 
 windowManager.setDialog({
-  open: showDialog
+  open: showDialog,
 });

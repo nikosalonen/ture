@@ -11,14 +11,14 @@ const ColorPicker = ({hasErrors, value, onChange}) => {
 
   return (
     <div className={className}>
-      <div className="preview">
+      <div className='preview'>
         <input
-          type="color"
+          type='color'
           value={value}
           onChange={handleChange}/>
       </div>
       <input
-        type="text"
+        type='text'
         value={value.startsWith('#') ? value.slice(1, value.length) : value}
         size={7}
         onChange={handleChange}
@@ -89,7 +89,7 @@ const ColorPicker = ({hasErrors, value, onChange}) => {
 ColorPicker.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.elementType,
-  hasErrors: PropTypes.bool
+  hasErrors: PropTypes.bool,
 };
 
 export default ColorPicker;

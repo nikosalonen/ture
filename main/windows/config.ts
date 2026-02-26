@@ -23,8 +23,8 @@ const openConfigWindow = async (pluginName: string) => {
     modal: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
-    }
+      contextIsolation: false,
+    },
   });
   enableRemote(configWindow.webContents);
 
@@ -53,8 +53,8 @@ const openEditorConfigWindow = async (pluginName: string, serviceTitle: string, 
     modal: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
-    }
+      contextIsolation: false,
+    },
   });
   enableRemote(configWindow.webContents);
 
@@ -74,5 +74,5 @@ ipcMain.handle('open-edit-config', async (event, {pluginName, serviceTitle}) => 
 });
 
 windowManager.setConfig({
-  open: openConfigWindow
+  open: openConfigWindow,
 });

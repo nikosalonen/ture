@@ -1,4 +1,6 @@
-import React, {createContext, useContext, useState, useEffect, useRef} from 'react';
+import React, {
+  createContext, useContext, useState, useEffect, useRef,
+} from 'react';
 
 const StateContext = createContext(new Map());
 
@@ -16,7 +18,7 @@ export class Container {
         nextState = updater;
       }
 
-      if (nextState == null) {
+      if (nextState === null || nextState === undefined) {
         if (callback) {
           return callback();
         }
@@ -24,7 +26,7 @@ export class Container {
         return;
       }
 
-      this.state = Object.assign({}, this.state, nextState);
+      this.state = {...this.state, ...nextState};
       const promises = this._listeners.map(fn => fn());
       return Promise.all(promises).then(() => {
         if (callback) {
@@ -62,15 +64,13 @@ export function Subscribe({to, children}) {
   const map = useContext(StateContext);
   const [, forceUpdate] = useState(0);
 
-  const instancesRef = useRef(
-    to.map(ContainerClass => {
-      if (map.has(ContainerClass)) {
-        return map.get(ContainerClass);
-      }
+  const instancesRef = useRef(to.map(ContainerClass => {
+    if (map.has(ContainerClass)) {
+      return map.get(ContainerClass);
+    }
 
-      return new ContainerClass();
-    })
-  );
+    return new ContainerClass();
+  }));
 
   useEffect(() => {
     const listener = () => {

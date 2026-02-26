@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const SpinnerIcon = ({stroke = 'var(--kap)'}) => (
-  <svg viewBox="0 0 16 16">
-    <circle cx="8" cy="8" r="7" strokeWidth="1" fill="none"/>
+  <svg viewBox='0 0 16 16'>
+    <circle cx='8' cy='8' r='7' strokeWidth='1' fill='none'/>
     <style jsx>{`
       circle {
         fill: transparent;
@@ -30,7 +30,7 @@ const SpinnerIcon = ({stroke = 'var(--kap)'}) => (
 );
 
 SpinnerIcon.propTypes = {
-  stroke: PropTypes.string
+  stroke: PropTypes.string,
 };
 
 export default SpinnerIcon;

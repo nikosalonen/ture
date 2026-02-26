@@ -1,12 +1,11 @@
 import LeftOptions from './left';
 import RightOptions from './right';
 
-const Options = () => {
-  return (
-    <div className="container">
-      <LeftOptions/>
-      <RightOptions/>
-      <style jsx>{`
+const Options = () => (
+  <div className='container'>
+    <LeftOptions/>
+    <RightOptions/>
+    <style jsx>{`
           .container {
             display: flex;
             flex: 1;
@@ -21,8 +20,7 @@ const Options = () => {
             flex-shrink: 0;
           }
         `}</style>
-    </div>
-  );
-};
+  </div>
+);
 
 export default Options;

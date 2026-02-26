@@ -1,11 +1,11 @@
-import {serial as testAny, TestInterface} from 'ava';
+import anyTest, {type TestFn} from 'ava';
 import tempy from 'tempy';
-import fs from 'fs';
-import sinon, {SinonFakeTimers} from 'sinon';
-import path from 'path';
-import type {MockWindowManager} from './mocks/window-manager';
+import fs from 'node:fs';
+import sinon, {type SinonFakeTimers} from 'sinon';
+import path from 'node:path';
+import {type MockWindowManager, windowManager} from './mocks/window-manager';
 
-const test = testAny as TestInterface<{
+const test = anyTest.serial as unknown as TestFn<{
   now: Date;
   clock: SinonFakeTimers;
   paths?: string[];
@@ -20,7 +20,6 @@ mockImport('../common/analytics', 'analytics');
 import {shell} from './mocks/electron';
 import * as dialog from './mocks/dialog';
 import {plugins} from './mocks/plugins';
-import {windowManager} from './mocks/window-manager';
 
 import {
   recordingHistory,
@@ -31,7 +30,7 @@ import {
   updatePluginState,
   stopCurrentRecording,
   cleanPastRecordings,
-  PastRecording
+  PastRecording,
 } from '../main/recording-history';
 import type {Video} from '../main/video';
 
@@ -81,15 +80,15 @@ test('`hasActiveRecording()` with no recording', async t => {
 test('`hasActiveRecording()` with playable recording', async t => {
   const fakeService = {
     title: 'Fake Service',
-    cleanUp: sinon.fake()
+    cleanUp: sinon.fake(),
   };
 
   const fakePlugin = {
     name: 'kap-fake-plugin',
-    recordServices: [fakeService]
+    recordServices: [fakeService],
   };
 
-  plugins.recordingPlugins = [fakePlugin];
+  plugins.recordingPlugins = [fakePlugin as any];
 
   recordingHistory.set('activeRecording', {
     filePath: incomplete,
@@ -99,10 +98,10 @@ test('`hasActiveRecording()` with playable recording', async t => {
     plugins: {
       'kap-fake-plugin': {
         'Fake Service': {
-          some: 'state'
-        }
-      }
-    }
+          some: 'state',
+        },
+      },
+    },
   });
 
   const checkPromise = hasActiveRecording();
@@ -129,9 +128,9 @@ test('`hasActiveRecording()` with playable recording', async t => {
       {
         filePath: incomplete,
         name: 'Incomplete',
-        date: new Date().toISOString()
-      }
-    ]
+        date: new Date().toISOString(),
+      },
+    ],
   );
 });
 
@@ -141,7 +140,7 @@ test('`hasActiveRecording()` with known corrupt recording', async t => {
     name: 'Corrupt',
     date: new Date().toISOString(),
     apertureOptions: {},
-    plugins: {}
+    plugins: {},
   });
 
   const checkPromise = hasActiveRecording();
@@ -179,7 +178,7 @@ test('`hasActiveRecording()` with unknown corrupt recording', async t => {
     name: 'Bad',
     date: new Date().toISOString(),
     apertureOptions: {},
-    plugins: {}
+    plugins: {},
   });
 
   const checkPromise = hasActiveRecording();
@@ -206,7 +205,7 @@ test('`setCurrentRecording()`', t => {
   setCurrentRecording({
     filePath: 'some/path',
     apertureOptions: {some: 'options'} as any,
-    plugins: {some: 'plugins'} as any
+    plugins: {some: 'plugins'} as any,
   });
 
   t.deepEqual(recordingHistory.get('activeRecording'), {
@@ -214,7 +213,7 @@ test('`setCurrentRecording()`', t => {
     name: 'Kapture 2020-07-21 at 11.27.26',
     date: t.context.now.toISOString(),
     apertureOptions: {some: 'options'} as any,
-    plugins: {some: 'plugins'} as any
+    plugins: {some: 'plugins'} as any,
   });
 });
 
@@ -223,30 +222,30 @@ test('`updatePluginState()`', t => {
     name: 'Some name',
     plugins: {
       plugin1: {
-        service1: {some: 'state'}
+        service1: {some: 'state'},
       },
       plugin2: {
-        service2: {}
-      }
-    }
+        service2: {},
+      },
+    },
   });
 
   updatePluginState({
     plugin1: {
-      service1: {some: 'state'}
+      service1: {some: 'state'},
     },
     plugin2: {
-      service2: {some: 'other state'}
-    }
+      service2: {some: 'other state'},
+    },
   });
 
   t.deepEqual(recordingHistory.get('activeRecording.plugins'), {
     plugin1: {
-      service1: {some: 'state'}
+      service1: {some: 'state'},
     },
     plugin2: {
-      service2: {some: 'other state'}
-    }
+      service2: {some: 'other state'},
+    },
   });
 });
 
@@ -257,7 +256,7 @@ test('`stopCurrentRecording()`', t => {
 
   recordingHistory.set('activeRecording', {
     filePath,
-    name: 'some name'
+    name: 'some name',
   });
 
   stopCurrentRecording();
@@ -267,7 +266,7 @@ test('`stopCurrentRecording()`', t => {
 
   recordingHistory.set('activeRecording', {
     filePath,
-    name: 'some name'
+    name: 'some name',
   });
 
   stopCurrentRecording('new name');
@@ -275,7 +274,7 @@ test('`stopCurrentRecording()`', t => {
   t.false(recordingHistory.has('activeRecording'));
   t.deepEqual(recordingHistory.get('recordings'), [
     {filePath, name: 'new name', date: t.context.now.toISOString()},
-    {filePath, name: 'some name', date: t.context.now.toISOString()}
+    {filePath, name: 'some name', date: t.context.now.toISOString()},
   ]);
 });
 
@@ -287,7 +286,7 @@ test('`cleanPastRecordings()`', t => {
   recordingHistory.set('recordings', [
     {filePath},
     // Should ignore file that doesn't exist
-    {filePath: tempy.file({extension: 'mp4'})}
+    {filePath: tempy.file({extension: 'mp4'})},
   ]);
 
   cleanPastRecordings();

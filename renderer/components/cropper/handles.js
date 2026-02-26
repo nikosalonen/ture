@@ -11,7 +11,7 @@ class Handle extends React.Component {
     bottom: false,
     left: false,
     right: false,
-    ratioLocked: false
+    ratioLocked: false,
   };
 
   render() {
@@ -22,7 +22,7 @@ class Handle extends React.Component {
       right,
       left,
       onClick,
-      ratioLocked
+      ratioLocked,
     } = this.props;
 
     const className = classNames('handle', {
@@ -31,7 +31,7 @@ class Handle extends React.Component {
       'handle-right': right,
       'handle-left': left,
       'place-on-top': top + bottom + left + right === 2,
-      hide: ratioLocked && top + bottom + left + right === 1
+      hide: ratioLocked && top + bottom + left + right === 1,
     });
 
     return (
@@ -86,14 +86,14 @@ Handle.propTypes = {
   left: PropTypes.bool,
   right: PropTypes.bool,
   onClick: PropTypes.elementType.isRequired,
-  ratioLocked: PropTypes.bool
+  ratioLocked: PropTypes.bool,
 };
 
 class Handles extends React.Component {
   static defaultProps = {
     ratioLocked: false,
     width: 0,
-    height: 0
+    height: 0,
   };
 
   render() {
@@ -104,7 +104,7 @@ class Handles extends React.Component {
       width,
       height,
       isActive,
-      willStartRecording
+      willStartRecording,
     } = this.props;
 
     if (width + height === 0) {
@@ -114,23 +114,21 @@ class Handles extends React.Component {
     const show = !willStartRecording && isActive && showHandles;
 
     return (
-      <div className="content">
-        <div className="border">
+      <div className='content'>
+        <div className='border'>
           {
-            show && [...(Array.from({length: 8}).keys())].map(
-              i => (
-                <Handle
-                  key={`handle-${i}`}
-                  border={1}
-                  top={i % 3 === 0}
-                  bottom={i % 3 === 1}
-                  left={Math.floor(i / 3) === 0}
-                  right={Math.floor(i / 3) === 1}
-                  ratioLocked={ratioLocked}
-                  onClick={startResizing}
-                />
-              )
-            )
+            show && [...(Array.from({length: 8}).keys())].map(i => (
+              <Handle
+                key={`handle-${i}`}
+                border={1}
+                top={i % 3 === 0}
+                bottom={i % 3 === 1}
+                left={Math.floor(i / 3) === 0}
+                right={Math.floor(i / 3) === 1}
+                ratioLocked={ratioLocked}
+                onClick={startResizing}
+              />
+            ))
           }
           { this.props.children }
         </div>
@@ -166,14 +164,16 @@ Handles.propTypes = {
   willStartRecording: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ]).isRequired
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default connect(
   [CropperContainer, ActionBarContainer],
-  ({showHandles, width, height, isActive, willStartRecording}, {ratioLocked}) => ({showHandles, width, height, isActive, ratioLocked, willStartRecording}),
-  ({startResizing}) => ({startResizing})
+  ({showHandles, width, height, isActive, willStartRecording}, {ratioLocked}) => ({
+    showHandles, width, height, isActive, ratioLocked, willStartRecording,
+  }),
+  ({startResizing}) => ({startResizing}),
 )(Handles);
 
 export const getResizingCursor = ({top, bottom, right, left}) => {

@@ -7,12 +7,12 @@ const EditorPreview = () => {
   const {title = 'Editor'} = useEditorWindowState();
 
   return (
-    <div className="preview-container">
-      <div className="preview-hover-container">
-        <div className="title-bar">
-          <div className="title-bar-container">
+    <div className='preview-container'>
+      <div className='preview-hover-container'>
+        <div className='title-bar'>
+          <div className='title-bar-container'>
             <TrafficLights/>
-            <div className="title">{title}</div>
+            <div className='title'>{title}</div>
           </div>
         </div>
         <VideoPlayer/>

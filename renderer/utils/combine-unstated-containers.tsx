@@ -3,9 +3,9 @@ import {Container} from './create-container';
 
 type ContainerOrWithInitialState<T = any> = Container<any, T> | [Container<any, T>, T];
 
-const combineUnstatedContainers = (containers: ContainerOrWithInitialState[]) => ({children}: PropsWithChildren<Record<string, unknown>>) => {
+const combineUnstatedContainers = (containers: ContainerOrWithInitialState[]) => ({children}: PropsWithChildren<Record<string, unknown>>) =>
   // eslint-disable-next-line unicorn/no-array-reduce
-  return containers.reduce<React.ReactElement>(
+  containers.reduce<React.ReactElement>(
     (tree, ContainerOrWithInitialState) => {
       if (Array.isArray(ContainerOrWithInitialState)) {
         const [Container, initialState] = ContainerOrWithInitialState;
@@ -15,8 +15,6 @@ const combineUnstatedContainers = (containers: ContainerOrWithInitialState[]) =>
       return <ContainerOrWithInitialState.Provider>{tree}</ContainerOrWithInitialState.Provider>;
     },
     // @ts-expect-error
-    children
+    children,
   );
-};
-
 export default combineUnstatedContainers;

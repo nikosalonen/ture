@@ -54,25 +54,25 @@ const useVideoControls = () => {
   };
 
   const videoProps = {
-    onCanPlayThrough: hasStarted ? undefined : () => {
-      setHasStarted(true);
-      if (currentWindow.isFocused()) {
-        play();
-      }
-    },
-    onLoadedData: () => {
-      const hasAudio = (videoRef.current as any).webkitAudioDecodedByteCount > 0 || Boolean(
-        (videoRef.current as any).audioTracks &&
-        (videoRef.current as any).audioTracks.length > 0
-      );
+    onCanPlayThrough: hasStarted
+      ? undefined
+      : () => {
+        setHasStarted(true);
+        if (currentWindow.isFocused()) {
+          play();
+        }
+      },
+    onLoadedData() {
+      const hasAudio = (videoRef.current as any).webkitAudioDecodedByteCount > 0 || Boolean((videoRef.current as any).audioTracks
+        && (videoRef.current as any).audioTracks.length > 0);
 
       if (!hasAudio) {
         mute();
       }
     },
-    onEnded: () => {
+    onEnded() {
       play();
-    }
+    },
   };
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const useVideoControls = () => {
     play,
     mute,
     unmute,
-    videoProps
+    videoProps,
   };
 };
 

@@ -29,10 +29,10 @@ export default class PreferencesPage extends React.Component {
     const className = classNames('overlay', {active: overlay});
 
     return (
-      <div className="cover-window">
+      <div className='cover-window'>
         <div className={className}/>
         <Provider inject={[preferencesContainer]}>
-          <WindowHeader title="Preferences">
+          <WindowHeader title='Preferences'>
             <PreferencesNavigation/>
           </WindowHeader>
           <Categories/>

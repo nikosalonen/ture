@@ -40,7 +40,7 @@ export const extractProgressFromStderr = (stderr: string, conversionStartTime: n
 
       return {
         progress,
-        estimate: prettyMilliseconds(Math.max(msRemaining, 1000), {compact: true})
+        estimate: prettyMilliseconds(Math.max(msRemaining, 1000), {compact: true}),
       };
     }
 
@@ -56,16 +56,14 @@ type ArgType = string[] | string | {args: string[]; if: boolean};
 //
 // conditionalArgs(['default', 'args'], {args: ['ignore', 'these'], if: false});
 // => ['default', 'args']
-export const conditionalArgs = (...args: ArgType[]): string[] => {
-  return args.flatMap(arg => {
-    if (typeof arg === 'string') {
-      return [arg];
-    }
+export const conditionalArgs = (...args: ArgType[]): string[] => args.flatMap(arg => {
+  if (typeof arg === 'string') {
+    return [arg];
+  }
 
-    if (Array.isArray(arg)) {
-      return arg;
-    }
+  if (Array.isArray(arg)) {
+    return arg;
+  }
 
-    return arg.if ? arg.args : [];
-  });
-};
+  return arg.if ? arg.args : [];
+});

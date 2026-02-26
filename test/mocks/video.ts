@@ -3,7 +3,7 @@ import sinon from 'sinon';
 const mocks = {
   open: sinon.fake(),
   constructor: sinon.fake(),
-  getOrCreate: sinon.fake(() => new Video())
+  getOrCreate: sinon.fake(() => new Video()),
 };
 
 export default class Video {

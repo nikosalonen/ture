@@ -5,7 +5,7 @@ import {ShareServiceContext} from '../service-context';
 import {settings} from '../../common/settings';
 import makeDir from 'make-dir';
 import {Format} from '../../common/types';
-import path from 'path';
+import path from 'node:path';
 
 const {Notification, shell} = require('electron');
 const cpFile = require('cp-file');
@@ -24,7 +24,7 @@ const action = async (context: ShareServiceContext & {targetFilePath: string}) =
 
   const notification = new Notification({
     title: 'File saved successfully!',
-    body: 'Click to show the file in Finder'
+    body: 'Click to show the file in Finder',
   });
 
   notification.on('click', () => {
@@ -42,9 +42,9 @@ const saveFile = {
     'webm',
     'apng',
     'av1',
-    'hevc'
+    'hevc',
   ],
-  action
+  action,
 };
 
 export const shareServices = [saveFile];
@@ -55,7 +55,7 @@ const filterMap = new Map([
   [Format.gif, [{name: 'Images', extensions: ['gif']}]],
   [Format.apng, [{name: 'Images', extensions: ['apng']}]],
   [Format.av1, [{name: 'Movies', extensions: ['mp4']}]],
-  [Format.hevc, [{name: 'Movies', extensions: ['mp4']}]]
+  [Format.hevc, [{name: 'Movies', extensions: ['mp4']}]],
 ]);
 
 let lastSavedDirectory: string;
@@ -63,7 +63,7 @@ let lastSavedDirectory: string;
 export const askForTargetFilePath = async (
   window: BrowserWindow,
   format: Format,
-  fileName: string
+  fileName: string,
 ) => {
   const kapturesDir = settings.get('kapturesDir');
   await makeDir(kapturesDir);
@@ -75,7 +75,7 @@ export const askForTargetFilePath = async (
   const {filePath} = await dialog.showSaveDialog(window, {
     title: fileName,
     defaultPath,
-    filters
+    filters,
   });
 
   if (filePath) {

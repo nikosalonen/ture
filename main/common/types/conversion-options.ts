@@ -33,5 +33,5 @@ export enum ExportStatus {
   inProgress = 'inProgress',
   failed = 'failed',
   canceled = 'canceled',
-  completed = 'completed'
+  completed = 'completed',
 }

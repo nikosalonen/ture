@@ -2,9 +2,7 @@ import {ExportsListRemoteState, RemoteStateHandler} from '../common/types';
 import Export from '../export';
 
 const exportsListRemoteState: RemoteStateHandler<ExportsListRemoteState> = sendUpdate => {
-  const getState = () => {
-    return [...Export.exportsMap.keys()];
-  };
+  const getState = () => [...Export.exportsMap.keys()];
 
   const subscribe = () => {
     const callback = () => {
@@ -20,7 +18,7 @@ const exportsListRemoteState: RemoteStateHandler<ExportsListRemoteState> = sendU
   return {
     subscribe,
     getState,
-    actions: {}
+    actions: {},
   };
 };
 

@@ -3,12 +3,12 @@ import moment from 'moment';
 const formatTime = (time, options) => {
   options = {
     showMilliseconds: false,
-    ...options
+    ...options,
   };
 
-  const durationFormatted = options.extra ?
-    `  (${format(options.extra, options)})` :
-    '';
+  const durationFormatted = options.extra
+    ? `  (${format(options.extra, options)})`
+    : '';
 
   return `${format(time, options)}${durationFormatted}`;
 };

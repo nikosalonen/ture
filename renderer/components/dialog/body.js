@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Body = ({title, message, detail}) => {
-  return (
-    <div className="container">
-      <h1>{title}</h1>
-      <div className="detail">
-        {
-          detail.split('\n').map(text => (
-            <span key={text}>{text}</span>
-          ))
-        }
-      </div>
-      {message && <p>{message}</p>}
+const Body = ({title, message, detail}) => (
+  <div className='container'>
+    <h1>{title}</h1>
+    <div className='detail'>
+      {
+        detail.split('\n').map(text => (
+          <span key={text}>{text}</span>
+        ))
+      }
+    </div>
+    {message && <p>{message}</p>}
 
-      <style jsx>{`
+    <style jsx>{`
         h1 {
           font-size: 1.25rem;
           margin: 0;
@@ -50,14 +49,13 @@ const Body = ({title, message, detail}) => {
           flex: 1;
         }
       `}</style>
-    </div>
-  );
-};
+  </div>
+);
 
 Body.propTypes = {
   title: PropTypes.string,
   message: PropTypes.string,
-  detail: PropTypes.string
+  detail: PropTypes.string,
 };
 
 export default Body;

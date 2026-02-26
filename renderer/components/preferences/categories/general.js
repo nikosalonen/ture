@@ -19,14 +19,13 @@ class General extends React.Component {
   static defaultProps = {
     audioDevices: [],
     kapturesDir: '',
-    category: 'general'
+    category: 'general',
   };
-
   state = {};
 
   componentDidMount() {
     this.setState({
-      showCursorSupported: remote && remote.require('macos-version').isGreaterThanOrEqualTo('10.13')
+      showCursorSupported: remote && remote.require('macos-version').isGreaterThanOrEqualTo('10.13'),
     });
   }
 
@@ -57,14 +56,14 @@ class General extends React.Component {
       category,
       lossyCompression,
       shortcuts,
-      shortcutMap
+      shortcutMap,
     } = this.props;
 
     const {showCursorSupported} = this.state;
 
     const devices = audioDevices.map(device => ({
       label: device.name,
-      value: device.id
+      value: device.id,
     }));
 
     const kapturesDirPath = tildify(kapturesDir);
@@ -74,13 +73,13 @@ class General extends React.Component {
     return (
       <Category>
         {
-          showCursorSupported &&
-          <Item
-            key="showCursor"
+          showCursorSupported
+          && <Item
+            key='showCursor'
             parentItem
-            title="Show cursor"
-            subtitle="Display the mouse cursor in your Kaptures"
-          >
+            title='Show cursor'
+            subtitle='Display the mouse cursor in your Kaptures'
+             >
             <Switch
               tabIndex={tabIndex}
               checked={showCursor}
@@ -96,8 +95,8 @@ class General extends React.Component {
           </Item>
         }
         {
-          showCursorSupported &&
-          <Item key="highlightClicks" subtitle="Highlight clicks">
+          showCursorSupported
+          && <Item key='highlightClicks' subtitle='Highlight clicks'>
             <Switch
               tabIndex={tabIndex}
               checked={highlightClicks}
@@ -107,11 +106,11 @@ class General extends React.Component {
           </Item>
         }
         <Item
-          key="enableShortcuts"
+          key='enableShortcuts'
           parentItem
-          title="Keyboard shortcuts"
-          subtitle="Toggle and customise keyboard shortcuts"
-          help="You can paste any valid Electron accelerator string like Command+Shift+5"
+          title='Keyboard shortcuts'
+          subtitle='Toggle and customise keyboard shortcuts'
+          help='You can paste any valid Electron accelerator string like Command+Shift+5'
         >
           <Switch tabIndex={tabIndex} checked={enableShortcuts} onClick={toggleShortcuts}/>
         </Item>
@@ -127,17 +126,17 @@ class General extends React.Component {
           ))
         }
         <Item
-          key="loopExports"
-          title="Loop exports"
-          subtitle="Infinitely loop exports when supported"
+          key='loopExports'
+          title='Loop exports'
+          subtitle='Infinitely loop exports when supported'
         >
           <Switch tabIndex={tabIndex} checked={loopExports} onClick={() => toggleSetting('loopExports')}/>
         </Item>
         <Item
-          key="recordAudio"
+          key='recordAudio'
           parentItem
-          title="Audio recording"
-          subtitle="Record audio from input device"
+          title='Audio recording'
+          subtitle='Record audio from input device'
         >
           <Switch
             tabIndex={tabIndex}
@@ -145,21 +144,21 @@ class General extends React.Component {
             onClick={toggleRecordAudio}/>
         </Item>
         {
-          recordAudio &&
-          <Item key="audioInputDeviceId" subtitle="Select input device">
+          recordAudio
+          && <Item key='audioInputDeviceId' subtitle='Select input device'>
             <Select
               tabIndex={tabIndex}
               options={devices}
               selected={audioInputDeviceId}
-              placeholder="Select Device"
-              noOptionsMessage="No input devices"
+              placeholder='Select Device'
+              noOptionsMessage='No input devices'
               onSelect={setAudioInputDeviceId}/>
           </Item>
         }
         <Item
-          key="record60fps"
-          title="Capture frame rate"
-          subtitle="Increased FPS impacts performance and file size"
+          key='record60fps'
+          title='Capture frame rate'
+          subtitle='Increased FPS impacts performance and file size'
         >
           <Select
             tabIndex={tabIndex}
@@ -168,33 +167,33 @@ class General extends React.Component {
             onSelect={value => toggleSetting('record60fps', value)}/>
         </Item>
         <Item
-          key="allowAnalytics"
-          title="Allow analytics"
-          subtitle="Help us improve Kap by sending anonymous usage stats"
+          key='allowAnalytics'
+          title='Allow analytics'
+          subtitle='Help us improve Kap by sending anonymous usage stats'
         >
           <Switch tabIndex={tabIndex} checked={allowAnalytics} onClick={() => toggleSetting('allowAnalytics')}/>
         </Item>
         <Item
-          key="openOnStartup"
-          title="Start automatically"
-          subtitle="Launch Kap on system startup"
+          key='openOnStartup'
+          title='Start automatically'
+          subtitle='Launch Kap on system startup'
         >
           <Switch tabIndex={tabIndex} checked={openOnStartup} onClick={setOpenOnStartup}/>
         </Item>
         <Item
-          key="pickKapturesDir"
-          title="Save to…"
+          key='pickKapturesDir'
+          title='Save to…'
           subtitle={kapturesDirPath}
           tooltip={kapturesDir}
           onSubtitleClick={this.openKapturesDir}
         >
-          <Button tabIndex={tabIndex} title="Choose" onClick={pickKapturesDir}/>
+          <Button tabIndex={tabIndex} title='Choose' onClick={pickKapturesDir}/>
         </Item>
         <Item
-          key="lossyCompression"
+          key='lossyCompression'
           parentItem
-          title="Lossy GIF compression"
-          subtitle="Smaller file size for a minor quality degradation."
+          title='Lossy GIF compression'
+          subtitle='Smaller file size for a minor quality degradation.'
         >
           <Switch
             tabIndex={tabIndex}
@@ -229,7 +228,7 @@ General.propTypes = {
   category: PropTypes.string,
   shortcutMap: PropTypes.object,
   shortcuts: PropTypes.object,
-  lossyCompression: PropTypes.bool
+  lossyCompression: PropTypes.bool,
 };
 
 export default connect(
@@ -249,7 +248,7 @@ export default connect(
     category,
     lossyCompression,
     shortcuts,
-    shortcutMap
+    shortcutMap,
   }) => ({
     showCursor,
     highlightClicks,
@@ -265,7 +264,7 @@ export default connect(
     category,
     lossyCompression,
     shortcuts,
-    shortcutMap
+    shortcutMap,
   }),
   ({
     toggleSetting,
@@ -274,7 +273,7 @@ export default connect(
     pickKapturesDir,
     setOpenOnStartup,
     updateShortcut,
-    toggleShortcuts
+    toggleShortcuts,
   }) => ({
     toggleSetting,
     toggleRecordAudio,
@@ -282,6 +281,6 @@ export default connect(
     pickKapturesDir,
     setOpenOnStartup,
     updateShortcut,
-    toggleShortcuts
-  })
+    toggleShortcuts,
+  }),
 )(General);

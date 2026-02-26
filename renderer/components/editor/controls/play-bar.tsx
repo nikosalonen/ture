@@ -16,7 +16,7 @@ const PlayBar = () => {
     endTime,
     updateTime,
     updateStartTime,
-    updateEndTime
+    updateEndTime,
   } = VideoTimeContainer.useContainer();
 
   const total = endTime - startTime;
@@ -67,30 +67,30 @@ const PlayBar = () => {
   const previewDuration = resizing ? total : (startTime <= hoverTime && hoverTime <= endTime ? total : undefined);
 
   return (
-    <div className="container" onMouseUp={seek} onMouseMove={updatePreview}>
-      <div className="progress-bar-container">
-        <div className="progress-bar">
+    <div className='container' onMouseUp={seek} onMouseMove={updatePreview}>
+      <div className='progress-bar-container'>
+        <div className='progress-bar'>
           <progress ref={progress} max={total} value={current}/>
-          <div className="preview">
+          <div className='preview'>
             <Preview time={previewTime} labelTime={previewLabelTime} duration={previewDuration} hidePreview={resizing}/>
           </div>
           <input
-            type="range"
-            className="slider start"
+            type='range'
+            className='slider start'
             value={startTime}
             min={0}
             max={duration}
-            step={0.00001}
+            step={0.000_01}
             onChange={setStartTime}
             onMouseDown={startResizing}
             onMouseUp={stopResizing}/>
           <input
-            type="range"
-            className="slider end"
+            type='range'
+            className='slider end'
             value={endTime}
             min={0}
             max={duration}
-            step={0.00001}
+            step={0.000_01}
             onChange={setEndTime}
             onMouseDown={startResizing}
             onMouseUp={stopResizing}/>

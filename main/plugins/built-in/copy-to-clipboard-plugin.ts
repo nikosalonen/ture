@@ -18,9 +18,9 @@ const copyToClipboard = {
   formats: [
     'gif',
     'apng',
-    'mp4'
+    'mp4',
   ],
-  action
+  action,
 };
 
 export const shareServices = [copyToClipboard];

@@ -2,7 +2,7 @@ import execa from 'execa';
 import moment from 'moment';
 import PCancelable from 'p-cancelable';
 import tempy from 'tempy';
-import path from 'path';
+import path from 'node:path';
 
 import {track} from '../common/analytics';
 import {conditionalArgs, extractProgressFromStderr} from './utils';
@@ -15,12 +15,12 @@ const gifsiclePath = (gifsicle as string).replace('app.asar', 'app.asar.unpacked
 
 enum Mode {
   convert,
-  compress
+  compress,
 }
 
 const modes = new Map([
   [Mode.convert, ffmpegPath],
-  [Mode.compress, gifsiclePath]
+  [Mode.compress, gifsiclePath],
 ]);
 
 export interface ProcessOptions {
@@ -31,22 +31,21 @@ export interface ProcessOptions {
 }
 
 const defaultProcessOptions = {
-  shouldTrack: true
+  shouldTrack: true,
 };
 
 const createProcess = (mode: Mode) => {
   const program = modes.get(mode)!;
 
-  // eslint-disable-next-line @typescript-eslint/promise-function-async
   return (outputPath: string, options: ProcessOptions, args: string[]) => {
     const {
       shouldTrack,
       startTime = 0,
       endTime = 0,
-      onProgress
+      onProgress,
     } = {
       ...defaultProcessOptions,
-      ...options
+      ...options,
     };
 
     const modeName = Mode[mode];
@@ -103,14 +102,13 @@ const createProcess = (mode: Mode) => {
 export const convert = createProcess(Mode.convert);
 const compressFunction = createProcess(Mode.compress);
 
-// eslint-disable-next-line @typescript-eslint/promise-function-async
 export const compress = (outputPath: string, options: ProcessOptions, args: string[]) => {
   const useLossy = settings.get('lossyCompression', false);
 
   return compressFunction(
     outputPath,
     options,
-    conditionalArgs(args, {args: ['--lossy=50'], if: useLossy})
+    conditionalArgs(args, {args: ['--lossy=50'], if: useLossy}),
   );
 };
 
@@ -123,7 +121,7 @@ export const mute = PCancelable.fn(async (inputPath: string, onCancel: PCancelab
     '-an',
     '-vcodec',
     'copy',
-    mutedPath
+    mutedPath,
   ]);
 
   onCancel(() => {

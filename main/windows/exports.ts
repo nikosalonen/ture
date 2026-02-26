@@ -20,9 +20,9 @@ const openExportsWindow = async () => {
       vibrancy: 'under-window',
       webPreferences: {
         nodeIntegration: true,
-        contextIsolation: false
+        contextIsolation: false,
       },
-      route: 'exports'
+      route: 'exports',
     });
 
     const exportsWindow = exportsKapWindow.browserWindow;
@@ -44,5 +44,5 @@ const getExportsWindow = () => exportsKapWindow?.browserWindow;
 
 windowManager.setExports({
   open: openExportsWindow,
-  get: getExportsWindow
+  get: getExportsWindow,
 });

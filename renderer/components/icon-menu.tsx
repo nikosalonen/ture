@@ -24,14 +24,14 @@ const IconMenu: FunctionComponent<IconMenuProps> = props => {
     if ('onOpen' in props) {
       props.onOpen({
         x: Math.round(left),
-        y: Math.round(bottom)
+        y: Math.round(bottom),
       });
     } else {
       const remote = require('@electron/remote');
       const menu = remote.Menu.buildFromTemplate(props.template);
       menu.popup({
         x: Math.round(left),
-        y: Math.round(bottom)
+        y: Math.round(bottom),
       });
     }
   };

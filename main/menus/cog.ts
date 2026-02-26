@@ -1,6 +1,8 @@
 import {Menu} from 'electron';
 import {MenuItemId, MenuOptions} from './utils';
-import {getAboutMenuItem, getExportHistoryMenuItem, getOpenFileMenuItem, getPreferencesMenuItem, getSendFeedbackMenuItem} from './common';
+import {
+  getAboutMenuItem, getExportHistoryMenuItem, getOpenFileMenuItem, getPreferencesMenuItem, getSendFeedbackMenuItem,
+} from './common';
 import {plugins} from '../plugins';
 import {getAudioDevices, getDefaultInputDevice} from '../utils/devices';
 import {settings} from '../common/settings';
@@ -10,30 +12,30 @@ import {hasMicrophoneAccess} from '../common/system-permissions';
 const getCogMenuTemplate = async (): Promise<MenuOptions> => [
   getAboutMenuItem(),
   {
-    type: 'separator'
+    type: 'separator',
   },
   getPreferencesMenuItem(),
   {
-    type: 'separator'
+    type: 'separator',
   },
   getPluginsItem(),
   await getMicrophoneItem(),
   {
-    type: 'separator'
+    type: 'separator',
   },
   getOpenFileMenuItem(),
   getExportHistoryMenuItem(),
   {
-    type: 'separator'
+    type: 'separator',
   },
   getSendFeedbackMenuItem(),
   {
-    type: 'separator'
+    type: 'separator',
   },
   {
     role: 'quit',
-    accelerator: 'Command+Q'
-  }
+    accelerator: 'Command+Q',
+  },
 ];
 
 const getPluginsItem = (): MenuOptions[number] => {
@@ -42,15 +44,14 @@ const getPluginsItem = (): MenuOptions[number] => {
       label: service.title,
       type: 'checkbox' as const,
       checked: service.isEnabled,
-      click: async () => service.setEnabled(!service.isEnabled)
-    }))
-  );
+      click: async () => service.setEnabled(!service.isEnabled),
+    })));
 
   return {
     id: MenuItemId.plugins,
     label: 'Plugins',
     submenu: items,
-    visible: items.length > 0
+    visible: items.length > 0,
   };
 };
 
@@ -73,29 +74,25 @@ const getMicrophoneItem = async (): Promise<MenuOptions[number]> => {
         label: 'None',
         type: 'checkbox',
         checked: !isRecordAudioEnabled,
-        click: () => {
+        click() {
           settings.set('recordAudio', false);
-        }
+        },
       },
       ...[
         {name: `System Default${currentDefaultDevice ? ` (${currentDefaultDevice.name})` : ''}`, id: defaultInputDeviceId},
-        ...devices
+        ...devices,
       ].map(device => ({
         label: device.name,
         type: 'checkbox' as const,
         checked: isRecordAudioEnabled && (audioInputDeviceId === device.id),
-        click: () => {
+        click() {
           settings.set('recordAudio', true);
           settings.set('audioInputDeviceId', device.id);
-        }
-      }))
+        },
+      })),
     ],
-    visible: hasMicrophoneAccess()
+    visible: hasMicrophoneAccess(),
   };
 };
 
-export const getCogMenu = async () => {
-  return Menu.buildFromTemplate(
-    await getCogMenuTemplate()
-  );
-};
+export const getCogMenu = async () => Menu.buildFromTemplate(await getCogMenuTemplate());

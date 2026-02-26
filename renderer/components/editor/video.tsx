@@ -21,11 +21,11 @@ const getVideoProps = (propsArray: Array<React.DetailedHTMLProps<React.VideoHTML
   // eslint-disable-next-line unicorn/no-array-reduce
   return [...handlers.entries()].reduce((acc, [key, handlerList]) => ({
     ...acc,
-    [key]: () => {
+    [key]() {
       for (const handler of handlerList) {
         handler?.();
       }
-    }
+    },
   }), {});
 };
 
@@ -47,7 +47,7 @@ const Video = () => {
   const videoProps = getVideoProps([
     videoTimeContainer.videoProps,
     videoMetadataContainer.videoProps,
-    videoControlsContainer.videoProps
+    videoControlsContainer.videoProps,
   ]);
 
   const onContextMenu = async () => {
@@ -66,23 +66,23 @@ const Video = () => {
     const {Menu} = require('@electron/remote');
     const menu = Menu.buildFromTemplate([{
       label: 'Snapshot',
-      click: () => {
+      click() {
         ipcRenderer.invoke('save-snapshot', video.currentTime);
-      }
+      },
     }]);
 
     menu.popup({
-      callback: () => {
+      callback() {
         if (!wasPaused) {
           videoControlsContainer.play();
         }
-      }
+      },
     });
   };
 
   return (
     <div onContextMenu={onContextMenu}>
-      <video ref={videoRef} preload="auto" src={src} {...videoProps}/>
+      <video ref={videoRef} preload='auto' src={src} {...videoProps}/>
       <style jsx>{`
         video {
           width: 100%;

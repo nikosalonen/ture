@@ -15,7 +15,7 @@ export const useEditorWindowSizeEffect = (isConversionWindowState: boolean) => {
     if (!previousWindowSizeRef.current) {
       previousWindowSizeRef.current = {
         width: DEFAULT_EDITOR_WIDTH,
-        height: DEFAULT_EDITOR_HEIGHT
+        height: DEFAULT_EDITOR_HEIGHT,
       };
       return;
     }
@@ -26,7 +26,7 @@ export const useEditorWindowSizeEffect = (isConversionWindowState: boolean) => {
     if (isConversionWindowState) {
       previousWindowSizeRef.current = {
         width: bounds.width,
-        height: bounds.height
+        height: bounds.height,
       };
 
       window.setBounds(resizeKeepingCenter(bounds, {width: CONVERSION_WIDTH, height: CONVERSION_HEIGHT}), true);

@@ -33,23 +33,19 @@ class ServiceContext {
     clipboard.writeText(text);
   };
 
-  notify = (text: string, action?: () => any) => {
-    return notify({
-      body: text,
-      title: this.plugin.isBuiltIn ? app.name : this.plugin.prettyName,
-      click: action
-    });
-  };
+  notify = (text: string, action?: () => any) => notify({
+    body: text,
+    title: this.plugin.isBuiltIn ? app.name : this.plugin.prettyName,
+    click: action,
+  });
 
   openConfigFile = () => {
     this.config.openInEditor();
   };
 
-  waitForDeepLink = async () => {
-    return new Promise(resolve => {
-      addPluginPromise(this.plugin.name, resolve);
-    });
-  };
+  waitForDeepLink = async () => new Promise(resolve => {
+    addPluginPromise(this.plugin.name, resolve);
+  });
 }
 
 interface ShareServiceContextOptions extends ServiceContextOptions {
@@ -83,9 +79,7 @@ export class ShareServiceContext extends ServiceContext {
     return `${this.options.defaultFileName}.${getFormatExtension(this.options.format)}`;
   }
 
-  filePath = async (options?: {fileType?: Format}) => {
-    return this.options.filePath(options);
-  };
+  filePath = async (options?: {fileType?: Format}) => this.options.filePath(options);
 
   setProgress = (text: string, percentage: number) => {
     this.options.onProgress(text, percentage);

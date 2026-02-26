@@ -1,6 +1,8 @@
 import {CreateExportOptions} from 'common/types';
 import {ipcRenderer} from 'electron';
-import {createContext, PropsWithChildren, useContext, useMemo, useState} from 'react';
+import {
+  createContext, PropsWithChildren, useContext, useMemo, useState,
+} from 'react';
 
 const ConversionIdContext = createContext<{
   conversionId: string;
@@ -19,14 +21,14 @@ export const ConversionIdContextProvider = (props: PropsWithChildren<Record<stri
   };
 
   const updateConversionId = (id: string) => {
-    savedConversionId = savedConversionId || id;
+    savedConversionId ||= id;
     setConversionId(id || savedConversionId);
   };
 
   const value = useMemo(() => ({
     conversionId,
     setConversionId: updateConversionId,
-    startConversion
+    startConversion,
   }), [conversionId, setConversionId]);
 
   return (

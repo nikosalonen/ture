@@ -11,7 +11,7 @@ import VideoPreview from './video-preview';
 const dialogOptions = {
   message: 'Are you sure you want to discard this conversion?',
   detail: 'Any progress will be lost.',
-  confirmButtonText: 'Discard'
+  confirmButtonText: 'Discard',
 };
 
 const EditorConversionView = ({conversionId}: {conversionId: string}) => {
@@ -33,14 +33,14 @@ const EditorConversionView = ({conversionId}: {conversionId: string}) => {
     setConversionId('');
   };
 
-  const finalCancel = useMemo(() => inProgress ? safeCancel : () => { /* do nothing */ }, [inProgress]);
+  const finalCancel = useMemo(() => inProgress ? safeCancel : () => {/* do nothing */}, [inProgress]);
 
   useKeyboardAction('Escape', finalCancel);
 
   const showInFolder = () => conversion.showInFolder();
 
   return (
-    <div className="editor-conversion-view">
+    <div className='editor-conversion-view'>
       <TitleBar
         conversion={conversion.state}
         cancel={cancelAndGoBack}

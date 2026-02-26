@@ -10,7 +10,7 @@ class Select extends React.Component {
   static defaultProps = {
     options: [],
     placeholder: 'Select',
-    noOptionsMessage: 'No options'
+    noOptionsMessage: 'No options',
   };
 
   constructor(props) {
@@ -31,14 +31,12 @@ class Select extends React.Component {
     const menu = new Menu();
 
     for (const option of options) {
-      menu.append(
-        new MenuItem({
-          label: option.label,
-          type: 'radio',
-          checked: option.value === selected,
-          click: () => onSelect(option.value)
-        })
-      );
+      menu.append(new MenuItem({
+        label: option.label,
+        type: 'radio',
+        checked: option.value === selected,
+        click: () => onSelect(option.value),
+      }));
     }
 
     return {menu};
@@ -50,7 +48,7 @@ class Select extends React.Component {
 
       this.state.menu.popup({
         x: Math.round(boundingRect.left),
-        y: Math.round(boundingRect.top)
+        y: Math.round(boundingRect.top),
       });
     }
   };
@@ -58,21 +56,23 @@ class Select extends React.Component {
   render() {
     const {options, selected, placeholder, noOptionsMessage, tabIndex, full} = this.props;
 
-    const selectedLabel = options.length === 0 ? noOptionsMessage : (
-      selected === undefined ? placeholder : options.find(option => option.value === selected).label
-    );
+    const selectedLabel = options.length === 0
+      ? noOptionsMessage
+      : (
+        selected === undefined ? placeholder : options.find(option => option.value === selected).label
+      );
 
     return (
       <div
         ref={this.select}
         tabIndex={tabIndex}
-        className="select"
+        className='select'
         onClick={this.handleClick}
         onKeyDown={handleKeyboardActivation(this.handleClick, {isMenu: true})}
       >
         <span>{selectedLabel}</span>
-        <div className="dropdown">
-          <DropdownArrowIcon size="15px"/>
+        <div className='dropdown'>
+          <DropdownArrowIcon size='15px'/>
         </div>
         <style jsx>{`
           .select {
@@ -129,14 +129,14 @@ class Select extends React.Component {
 Select.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
-    value: PropTypes.any
+    value: PropTypes.any,
   })),
   onSelect: PropTypes.elementType.isRequired,
   selected: PropTypes.any,
   placeholder: PropTypes.string,
   noOptionsMessage: PropTypes.string,
   tabIndex: PropTypes.number.isRequired,
-  full: PropTypes.bool
+  full: PropTypes.bool,
 };
 
 export default Select;

@@ -7,6 +7,6 @@ export const flags = new Store<{
   name: 'flags',
   defaults: {
     backgroundEditorConversion: false,
-    editorDragTooltip: false
-  }
+    editorDragTooltip: false,
+  },
 });

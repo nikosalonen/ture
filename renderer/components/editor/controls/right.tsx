@@ -15,13 +15,13 @@ const RightControls = () => {
   const unmuteColor = canUnmute ? '#fff' : 'rgba(255, 255, 255, 0.40)';
 
   return (
-    <div className="container">
-      <div className="time">{formatTime(duration)}</div>
-      <div className="mute">
+    <div className='container'>
+      <div className='time'>{formatTime(duration)}</div>
+      <div className='mute'>
         {
-          isMuted || !hasAudio ?
-            <VolumeOffIcon shadow fill={unmuteColor} hoverFill={unmuteColor} tabIndex={canUnmute ? undefined : -1} onClick={canUnmute ? unmute : undefined}/> :
-            <VolumeHighIcon shadow fill="#fff" hoverFill="#fff" onClick={mute}/>
+          isMuted || !hasAudio
+            ? <VolumeOffIcon shadow fill={unmuteColor} hoverFill={unmuteColor} tabIndex={canUnmute ? undefined : -1} onClick={canUnmute ? unmute : undefined}/>
+            : <VolumeHighIcon shadow fill='#fff' hoverFill='#fff' onClick={mute}/>
         }
       </div>
       <style jsx>{`

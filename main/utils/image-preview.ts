@@ -1,9 +1,8 @@
-/* eslint-disable array-element-newline */
 
 import {BrowserWindow, dialog} from 'electron';
 import execa from 'execa';
 import tempy from 'tempy';
-import {promisify} from 'util';
+import {promisify} from 'node:util';
 import type {Video} from '../video';
 import {generateTimestampedName} from './timestamped-name';
 import ffmpegPath from './ffmpeg-path';
@@ -17,12 +16,17 @@ export const generatePreviewImage = async (filePath: string): Promise<{path: str
 
   try {
     await execa(ffmpegPath, [
-      '-ss', '0',
-      '-i', filePath,
-      '-t', '1',
-      '-vframes', '1',
-      '-f', 'image2',
-      previewPath
+      '-ss',
+      '0',
+      '-i',
+      filePath,
+      '-t',
+      '1',
+      '-vframes',
+      '1',
+      '-f',
+      'image2',
+      previewPath,
     ]);
   } catch {
     return;
@@ -31,27 +35,30 @@ export const generatePreviewImage = async (filePath: string): Promise<{path: str
   try {
     return {
       path: previewPath,
-      data: await getBase64(previewPath)
+      data: await getBase64(previewPath),
     };
   } catch {
     return {
       path: previewPath,
-      data: ''
+      data: '',
     };
   }
 };
 
 export const saveSnapshot = async (video: Video, time: number) => {
   const {filePath: outputPath} = await dialog.showSaveDialog(BrowserWindow.getFocusedWindow()!, {
-    defaultPath: generateTimestampedName('Snapshot', '.jpg')
+    defaultPath: generateTimestampedName('Snapshot', '.jpg'),
   });
 
   if (outputPath) {
     await execa(ffmpegPath, [
-      '-i', video.filePath,
-      '-ss', time.toString(),
-      '-vframes', '1',
-      outputPath
+      '-i',
+      video.filePath,
+      '-ss',
+      time.toString(),
+      '-vframes',
+      '1',
+      outputPath,
     ]);
   }
 };

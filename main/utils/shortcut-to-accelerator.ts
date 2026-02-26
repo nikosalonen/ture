@@ -10,7 +10,7 @@ export const shortcutToAccelerator = (shortcut: any) => {
     altKey && 'Option',
     ctrlKey && 'Control',
     shiftKey && 'Shift',
-    character
+    character,
   ].filter(Boolean);
   return keys.join('+');
 };

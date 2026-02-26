@@ -8,15 +8,15 @@ const LeftControls = () => {
   const {currentTime} = VideoTimeContainer.useContainer();
 
   return (
-    <div className="container">
-      <div className="play">
+    <div className='container'>
+      <div className='play'>
         {
-          isPaused ?
-            <PlayIcon shadow size="26px" fill="#fff" hoverFill="#fff" onClick={play}/> :
-            <PauseIcon shadow size="26px" fill="#fff" hoverFill="#fff" onClick={pause}/>
+          isPaused
+            ? <PlayIcon shadow size='26px' fill='#fff' hoverFill='#fff' onClick={play}/>
+            : <PauseIcon shadow size='26px' fill='#fff' hoverFill='#fff' onClick={pause}/>
         }
       </div>
-      <div className="time">{formatTime(currentTime, {showMilliseconds: false})}</div>
+      <div className='time'>{formatTime(currentTime, {showMilliseconds: false})}</div>
       <style jsx>{`
             .container {
               display: flex;

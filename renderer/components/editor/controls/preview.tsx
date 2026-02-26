@@ -22,12 +22,12 @@ const Preview = ({time, labelTime, duration, hidePreview}: Props) => {
 
   return (
     <div
-      className="container" onMouseMove={event => {
+      className='container' onMouseMove={event => {
         event.stopPropagation();
       }}
     >
-      <video ref={videoRef} preload="auto" src={src}/>
-      <div className="time">{formatTime(labelTime, {extra: duration})}</div>
+      <video ref={videoRef} preload='auto' src={src}/>
+      <div className='time'>{formatTime(labelTime, {extra: duration})}</div>
       <style jsx>{`
           .container {
             flex: 1;

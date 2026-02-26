@@ -1,6 +1,5 @@
 import delay from 'delay';
-import {app, dialog} from 'electron';
-import {shell} from 'electron';
+import {app, dialog, shell} from 'electron';
 import macosRelease from '../utils/macos-release';
 import {supportedVideoExtensions} from '../common/constants';
 import {getCurrentMenuItem, MenuItemId} from './utils';
@@ -11,24 +10,24 @@ export const getPreferencesMenuItem = () => ({
   id: MenuItemId.preferences,
   label: 'Preferences…',
   accelerator: 'Command+,',
-  click: () => windowManager.preferences?.open()
+  click: () => windowManager.preferences?.open(),
 });
 
 export const getAboutMenuItem = () => ({
   id: MenuItemId.about,
   label: `About ${app.name}`,
-  click: () => {
+  click() {
     windowManager.cropper?.close();
     app.focus();
     app.showAboutPanel();
-  }
+  },
 });
 
 export const getOpenFileMenuItem = () => ({
   id: MenuItemId.openVideo,
   label: 'Open Video…',
   accelerator: 'Command+O',
-  click: async () => {
+  async click() {
     windowManager.cropper?.close();
 
     await delay(200);
@@ -36,20 +35,20 @@ export const getOpenFileMenuItem = () => ({
     app.focus();
     const {canceled, filePaths} = await dialog.showOpenDialog({
       filters: [{name: 'Videos', extensions: supportedVideoExtensions}],
-      properties: ['openFile', 'multiSelections']
+      properties: ['openFile', 'multiSelections'],
     });
 
     if (!canceled && filePaths) {
       openFiles(...filePaths);
     }
-  }
+  },
 });
 
 export const getExportHistoryMenuItem = () => ({
   label: 'Export History',
   click: () => windowManager.exports?.open(),
   enabled: getCurrentMenuItem(MenuItemId.exportHistory)?.enabled ?? false,
-  id: MenuItemId.exportHistory
+  id: MenuItemId.exportHistory,
 });
 
 export const getSendFeedbackMenuItem = () => ({
@@ -59,7 +58,7 @@ export const getSendFeedbackMenuItem = () => ({
     const url = new URL('https://github.com/wulkano/kap/issues/new');
     url.searchParams.set('body', issueBody);
     shell.openExternal(url.toString());
-  }
+  },
 });
 
 const release = macosRelease();

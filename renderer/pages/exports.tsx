@@ -4,8 +4,8 @@ import WindowHeader from '../components/window-header';
 import Exports from '../components/exports';
 
 const ExportsPage = () => (
-  <div className="cover-window">
-    <WindowHeader title="Exports"/>
+  <div className='cover-window'>
+    <WindowHeader title='Exports'/>
     <Exports/>
     <style jsx global>{`
         :root {

@@ -32,8 +32,7 @@ interface Props<T> {
   customLabel?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/comma-dangle
-const Select = <T, >(props: Props<T>) => {
+const Select = <T,>(props: Props<T>) => {
   const select = useRef<HTMLDivElement>();
   const {options = [], value} = props;
 
@@ -61,7 +60,7 @@ const Select = <T, >(props: Props<T>) => {
         return {
           label: opt.label,
           submenu: opt.subMenu.map(o => convertToMenuTemplate(o)),
-          checked: opt.checked
+          checked: opt.checked,
         };
       }
 
@@ -72,7 +71,7 @@ const Select = <T, >(props: Props<T>) => {
         click: opt.click ?? (() => {
           props.onChange(opt.value);
         }),
-        icon: opt.icon
+        icon: opt.icon,
       };
     };
 
@@ -80,7 +79,7 @@ const Select = <T, >(props: Props<T>) => {
 
     menu.popup({
       x: Math.round(boundingRect.left),
-      y: Math.round(boundingRect.top)
+      y: Math.round(boundingRect.top),
     });
   };
 
@@ -92,13 +91,13 @@ const Select = <T, >(props: Props<T>) => {
   };
 
   return (
-    <div ref={select} className="container" onClick={handleClick}>
-      <div className="label">{selectedLabel}</div>
+    <div ref={select} className='container' onClick={handleClick}>
+      <div className='label'>{selectedLabel}</div>
       <div className={classNames({dropdown: true, clearable})} onClick={handleDropdownClick}>
         {
-          clearable ?
-            <CancelIcon size="16px"/> :
-            <DropdownArrowIcon/>
+          clearable
+            ? <CancelIcon size='16px'/>
+            : <DropdownArrowIcon/>
         }
       </div>
       <style jsx>{`

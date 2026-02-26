@@ -30,7 +30,7 @@ export const resizeTo = (bounds, target) => {
     width: target.width,
     x: Math.min(x, screenWidth - target.width),
     height: target.height,
-    y: Math.min(y, screenHeight - target.height)
+    y: Math.min(y, screenHeight - target.height),
   };
 };
 
@@ -42,7 +42,7 @@ const handleWidthInput = _.debounce(({
   value,
   widthInput,
   heightInput,
-  ignoreEmpty = true
+  ignoreEmpty = true,
 }) => {
   const target = {};
 
@@ -89,7 +89,7 @@ const handleHeightInput = _.debounce(({
   value,
   widthInput,
   heightInput,
-  ignoreEmpty = true
+  ignoreEmpty = true,
 }) => {
   const target = {};
 
@@ -134,7 +134,7 @@ export const RATIOS = [
   '5:3',
   '4:3',
   '3:2',
-  '1:1'
+  '1:1',
 ];
 
 const buildAspectRatioMenu = ({setRatio, ratio}) => {
@@ -147,26 +147,26 @@ const buildAspectRatioMenu = ({setRatio, ratio}) => {
   const menu = new Menu();
 
   for (const r of RATIOS) {
-    menu.append(
-      new MenuItem({
-        label: r,
-        type: 'radio',
-        checked: r === selectedRatio,
-        click: () => setRatio(r.split(':').map(d => Number.parseInt(d, 10)))
-      })
-    );
+    menu.append(new MenuItem({
+      label: r,
+      type: 'radio',
+      checked: r === selectedRatio,
+      click: () => setRatio(r.split(':').map(d => Number.parseInt(d, 10))),
+    }));
   }
 
-  const customOption = RATIOS.includes(selectedRatio) ? {
-    label: 'Custom',
-    type: 'radio',
-    checked: false,
-    enabled: false
-  } : {
-    label: `Custom ${selectedRatio}`,
-    type: 'radio',
-    checked: true
-  };
+  const customOption = RATIOS.includes(selectedRatio)
+    ? {
+      label: 'Custom',
+      type: 'radio',
+      checked: false,
+      enabled: false,
+    }
+    : {
+      label: `Custom ${selectedRatio}`,
+      type: 'radio',
+      checked: true,
+    };
 
   menu.append(new MenuItem(customOption));
   return menu;
@@ -200,8 +200,8 @@ const handleInputKeyPress = (onChange, min, max) => event => {
 
 const handleKeyboardActivation = (onClick, {isMenu} = {}) => event => {
   if (
-    (isMenu && event.key === 'ArrowDown') ||
-    (!isMenu && ['Enter', ' '].includes(event.key))
+    (isMenu && event.key === 'ArrowDown')
+    || (!isMenu && ['Enter', ' '].includes(event.key))
   ) {
     event.preventDefault();
     if (onClick) {
@@ -215,5 +215,5 @@ export {
   handleHeightInput,
   buildAspectRatioMenu,
   handleInputKeyPress,
-  handleKeyboardActivation
+  handleKeyboardActivation,
 };

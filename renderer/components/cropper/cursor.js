@@ -20,12 +20,12 @@ class Cursor extends React.Component {
       width,
       height,
       screenWidth,
-      screenHeight
+      screenHeight,
     } = this.props;
 
     const className = classNames('dimensions', {
       flipY: screenHeight - cursorY < 35,
-      flipX: screenWidth - cursorX < 40
+      flipX: screenWidth - cursorX < 40,
     });
 
     return (
@@ -66,10 +66,12 @@ Cursor.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   screenWidth: PropTypes.number,
-  screenHeight: PropTypes.number
+  screenHeight: PropTypes.number,
 };
 
 export default connect(
   [CursorContainer, CropperContainer],
-  ({cursorX, cursorY}, {screenWidth, screenHeight}) => ({cursorX, cursorY, screenWidth, screenHeight})
+  ({cursorX, cursorY}, {screenWidth, screenHeight}) => ({
+    cursorX, cursorY, screenWidth, screenHeight,
+  }),
 )(Cursor);

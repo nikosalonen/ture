@@ -9,12 +9,12 @@ export const getChannelNames = (name: string) => ({
   subscribe: getChannelName(name, 'subscribe'),
   getState: getChannelName(name, 'get-state'),
   callAction: getChannelName(name, 'call-action'),
-  stateUpdated: getChannelName(name, 'state-updated')
+  stateUpdated: getChannelName(name, 'state-updated'),
 });
 
 const createRemoteStateHook = <Callback extends RemoteState>(
   name: string,
-  initialState?: Callback extends RemoteState<infer State> ? State : never
+  initialState?: Callback extends RemoteState<infer State> ? State : never,
 ): (id?: string) => RemoteStateHook<Callback> => {
   const channelNames = getChannelNames(name);
 
@@ -38,7 +38,7 @@ const createRemoteStateHook = <Callback extends RemoteState>(
         // eslint-disable-next-line unicorn/no-array-reduce
         const actions = actionKeys.reduce((acc, key) => ({
           ...acc,
-          [key]: async (...data: any) => ipcRenderer.invoke(channelNames.callAction, {key, data, id})
+          [key]: async (...data: any) => ipcRenderer.invoke(channelNames.callAction, {key, data, id}),
         }), {});
 
         const getState = async () => {
@@ -48,7 +48,7 @@ const createRemoteStateHook = <Callback extends RemoteState>(
 
         actionsRef.current = {
           ...actions,
-          refreshState: getState
+          refreshState: getState,
         };
 
         await getState();
@@ -63,7 +63,7 @@ const createRemoteStateHook = <Callback extends RemoteState>(
     return {
       ...actionsRef.current,
       isLoading,
-      state
+      state,
     };
   };
 };

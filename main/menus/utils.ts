@@ -19,12 +19,10 @@ export enum MenuItemId {
   stopRecording = 'stopRecording',
   pauseRecording = 'pauseRecording',
   resumeRecording = 'resumeRecording',
-  duration = 'duration'
+  duration = 'duration',
 }
 
-export const getCurrentMenuItem = (id: MenuItemId) => {
-  return Menu.getApplicationMenu()?.getMenuItemById(id);
-};
+export const getCurrentMenuItem = (id: MenuItemId) => Menu.getApplicationMenu()?.getMenuItemById(id);
 
 export const setExportMenuItemState = (enabled: boolean) => {
   const menuItem = Menu.getApplicationMenu()?.getMenuItemById(MenuItemId.exportHistory);

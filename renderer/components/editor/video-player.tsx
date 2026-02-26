@@ -3,16 +3,15 @@ import LeftControls from './controls/left';
 import RightControls from './controls/right';
 import PlayBar from './controls/play-bar';
 
-const VideoPlayer = () => {
-  return (
-    <div className="container">
-      <Video/>
-      <div className="video-controls">
-        <div className="controls left"><LeftControls/></div>
-        <div className="controls center"><PlayBar/></div>
-        <div className="controls right"><RightControls/></div>
-      </div>
-      <style jsx>{`
+const VideoPlayer = () => (
+  <div className='container'>
+    <Video/>
+    <div className='video-controls'>
+      <div className='controls left'><LeftControls/></div>
+      <div className='controls center'><PlayBar/></div>
+      <div className='controls right'><RightControls/></div>
+    </div>
+    <style jsx>{`
         .container {
           flex: 1;
           display: flex;
@@ -49,9 +48,8 @@ const VideoPlayer = () => {
           display: flex;
         }
       `}</style>
-    </div>
-  );
-};
+  </div>
+);
 
 export default VideoPlayer;
 

@@ -1,4 +1,6 @@
-import {systemPreferences, shell, dialog, app} from 'electron';
+import {
+  systemPreferences, shell, dialog, app,
+} from 'electron';
 const {hasScreenCapturePermission, hasPromptedForPermission} = require('mac-screen-capture-permissions');
 const {ensureDockIsShowing} = require('../utils/dock');
 
@@ -17,7 +19,7 @@ const promptSystemPreferences = (options: {message: string; detail: string; syst
       defaultId: 0,
       message: options.message,
       detail: options.detail,
-      cancelId: 1
+      cancelId: 1,
     });
     isDialogShowing = false;
 
@@ -39,7 +41,7 @@ const getMicrophoneAccess = () => systemPreferences.getMediaAccessStatus('microp
 const microphoneFallback = promptSystemPreferences({
   message: 'Kap cannot access the microphone.',
   detail: 'Kap requires microphone access to be able to record audio. You can grant this in the System Preferences. Afterwards, launch Kap for the changes to take effect.',
-  systemPreferencesPath: 'Privacy_Microphone'
+  systemPreferencesPath: 'Privacy_Microphone',
 });
 
 export const ensureMicrophonePermissions = async (fallback = microphoneFallback) => {
@@ -69,7 +71,7 @@ export const hasMicrophoneAccess = () => getMicrophoneAccess() === 'granted';
 const screenCaptureFallback = promptSystemPreferences({
   message: 'Kap cannot record the screen.',
   detail: 'Kap requires screen capture access to be able to record the screen. You can grant this in the System Preferences. Afterwards, launch Kap for the changes to take effect.',
-  systemPreferencesPath: 'Privacy_ScreenCapture'
+  systemPreferencesPath: 'Privacy_ScreenCapture',
 });
 
 export const ensureScreenCapturePermissions = (fallback = screenCaptureFallback) => {

@@ -10,11 +10,11 @@ import Plugins from './plugins';
 const CATEGORIES = [
   {
     name: 'general',
-    Component: General
+    Component: General,
   }, {
     name: 'plugins',
-    Component: Plugins
-  }
+    Component: Plugins,
+  },
 ];
 
 class Categories extends React.Component {
@@ -31,14 +31,12 @@ class Categories extends React.Component {
     const index = CATEGORIES.findIndex(({name}) => name === category);
 
     return (
-      <div className="categories-container">
-        <div className="switcher"/>
+      <div className='categories-container'>
+        <div className='switcher'/>
         {
-          CATEGORIES.map(
-            ({name, Component}) => (
-              <Component key={name}/>
-            )
-          )
+          CATEGORIES.map(({name, Component}) => (
+            <Component key={name}/>
+          ))
         }
         <style jsx>{`
             .categories-container {
@@ -60,10 +58,10 @@ class Categories extends React.Component {
 
 Categories.propTypes = {
   category: PropTypes.string,
-  isMounted: PropTypes.bool
+  isMounted: PropTypes.bool,
 };
 
 export default connect(
   [PreferencesContainer],
-  ({category, isMounted}) => ({category, isMounted})
+  ({category, isMounted}) => ({category, isMounted}),
 )(Categories);

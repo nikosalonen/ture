@@ -7,7 +7,7 @@ import {handleKeyboardActivation} from '../../utils/inputs';
 
 const getMediaNode = async deviceId => new Promise((resolve, reject) => {
   navigator.getUserMedia({
-    audio: {deviceId}
+    audio: {deviceId},
   }, stream => {
     const audioContext = new AudioContext();
     const analyser = audioContext.createAnalyser();
@@ -36,7 +36,7 @@ const RecordButton = ({
   displayId,
   willStartRecording,
   recordAudio,
-  audioInputDeviceId
+  audioInputDeviceId,
 }) => {
   const [showFirstRipple, setShowFirstRipple] = useState(false);
   const [showSecondRipple, setShowSecondRipple] = useState(false);
@@ -52,7 +52,7 @@ const RecordButton = ({
         javascriptNode.onaudioprocess = () => {
           const array = new Uint8Array(analyser.frequencyBinCount);
           analyser.getByteFrequencyData(array);
-          // eslint-disable-next-line unicorn/no-array-reduce
+
           const avg = array.reduce((p, c) => p + c) / array.length;
           if (avg >= 36) {
             setShowFirstRipple(true);
@@ -106,13 +106,13 @@ const RecordButton = ({
           x,
           y,
           width,
-          height
+          height,
         },
         screenBounds: {
           width: screenWidth,
-          height: screenHeight
+          height: screenHeight,
         },
-        displayId
+        displayId,
       });
     }
   };
@@ -123,12 +123,12 @@ const RecordButton = ({
       tabIndex={cropperExists ? 0 : -1}
       onKeyDown={handleKeyboardActivation(startRecording)}
     >
-      <div className="outer" onMouseDown={startRecording}>
-        <div className="inner">
-          {!cropperExists && <div className="fill"/>}
+      <div className='outer' onMouseDown={startRecording}>
+        <div className='inner'>
+          {!cropperExists && <div className='fill'/>}
         </div>
-        {showFirstRipple && <div className="ripple first" onAnimationIteration={shouldFirstStop}/>}
-        {showSecondRipple && <div className="ripple second" onAnimationIteration={shouldSecondStop}/>}
+        {showFirstRipple && <div className='ripple first' onAnimationIteration={shouldFirstStop}/>}
+        {showSecondRipple && <div className='ripple second' onAnimationIteration={shouldSecondStop}/>}
       </div>
       <style jsx>{`
             .container {
@@ -229,11 +229,13 @@ RecordButton.propTypes = {
   displayId: PropTypes.number,
   willStartRecording: PropTypes.elementType,
   recordAudio: PropTypes.bool,
-  audioInputDeviceId: PropTypes.string
+  audioInputDeviceId: PropTypes.string,
 };
 
 export default connect(
   [CropperContainer],
-  ({x, y, width, height, screenWidth, screenHeight, displayId, recordAudio, audioInputDeviceId}) => ({x, y, width, height, screenWidth, screenHeight, displayId, recordAudio, audioInputDeviceId}),
-  ({willStartRecording}) => ({willStartRecording})
+  ({x, y, width, height, screenWidth, screenHeight, displayId, recordAudio, audioInputDeviceId}) => ({
+    x, y, width, height, screenWidth, screenHeight, displayId, recordAudio, audioInputDeviceId,
+  }),
+  ({willStartRecording}) => ({willStartRecording}),
 )(RecordButton);

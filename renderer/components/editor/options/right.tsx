@@ -31,7 +31,7 @@ const EditPluginsControl = () => {
   if (!editPlugin) {
     return (
       <button
-        type="button" className="add-edit-plugin" onClick={() => {
+        type='button' className='add-edit-plugin' onClick={() => {
           setEditPlugin(editServices[0]);
         }}
       >
@@ -68,7 +68,7 @@ const EditPluginsControl = () => {
   const openEditPluginConfig = () => {
     ipcRenderer.invoke('open-edit-config', {
       pluginName: editPlugin.pluginName,
-      serviceTitle: editPlugin.title
+      serviceTitle: editPlugin.title,
     });
   };
 
@@ -78,12 +78,12 @@ const EditPluginsControl = () => {
     <>
       {
         editPlugin.hasConfig && (
-          <button type="button" className="add-edit-plugin" onClick={openEditPluginConfig}>
-            <GearIcon fill="#fff" hoverFill="#fff" size="12px"/>
+          <button type='button' className='add-edit-plugin' onClick={openEditPluginConfig}>
+            <GearIcon fill='#fff' hoverFill='#fff' size='12px'/>
           </button>
         )
       }
-      <div className="edit-plugin">
+      <div className='edit-plugin'>
         <Select clearable options={options} value={editPlugin} onChange={setEditPlugin}/>
       </div>
       <style jsx>{`
@@ -141,25 +141,27 @@ const ConvertButton = () => {
         fps: options.fps,
         shouldMute: isMuted,
         shouldCrop,
-        editService: options.editPlugin ? {
-          pluginName: options.editPlugin.pluginName,
-          serviceTitle: options.editPlugin.title
-        } : undefined
+        editService: options.editPlugin
+          ? {
+            pluginName: options.editPlugin.pluginName,
+            serviceTitle: options.editPlugin.title,
+          }
+          : undefined,
       },
       format: options.format,
       plugins: {
-        share: options.sharePlugin
-      }
+        share: options.sharePlugin,
+      },
     });
 
     updatePluginUsage({
       format: options.format,
-      plugin: options.sharePlugin.pluginName
+      plugin: options.sharePlugin.pluginName,
     });
   };
 
   return (
-    <button type="button" className="start-export" onClick={onClick}>
+    <button type='button' className='start-export' onClick={onClick}>
       Convert
       <style jsx>{`
         button {
@@ -189,14 +191,13 @@ const ConvertButton = () => {
   );
 };
 
-const RightOptions = () => {
-  return (
-    <div className="container">
-      <EditPluginsControl/>
-      <div className="format"><FormatSelect/></div>
-      <div className="plugin"><PluginsSelect/></div>
-      <ConvertButton/>
-      <style jsx>{`
+const RightOptions = () => (
+  <div className='container'>
+    <EditPluginsControl/>
+    <div className='format'><FormatSelect/></div>
+    <div className='plugin'><PluginsSelect/></div>
+    <ConvertButton/>
+    <style jsx>{`
           .container {
             height: 100%;
             display: flex;
@@ -221,9 +222,8 @@ const RightOptions = () => {
             margin-right: 8px;
           }
         `}</style>
-    </div>
-  );
-};
+  </div>
+);
 
 export default RightOptions;
 

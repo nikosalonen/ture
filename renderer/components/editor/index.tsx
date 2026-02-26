@@ -22,7 +22,7 @@ const Editor = () => {
   const isTransitioning = Boolean(conversionId) !== isConversionPreviewState;
 
   const className = classNames('container', {
-    transitioning: isTransitioning
+    transitioning: isTransitioning,
   });
 
   const onTransitionEnd = () => {
@@ -35,9 +35,9 @@ const Editor = () => {
       onTransitionEnd={onTransitionEnd}
     >
       {
-        isConversionPreviewState ?
-          <EditorConversionView conversionId={conversionId}/> :
-          <EditorPreview/>
+        isConversionPreviewState
+          ? <EditorConversionView conversionId={conversionId}/>
+          : <EditorPreview/>
       }
       <style jsx>{`
         .container {

@@ -1,5 +1,7 @@
-import {ipcMain, dialog, app, BrowserWindow} from 'electron';
-import {EventEmitter} from 'events';
+import {
+  ipcMain, dialog, app, BrowserWindow,
+} from 'electron';
+import {EventEmitter} from 'node:events';
 import PCancelable, {CancelError, OnCancelFunction} from 'p-cancelable';
 import Conversion from './conversion';
 import {InstalledPlugin} from './plugins/plugin';
@@ -8,12 +10,14 @@ import {ShareServiceContext} from './plugins/service-context';
 import {prettifyFormat} from './utils/formats';
 import {setExportMenuItemState} from './menus/utils';
 import {Video} from './video';
-import {ConversionOptions, ExportState, ExportStatus, Format, CreateExportOptions} from './common/types';
+import {
+  ConversionOptions, ExportState, ExportStatus, Format, CreateExportOptions,
+} from './common/types';
 import {showError} from './utils/errors';
 import TypedEventEmitter from 'typed-emitter';
 import {plugins} from './plugins';
 import {askForTargetFilePath} from './plugins/built-in/save-file-plugin';
-import path from 'path';
+import path from 'node:path';
 import {ensureDockIsShowingSync} from './utils/dock';
 import {windowManager} from './windows/manager';
 
@@ -72,7 +76,7 @@ export default class Export extends (EventEmitter as new () => TypedEventEmitter
     private readonly format: Format,
     private readonly conversionOptions: ConversionOptions,
     private readonly options: ExportOptions,
-    private readonly title: string = video.title
+    private readonly title: string = video.title,
   ) {
     // eslint-disable-next-line constructor-super
     super();
@@ -88,7 +92,7 @@ export default class Export extends (EventEmitter as new () => TypedEventEmitter
       defaultFileName: video.title,
       filePath: this.filePath,
       onProgress: this.onProgress,
-      onCancel: this.cancel
+      onCancel: this.cancel,
     });
 
     // Used for built-in plugins like save-to-disk
@@ -140,7 +144,7 @@ export default class Export extends (EventEmitter as new () => TypedEventEmitter
       error: this.error,
       fileSize: this.conversion?.finalSize,
       disableOutputActions: this.areOutputActionsDisabled,
-      canPreviewExport: this.canPreviewExport
+      canPreviewExport: this.canPreviewExport,
     };
   }
 
@@ -245,18 +249,18 @@ export const setUpExportsListeners = () => {
     if (conversion && (await conversion.filePathExists()) && exportMap?.status === ExportStatus.completed) {
       event.sender.startDrag({
         file: exportMap?.finalFilePath ?? conversion.convertedFilePath,
-        icon: await conversion.video.getDragIcon(conversion.options)
+        icon: await conversion.video.getDragIcon(conversion.options),
       });
     }
   });
 
   ipcMain.handle('create-export', async (event, {
-    filePath, conversionOptions, format, plugins: pluginOptions
+    filePath, conversionOptions, format, plugins: pluginOptions,
   }: CreateExportOptions) => {
     const window = BrowserWindow.fromWebContents(event.sender)!;
     const video = Video.fromId(filePath);
     const extras: Record<string, any> = {
-      appUrl: pluginOptions.share.app?.url
+      appUrl: pluginOptions.share.app?.url,
     };
 
     if (!video) {
@@ -267,7 +271,7 @@ export const setUpExportsListeners = () => {
       const targetFilePath = await askForTargetFilePath(
         window,
         format,
-        video.title
+        video.title,
       );
 
       if (targetFilePath) {
@@ -277,13 +281,9 @@ export const setUpExportsListeners = () => {
       }
     }
 
-    const exportPlugin = plugins.sharePlugins.find(plugin => {
-      return plugin.name === pluginOptions.share.pluginName;
-    });
+    const exportPlugin = plugins.sharePlugins.find(plugin => plugin.name === pluginOptions.share.pluginName);
 
-    const exportService = exportPlugin?.shareServices.find(service => {
-      return service.title === pluginOptions.share.serviceTitle;
-    });
+    const exportService = exportPlugin?.shareServices.find(service => service.title === pluginOptions.share.serviceTitle);
 
     if (!exportPlugin || !exportService) {
       return;
@@ -296,9 +296,9 @@ export const setUpExportsListeners = () => {
       {
         plugin: exportPlugin,
         service: exportService,
-        extras
+        extras,
       },
-      extras.targetFilePath && path.parse(extras.targetFilePath).name
+      extras.targetFilePath && path.parse(extras.targetFilePath).name,
     );
 
     newExport.start();
@@ -315,12 +315,12 @@ export const setUpExportsListeners = () => {
           type: 'question',
           buttons: [
             'Continue',
-            'Quit'
+            'Quit',
           ],
           defaultId: 0,
           cancelId: 1,
           message: 'Do you want to continue exporting?',
-          detail: 'Kap is currently exporting files. If you quit, the export task will be canceled.'
+          detail: 'Kap is currently exporting files. If you quit, the export task will be canceled.',
         });
 
         if (buttonIndex === 0) {

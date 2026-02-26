@@ -1,4 +1,6 @@
-import {app, BrowserWindow, ipcMain, Menu} from 'electron';
+import {
+  app, BrowserWindow, ipcMain, Menu,
+} from 'electron';
 import {enable as enableRemote} from '@electron/remote/main';
 import pEvent from 'p-event';
 import {customApplicationMenu, defaultApplicationMenu, MenuModifier} from '../menus/application';
@@ -25,7 +27,7 @@ export default class KapWindow<State = any> {
   static defaultOptions: Partial<KapWindowOptions<any>> = {
     waitForMount: true,
     dock: true,
-    menu: defaultMenu => defaultMenu
+    menu: defaultMenu => defaultMenu,
   };
 
   private static readonly windows = new Map<number, KapWindow>();
@@ -54,9 +56,9 @@ export default class KapWindow<State = any> {
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
-        ...rest.webPreferences
+        ...rest.webPreferences,
       },
-      show: false
+      show: false,
     });
     enableRemote(this.browserWindow.webContents);
     this.id = this.browserWindow.id;
@@ -65,7 +67,7 @@ export default class KapWindow<State = any> {
     this.cleanupMethods = [];
     this.options = {
       ...KapWindow.defaultOptions,
-      ...props
+      ...props,
     };
 
     this.state = initialState;
@@ -122,7 +124,7 @@ export default class KapWindow<State = any> {
   setState = (partialState: State) => {
     this.state = {
       ...this.state,
-      ...partialState
+      ...partialState,
     };
 
     if (!this.browserWindow.isDestroyed()) {
@@ -130,14 +132,10 @@ export default class KapWindow<State = any> {
     }
   };
 
-  whenReady = async () => {
-    return this.readyPromise;
-  };
+  whenReady = async () => this.readyPromise;
 
   private readonly generateMenu = () => {
-    this.menu = Menu.buildFromTemplate(
-      customApplicationMenu(this.options.menu!)
-    );
+    this.menu = Menu.buildFromTemplate(customApplicationMenu(this.options.menu!));
   };
 
   private async setupWindow() {

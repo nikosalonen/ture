@@ -20,7 +20,7 @@ const getSize = (text: string) => {
   const parts = sizeText.split('x');
   return {
     width: Number.parseFloat(parts[0]),
-    height: Number.parseFloat(parts[1])
+    height: Number.parseFloat(parts[1]),
   };
 };
 
@@ -43,7 +43,7 @@ export const getVideoMetadata = async (path: string): Promise<{
       encoding: getEncoding(stderr)!,
       fps: getFps(stderr)!,
       size: getSize(stderr) as {width: number; height: number},
-      hasAudio: getHasAudio(stderr)!
+      hasAudio: getHasAudio(stderr)!,
     };
   }
 };

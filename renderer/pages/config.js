@@ -27,8 +27,8 @@ export default class ConfigPage extends React.Component {
     const {title} = this.state;
 
     return (
-      <div className="root">
-        <div className="cover-window">
+      <div className='root'>
+        <div className='cover-window'>
           <Provider inject={[configContainer]}>
             <WindowHeader title={title}/>
             <Config/>

@@ -1,10 +1,10 @@
-import path from 'path';
+import path from 'node:path';
 import getFps from './utils/fps';
 import {getEncoding, convertToH264} from './utils/encoding';
 import {nativeImage, NativeImage, screen} from 'electron';
 import {ApertureOptions, Encoding} from './common/types';
 import {generateTimestampedName} from './utils/timestamped-name';
-import fs from 'fs';
+import fs from 'node:fs';
 import {generatePreviewImage} from './utils/image-preview';
 import {windowManager} from './windows/manager';
 
@@ -59,9 +59,7 @@ export class Video {
   }
 
   async getFps() {
-    if (!this.fps) {
-      this.fps = Math.round(Number.parseFloat((await getFps(this.filePath)) ?? '0'));
-    }
+    this.fps ||= Math.round(Number.parseFloat((await getFps(this.filePath)) ?? '0'));
 
     return this.fps;
   }
@@ -76,9 +74,7 @@ export class Video {
   }
 
   async getEncoding() {
-    if (!this.encoding) {
-      this.encoding = (await getEncoding(this.filePath)) as Encoding;
-    }
+    this.encoding ||= (await getEncoding(this.filePath)) as Encoding;
 
     return this.encoding;
   }
@@ -111,9 +107,7 @@ export class Video {
   }
 
   async generatePreviewImage() {
-    if (!this.previewImage) {
-      this.previewImage = await generatePreviewImage(this.filePath);
-    }
+    this.previewImage ||= await generatePreviewImage(this.filePath);
 
     return this.previewImage;
   }
@@ -137,7 +131,7 @@ export class Video {
 
     await Promise.all([
       this.getFps(),
-      this.getEncoding()
+      this.getEncoding(),
     ]);
 
     this.isReady = true;
@@ -156,7 +150,7 @@ export class Recording extends Video {
       title: options.title ?? generateTimestampedName(),
       fps: options.apertureOptions.fps,
       encoding: options.apertureOptions.videoCodec ?? Encoding.h264,
-      pixelDensity
+      pixelDensity,
     });
 
     this.apertureOptions = options.apertureOptions;

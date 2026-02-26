@@ -7,11 +7,9 @@ const GlobalStyles = () => {
   const [accentColor, setAccentColor] = useState(remote.systemPreferences.getAccentColor());
   const isDarkMode = useDarkMode();
 
-  const systemColors = useMemo(() => {
-    return systemColorNames
-      .map(name => `--system-${name}: ${remote.systemPreferences.getColor(name as any)};`)
-      .join('\n');
-  }, [isDarkMode]);
+  const systemColors = useMemo(() => systemColorNames
+    .map(name => `--system-${name}: ${remote.systemPreferences.getColor(name as any)};`)
+    .join('\n'), [isDarkMode]);
 
   const updateAccentColor = (_, accentColor) => {
     setAccentColor(accentColor);
@@ -244,5 +242,5 @@ const systemColorNames = [
   'unemphasized-selected-text-background',
   'unemphasized-selected-text',
   'window-background',
-  'window-frame-text'
+  'window-frame-text',
 ];

@@ -6,7 +6,7 @@ export enum Format {
   mp4 = 'mp4',
   webm = 'webm',
   apng = 'apng',
-  av1 = 'av1'
+  av1 = 'av1',
 }
 
 export enum Encoding {
@@ -15,7 +15,7 @@ export enum Encoding {
   // eslint-disable-next-line unicorn/prevent-abbreviations
   proRes422 = 'proRes422',
   // eslint-disable-next-line unicorn/prevent-abbreviations
-  proRes4444 = 'proRes4444'
+  proRes4444 = 'proRes4444',
 }
 
 export type App = {

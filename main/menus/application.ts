@@ -1,5 +1,7 @@
 import {app} from 'electron';
-import {getAboutMenuItem, getExportHistoryMenuItem, getOpenFileMenuItem, getPreferencesMenuItem, getSendFeedbackMenuItem} from './common';
+import {
+  getAboutMenuItem, getExportHistoryMenuItem, getOpenFileMenuItem, getPreferencesMenuItem, getSendFeedbackMenuItem,
+} from './common';
 import {MenuItemId, MenuOptions} from './utils';
 
 const getAppMenuItem = () => ({
@@ -16,8 +18,8 @@ const getAppMenuItem = () => ({
     {role: 'hideOthers' as const},
     {role: 'unhide' as const},
     {type: 'separator' as const},
-    {role: 'quit' as const}
-  ]
+    {role: 'quit' as const},
+  ],
 });
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -29,45 +31,45 @@ export const defaultApplicationMenu = (): MenuOptions => [
     submenu: [
       getOpenFileMenuItem(),
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'close'
-      }
-    ]
+        role: 'close',
+      },
+    ],
   },
   {
     role: 'editMenu',
-    id: MenuItemId.edit
+    id: MenuItemId.edit,
   },
   {
     role: 'windowMenu',
     id: MenuItemId.window,
     submenu: [
       {
-        role: 'minimize'
+        role: 'minimize',
       },
       {
-        role: 'zoom'
+        role: 'zoom',
       },
       {
-        type: 'separator'
+        type: 'separator',
       },
       getExportHistoryMenuItem(),
       {
-        type: 'separator'
+        type: 'separator',
       },
       {
-        role: 'front'
-      }
-    ]
+        role: 'front',
+      },
+    ],
   },
   {
     id: MenuItemId.help,
     label: 'Help',
     role: 'help',
-    submenu: [getSendFeedbackMenuItem()]
-  }
+    submenu: [getSendFeedbackMenuItem()],
+  },
 ];
 
 // eslint-disable-next-line unicorn/prevent-abbreviations

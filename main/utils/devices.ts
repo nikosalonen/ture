@@ -52,7 +52,7 @@ export const getDefaultInputDevice = () => {
     const device = audioDevices.getDefaultInputDevice.sync();
     return {
       id: device.uid,
-      name: device.name
+      name: device.name,
     };
   } catch {
     // Running on 10.13 and don't have swift support libs. No need to report

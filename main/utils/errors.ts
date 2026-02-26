@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import {clipboard, shell, app} from 'electron';
 import ensureError from 'ensure-error';
 import cleanStack from 'clean-stack';
@@ -10,7 +10,7 @@ import {InstalledPlugin} from '../plugins/plugin';
 const ERRORS_TO_IGNORE = [
   /net::ERR_CONNECTION_TIMED_OUT/,
   /net::ERR_NETWORK_IO_SUSPENDED/,
-  /net::ERR_CONNECTION_CLOSED/
+  /net::ERR_CONNECTION_CLOSED/,
 ];
 
 const shouldIgnoreError = (errorText: string) => ERRORS_TO_IGNORE.some(regex => regex.test(errorText));
@@ -43,11 +43,11 @@ export const showError = async (
   error: Error,
   {
     title: customTitle,
-    plugin
+    plugin,
   }: {
     title?: string;
     plugin?: InstalledPlugin;
-  } = {}
+  } = {},
 ) => {
   await app.whenReady();
   const ensuredError = ensureError(error);
@@ -63,22 +63,22 @@ export const showError = async (
     'Don\'t Report',
     {
       label: 'Copy Error',
-      action: () => {
+      action() {
         clipboard.writeText(`${title}\n${detail}`);
-      }
-    }
+      },
+    },
   ];
 
   // If it's a plugin error, offer to open an issue on the plugin repo (if known)
   if (plugin) {
     const openIssueButton = plugin.repoUrl && {
       label: 'Open Issue',
-      action: () => {
+      action() {
         const url = new URL(`${plugin.repoUrl}/issues/new`);
         url.searchParams.set('title', title);
         url.searchParams.set('body', getIssueBody(title, detail));
         shell.openExternal(url.toString());
-      }
+      },
     };
 
     return windowManager.dialog?.open({
@@ -86,7 +86,7 @@ export const showError = async (
       detail,
       cancelId: 0,
       defaultId: openIssueButton ? 2 : 0,
-      buttons: [...mainButtons, openIssueButton].filter(Boolean)
+      buttons: [...mainButtons, openIssueButton].filter(Boolean),
     });
   }
 
@@ -94,13 +94,13 @@ export const showError = async (
     ...mainButtons,
     {
       label: 'Open Issue',
-      action: () => {
+      action() {
         const url = new URL('https://github.com/wulkano/kap/issues/new');
         url.searchParams.set('title', title);
         url.searchParams.set('body', getIssueBody(title, detail));
         shell.openExternal(url.toString());
-      }
-    }
+      },
+    },
   ];
 
   return windowManager.dialog?.open({
@@ -108,7 +108,7 @@ export const showError = async (
     detail,
     buttons,
     cancelId: 0,
-    defaultId: 2
+    defaultId: 2,
   });
 };
 

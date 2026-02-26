@@ -13,7 +13,7 @@ class Cropper extends React.Component {
     return (
       <Handles>
         <div
-          className="cropper"
+          className='cropper'
           onMouseDown={startMoving}/>
         { isResizing && <Cursor width={width} height={height}/> }
         <style jsx>{`
@@ -31,11 +31,11 @@ Cropper.propTypes = {
   startMoving: PropTypes.elementType.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
-  isResizing: PropTypes.bool
+  isResizing: PropTypes.bool,
 };
 
 export default connect(
   [CropperContainer],
   ({width, height, isResizing}) => ({width, height, isResizing}),
-  ({startMoving}) => ({startMoving})
+  ({startMoving}) => ({startMoving}),
 )(Cropper);

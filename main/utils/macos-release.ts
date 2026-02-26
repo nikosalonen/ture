@@ -1,7 +1,7 @@
 // Vendored: https://github.com/sindresorhus/macos-release
 
 'use strict';
-const os = require('os');
+const os = require('node:os');
 
 const nameMap = {
   22: ['Ventura', '13'],
@@ -21,7 +21,7 @@ const nameMap = {
   8: ['Tiger', '10.4'],
   7: ['Panther', '10.3'],
   6: ['Jaguar', '10.2'],
-  5: ['Puma', '10.1']
+  5: ['Puma', '10.1'],
 } as const;
 
 export default function macosRelease(release?: string) {
@@ -30,6 +30,6 @@ export default function macosRelease(release?: string) {
 
   return {
     name,
-    version
+    version,
   };
 }

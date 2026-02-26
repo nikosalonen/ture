@@ -43,7 +43,7 @@ const codes = [
   'numadd',
   'numsub',
   'nummult',
-  'numdiv'
+  'numdiv',
 ] as const;
 
 const getKeyCodeRegex = () => new RegExp('^([\\dA-Z~`!@#$%^&*()_+=.,<>?;:\'"\\-\\/\\\\\\[\\]\\{\\}\\|]|F([1-9]|1[\\d]|2[0-4])|' + codes.join('|') + ')$');
@@ -69,7 +69,7 @@ const shiftKeyMap = new Map([
   ['"', '\''],
   ['<', ','],
   ['>', '.'],
-  ['?', '/']
+  ['?', '/'],
 ]);
 
 const numpadKeyMap = new Map([
@@ -87,7 +87,7 @@ const numpadKeyMap = new Map([
   ['+', 'numadd'],
   ['-', 'numsub'],
   ['*', 'nummult'],
-  ['/', 'numdiv']
+  ['/', 'numdiv'],
 ]);
 
 const namedKeyCodeMap = new Map([
@@ -97,7 +97,7 @@ const namedKeyCodeMap = new Map([
   ['ArrowDown', 'Down'],
   ['ArrowLeft', 'Left'],
   ['ArrowRight', 'Right'],
-  ['Clear', 'Numlock']
+  ['Clear', 'Numlock'],
 ]);
 
 export const checkAccelerator = (accelerator: string) => {

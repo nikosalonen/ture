@@ -31,19 +31,19 @@ const exportsRemoteState: RemoteStateHandler<ExportsRemoteState> = sendUpdate =>
   };
 
   const actions = {
-    cancel: (exportId: string) => {
+    cancel(exportId: string) {
       Export.fromId(exportId)?.cancel();
     },
-    copy: (exportId: string) => {
+    copy(exportId: string) {
       Export.fromId(exportId)?.conversion?.copy();
     },
-    retry: (exportId: string) => {
+    retry(exportId: string) {
       Export.fromId(exportId)?.retry();
     },
-    openInEditor: (exportId: string) => {
+    openInEditor(exportId: string) {
       Export.fromId(exportId)?.video?.openEditorWindow?.();
     },
-    showInFolder: (exportId: string) => {
+    showInFolder(exportId: string) {
       const exportInstance = Export.fromId(exportId);
 
       if (!exportInstance) {
@@ -53,13 +53,13 @@ const exportsRemoteState: RemoteStateHandler<ExportsRemoteState> = sendUpdate =>
       if (exportInstance.finalFilePath && !exportInstance.data.disableOutputActions) {
         shell.showItemInFolder(exportInstance.finalFilePath);
       }
-    }
+    },
   } as any;
 
   return {
     subscribe,
     getState,
-    actions
+    actions,
   };
 };
 

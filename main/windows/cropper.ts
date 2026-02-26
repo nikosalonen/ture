@@ -1,11 +1,15 @@
 
 import {windowManager} from './manager';
-import {BrowserWindow, systemPreferences, dialog, screen, Display, app} from 'electron';
+import {
+  BrowserWindow, systemPreferences, dialog, screen, Display, app,
+} from 'electron';
 import {enable as enableRemote} from '@electron/remote/main';
 import delay from 'delay';
 
 import {settings} from '../common/settings';
-import {hasMicrophoneAccess, ensureMicrophonePermissions, openSystemPreferences, ensureScreenCapturePermissions} from '../common/system-permissions';
+import {
+  hasMicrophoneAccess, ensureMicrophonePermissions, openSystemPreferences, ensureScreenCapturePermissions,
+} from '../common/system-permissions';
 import {loadRoute} from '../utils/routes';
 import {MacWindow} from '../utils/windows';
 
@@ -48,8 +52,8 @@ const openCropper = (display: Display, activeDisplayId?: number) => {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
-    }
+      contextIsolation: false,
+    },
   });
   enableRemote(cropper.webContents);
 
@@ -65,7 +69,7 @@ const openCropper = (display: Display, activeDisplayId?: number) => {
       x,
       y,
       width,
-      height
+      height,
     };
 
     if (isActive) {
@@ -105,7 +109,7 @@ const openCropperWindow = async () => {
         defaultId: 1,
         message: 'Kap cannot access the microphone.',
         detail: 'Audio recording is enabled but Kap does not have access to the microphone. Continue without audio or grant Kap access to the microphone the System Preferences.',
-        cancelId: 2
+        cancelId: 2,
       });
 
       if (response === 0) {
@@ -185,7 +189,9 @@ const selectApp = async (window: MacWindow, activateWindow: (ownerName: string) 
 
   const {x, y, width, height, ownerName} = window;
 
-  const display = screen.getDisplayMatching({x, y, width, height});
+  const display = screen.getDisplayMatching({
+    x, y, width, height,
+  });
   const {id, bounds: {x: screenX, y: screenY}} = display;
 
   // For some reason this happened a bit too early without the timeout
@@ -203,7 +209,7 @@ const selectApp = async (window: MacWindow, activateWindow: (ownerName: string) 
     x: x - screenX,
     y: y - screenY,
     width,
-    height
+    height,
   });
 };
 
@@ -242,5 +248,5 @@ windowManager.setCropper({
   selectApp,
   setRecording: setRecordingCroppers,
   isOpen: isCropperOpen,
-  disable: disableCroppers
+  disable: disableCroppers,
 });

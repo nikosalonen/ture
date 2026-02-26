@@ -8,7 +8,7 @@ export const settings = {
   get: mockGet,
   set: sinon.fake(),
   delete: sinon.fake(),
-  setMock: (key: string, value: any) => {
+  setMock(key: string, value: any) {
     mocks[key] = value;
-  }
+  },
 };

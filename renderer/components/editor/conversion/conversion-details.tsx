@@ -7,14 +7,14 @@ const ConversionDetails = ({conversion, showInFolder}: {conversion: UseConversio
   const size = conversion?.fileSize;
 
   return (
-    <div className="conversion-details">
-      <div className="message">{message}</div>
-      <div className="details">
-        <div className="left">
-          <div className="title" title={title} onClick={showInFolder}>{title}</div>
-          <div className="description">{description}</div>
+    <div className='conversion-details'>
+      <div className='message'>{message}</div>
+      <div className='details'>
+        <div className='left'>
+          <div className='title' title={title} onClick={showInFolder}>{title}</div>
+          <div className='description'>{description}</div>
         </div>
-        <div className="size">{size}</div>
+        <div className='size'>{size}</div>
       </div>
       <style jsx>{`
         .conversion-details {

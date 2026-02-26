@@ -2,7 +2,7 @@
 
 import {Tray} from 'electron';
 import {KeyboardEvent} from 'electron/main';
-import path from 'path';
+import path from 'node:path';
 import {getCogMenu} from './menus/cog';
 import {getRecordMenu} from './menus/record';
 import {track} from './common/analytics';

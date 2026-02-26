@@ -1,6 +1,6 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import {app, clipboard} from 'electron';
-import {EventEmitter} from 'events';
+import {EventEmitter} from 'node:events';
 import {ConversionOptions, Format} from './common/types';
 import {Video} from './video';
 import {convertTo} from './converters';
@@ -34,7 +34,7 @@ export default class Conversion extends (EventEmitter as new () => TypedEventEmi
   constructor(
     public readonly video: Video,
     public readonly format: Format,
-    public readonly options: ConversionOptions
+    public readonly options: ConversionOptions,
   ) {
     // eslint-disable-next-line constructor-super
     super();
@@ -42,7 +42,7 @@ export default class Conversion extends (EventEmitter as new () => TypedEventEmi
     this.id = hash({
       filePath: video.filePath,
       format,
-      options
+      options,
     });
 
     Conversion.conversionMap.set(this.id, this);
@@ -56,7 +56,7 @@ export default class Conversion extends (EventEmitter as new () => TypedEventEmi
     const id = hash({
       filePath: video.filePath,
       format,
-      options
+      options,
     });
 
     return this.fromId(id) ?? new Conversion(video, format, options);
@@ -66,7 +66,7 @@ export default class Conversion extends (EventEmitter as new () => TypedEventEmi
     clipboard.writeBuffer('NSFilenamesPboardType', Buffer.from(plist.build([this.convertedFilePath])));
     notify({
       body: 'The file has been copied to the clipboard',
-      title: app.name
+      title: app.name,
     });
   };
 
@@ -137,9 +137,9 @@ export default class Conversion extends (EventEmitter as new () => TypedEventEmi
         onProgress: this.onConversionProgress,
         onCancel: () => {
           this.emit('cancel');
-        }
+        },
       },
-      this.video.encoding
+      this.video.encoding,
     );
   };
 }

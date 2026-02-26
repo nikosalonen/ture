@@ -18,7 +18,7 @@ export interface MacWindow {
 
 const APP_BLACKLIST = [
   'Kap',
-  'Kap Beta'
+  'Kap Beta',
 ];
 
 const store = new Store<{
@@ -27,7 +27,7 @@ const store = new Store<{
     lastUsed: number;
   } | undefined>;
 }>({
-  name: 'usage-history'
+  name: 'usage-history',
 });
 
 const usageHistory = store.get('appUsageHistory', {});
@@ -38,7 +38,7 @@ const getWindowList = async () => {
   const windows = await getWindows() as MacWindow[];
   const images = await getAppIconListByPid(windows.map(win => win.pid), {
     size: 16,
-    failOnError: false
+    failOnError: false,
   }) as Array<{
     pid: number;
     icon: Buffer;
@@ -56,7 +56,7 @@ const getWindowList = async () => {
       icon: icon?.resize({width: 16, height: 16}),
       count: 0,
       lastUsed: 0,
-      ...usageHistory[win.pid]
+      ...usageHistory[win.pid],
     };
 
     maxLastUsed = Math.max(maxLastUsed, window.lastUsed);
@@ -79,17 +79,15 @@ export const buildWindowsMenu = async (selected: string) => {
   const windows = await getWindowList();
 
   for (const win of windows) {
-    menu.append(
-      new MenuItem({
-        label: win.ownerName,
-        icon: win.icon,
-        type: 'checkbox',
-        checked: win.ownerName === selected,
-        click: () => {
-          activateApp(win);
-        }
-      })
-    );
+    menu.append(new MenuItem({
+      label: win.ownerName,
+      icon: win.icon,
+      type: 'checkbox',
+      checked: win.ownerName === selected,
+      click() {
+        activateApp(win);
+      },
+    }));
   }
 
   return menu;
@@ -100,7 +98,7 @@ const updateAppUsageHistory = (app: MacWindow) => {
 
   usageHistory[app.pid] = {
     count: count + 1,
-    lastUsed: Date.now()
+    lastUsed: Date.now(),
   };
 
   store.set('appUsageHistory', usageHistory);

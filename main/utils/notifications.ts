@@ -1,4 +1,6 @@
-import {Notification, NotificationConstructorOptions, NotificationAction, app} from 'electron';
+import {
+  Notification, NotificationConstructorOptions, NotificationAction, app,
+} from 'electron';
 
 // Need to persist the notifications, otherwise it is garbage collected and the actions don't trigger
 // https://github.com/electron/electron/issues/12690

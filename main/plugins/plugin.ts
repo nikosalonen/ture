@@ -1,8 +1,8 @@
 import {app, shell} from 'electron';
 import macosVersion from 'macos-version';
 import semver from 'semver';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 import readPkg from 'read-pkg';
 import {RecordService, ShareService, EditService} from './service';
 import {showError} from '../utils/errors';
@@ -12,7 +12,7 @@ import {windowManager} from '../windows/manager';
 
 export const recordPluginServiceState = new Store<Record<string, boolean>>({
   name: 'record-plugin-state',
-  defaults: {}
+  defaults: {},
 });
 
 class BasePlugin {
@@ -132,7 +132,7 @@ export class InstalledPlugin extends BasePlugin {
     return [
       ...this.shareServices,
       ...this.editServices,
-      ...this.recordServices
+      ...this.recordServices,
     ];
   }
 
@@ -144,7 +144,7 @@ export class InstalledPlugin extends BasePlugin {
     return this.recordServices.map(service => ({
       ...service,
       isEnabled: recordPluginServiceState.get(this.getRecordServiceKey(service), false),
-      setEnabled: this.getSetEnableFunction(service)
+      setEnabled: this.getSetEnableFunction(service),
     }));
   }
 
@@ -154,9 +154,7 @@ export class InstalledPlugin extends BasePlugin {
 
   openConfig = () => windowManager.config?.open(this.name);
 
-  openConfigInEditor = () => {
-    return this.config.openInEditor();
-  };
+  openConfigInEditor = () => this.config.openInEditor();
 
   private readonly getSetEnableFunction = (service: RecordService) => async (enabled: boolean) => {
     const isEnabled = recordPluginServiceState.get(this.getRecordServiceKey(service), false);

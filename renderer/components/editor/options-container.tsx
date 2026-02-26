@@ -24,10 +24,10 @@ const useOptions = () => {
     state: {
       formats,
       fpsHistory,
-      editServices
+      editServices,
     },
     updateFpsUsage,
-    isLoading
+    isLoading,
   } = useEditorOptions();
 
   const metadata = VideoMetadataContainer.useContainer();
@@ -72,19 +72,17 @@ const useOptions = () => {
     }
 
     const formatOption = formats.find(f => f.format === formatName);
-    const selectedSharePlugin = formatOption.plugins.find(plugin => {
-      return (
-        plugin.pluginName === sharePlugin.pluginName &&
-        plugin.title === sharePlugin.serviceTitle &&
-        (plugin.apps?.some(app => app.url === sharePlugin.app?.url) ?? true)
-      );
-    }) ?? formatOption.plugins.find(plugin => plugin.pluginName !== '_openWith');
+    const selectedSharePlugin = formatOption.plugins.find(plugin => (
+      plugin.pluginName === sharePlugin.pluginName
+      && plugin.title === sharePlugin.serviceTitle
+      && (plugin.apps?.some(app => app.url === sharePlugin.app?.url) ?? true)
+    )) ?? formatOption.plugins.find(plugin => plugin.pluginName !== '_openWith');
 
     setFormat(formatName);
     setSharePlugin({
       pluginName: selectedSharePlugin.pluginName,
       serviceTitle: selectedSharePlugin.title,
-      app: selectedSharePlugin.apps ? sharePlugin.app : undefined
+      app: selectedSharePlugin.apps ? sharePlugin.app : undefined,
     });
     updateFps(Math.min(originalFps, fpsHistory[formatName]), formatName);
   };
@@ -103,7 +101,7 @@ const useOptions = () => {
 
     setSharePlugin(firstPlugin && {
       pluginName: firstPlugin.pluginName,
-      serviceTitle: firstPlugin.title
+      serviceTitle: firstPlugin.title,
     });
 
     updateFps(Math.min(originalFps, fpsHistory[formatName]), formatName);
@@ -142,7 +140,7 @@ const useOptions = () => {
     updateFps,
     updateFormat,
     setEditPlugin,
-    setDimensions
+    setDimensions,
   };
 };
 

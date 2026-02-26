@@ -8,7 +8,7 @@ import {
   CropIcon,
   ApplicationsIcon,
   FullscreenIcon,
-  ExitFullscreenIcon
+  ExitFullscreenIcon,
 } from '../../../vectors';
 import {connect, ActionBarContainer, CropperContainer} from '../../../containers';
 
@@ -49,8 +49,8 @@ class Left extends React.Component {
     const {toggleAdvanced, selectedApp, advanced} = this.props;
 
     return (
-      <div className="main">
-        <div className="crop">
+      <div className='main'>
+        <div className='crop'>
           <CropIcon tabIndex={advanced ? -1 : 0} onClick={toggleAdvanced}/>
         </div>
         <IconMenu isMenu icon={ApplicationsIcon} tabIndex={advanced ? -1 : 0} active={Boolean(selectedApp)} onOpen={menu && menu.popup}/>
@@ -74,13 +74,13 @@ class Left extends React.Component {
 Left.propTypes = {
   toggleAdvanced: PropTypes.elementType.isRequired,
   selectedApp: PropTypes.string,
-  advanced: PropTypes.bool
+  advanced: PropTypes.bool,
 };
 
 MainControls.Left = connect(
   [CropperContainer, ActionBarContainer],
   ({selectedApp}, {advanced}) => ({selectedApp, advanced}),
-  (_, {toggleAdvanced}) => ({toggleAdvanced})
+  (_, {toggleAdvanced}) => ({toggleAdvanced}),
 )(Left);
 
 class Right extends React.Component {
@@ -93,12 +93,12 @@ class Right extends React.Component {
     const {enterFullscreen, exitFullscreen, isFullscreen, advanced} = this.props;
 
     return (
-      <div className="main">
-        <div className="fullscreen">
+      <div className='main'>
+        <div className='fullscreen'>
           {
-            isFullscreen ?
-              <ExitFullscreenIcon active tabIndex={advanced ? -1 : 0} onClick={exitFullscreen}/> :
-              <FullscreenIcon tabIndex={advanced ? -1 : 0} onClick={enterFullscreen}/>
+            isFullscreen
+              ? <ExitFullscreenIcon active tabIndex={advanced ? -1 : 0} onClick={exitFullscreen}/>
+              : <FullscreenIcon tabIndex={advanced ? -1 : 0} onClick={enterFullscreen}/>
           }
         </div>
         <IconMenu isMenu icon={MoreIcon} tabIndex={advanced ? -1 : 0} onOpen={this.onCogMenuClick}/>
@@ -119,13 +119,13 @@ Right.propTypes = {
   enterFullscreen: PropTypes.elementType.isRequired,
   exitFullscreen: PropTypes.elementType.isRequired,
   isFullscreen: PropTypes.bool,
-  advanced: PropTypes.bool
+  advanced: PropTypes.bool,
 };
 
 MainControls.Right = connect(
   [CropperContainer, ActionBarContainer],
   ({isFullscreen}, {advanced}) => ({isFullscreen, advanced}),
-  ({enterFullscreen, exitFullscreen}) => ({enterFullscreen, exitFullscreen})
+  ({enterFullscreen, exitFullscreen}) => ({enterFullscreen, exitFullscreen}),
 )(Right);
 
 export default MainControls;

@@ -11,7 +11,7 @@ import ShortcutInput from '../preferences/shortcut-input';
 
 const horizontalTypes = [
   'boolean',
-  'hexColor'
+  'hexColor',
 ];
 
 const ConfigInput = ({name, type, schema, value, onChange, hasErrors}) => {
@@ -104,10 +104,10 @@ ConfigInput.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
-    PropTypes.number
+    PropTypes.number,
   ]),
   onChange: PropTypes.elementType.isRequired,
-  hasErrors: PropTypes.bool
+  hasErrors: PropTypes.bool,
 };
 
 class Tab extends React.Component {
@@ -118,10 +118,10 @@ class Tab extends React.Component {
     const allErrors = errors || [];
 
     return (
-      <div className="container">
+      <div className='container'>
         {
           description && (
-            <div className="description">
+            <div className='description'>
               <Linkify component={Link}>{description}</Linkify>
             </div>
           )
@@ -157,13 +157,13 @@ class Tab extends React.Component {
         }
         {
           !serviceTitle && (
-            <Item subtitle="Open config file" onClick={openConfig}>
-              <div className="icon-container"><OpenConfigIcon fill="var(--kap)" hoverFill="var(--kap)" onClick={openConfig}/></div>
+            <Item subtitle='Open config file' onClick={openConfig}>
+              <div className='icon-container'><OpenConfigIcon fill='var(--kap)' hoverFill='var(--kap)' onClick={openConfig}/></div>
             </Item>
           )
         }
-        <Item last subtitle="View plugin on GitHub" onClick={viewOnGithub}>
-          <div className="icon-container"><OpenOnGithubIcon size="20px" fill="var(--kap)" hoverFill="var(--kap)" onClick={viewOnGithub}/></div>
+        <Item last subtitle='View plugin on GitHub' onClick={viewOnGithub}>
+          <div className='icon-container'><OpenOnGithubIcon size='20px' fill='var(--kap)' hoverFill='var(--kap)' onClick={viewOnGithub}/></div>
         </Item>
         <style jsx>{`
           .container {
@@ -200,7 +200,7 @@ Tab.propTypes = {
   onChange: PropTypes.elementType.isRequired,
   openConfig: PropTypes.elementType.isRequired,
   viewOnGithub: PropTypes.elementType.isRequired,
-  serviceTitle: PropTypes.string
+  serviceTitle: PropTypes.string,
 };
 
 export default Tab;

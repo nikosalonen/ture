@@ -1,6 +1,6 @@
 import moduleAlias from 'module-alias';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 
 export const mockModule = (name: string) => {
   const mockModulePathTypescript = path.resolve(__dirname, '..', 'mocks', `${name}.ts`);
@@ -8,7 +8,7 @@ export const mockModule = (name: string) => {
 
   const mockPath = [
     mockModulePathTypescript,
-    mockModulePath
+    mockModulePath,
   ].find(p => fs.existsSync(p));
 
   if (!mockPath) {
@@ -25,7 +25,7 @@ export const mockImport = (importPath: string, mock: string) => {
 
   const mockPath = [
     mockModulePathTypescript,
-    mockModulePath
+    mockModulePath,
   ].find(p => fs.existsSync(p));
 
   if (!mockPath) {

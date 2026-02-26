@@ -1,7 +1,7 @@
 import {app} from 'electron';
-import {EventEmitter} from 'events';
-import path from 'path';
-import fs from 'fs';
+import {EventEmitter} from 'node:events';
+import path from 'node:path';
+import fs from 'node:fs';
 import makeDir from 'make-dir';
 import execa from 'execa';
 import {track} from '../common/analytics';
@@ -28,7 +28,7 @@ export class Plugins extends EventEmitter {
   builtInPlugins = [
     new InstalledPlugin('_copyToClipboard', path.resolve(this.builtInDir, 'copy-to-clipboard-plugin')),
     new InstalledPlugin('_saveToDisk', path.resolve(this.builtInDir, 'save-file-plugin')),
-    new InstalledPlugin('_openWith', path.resolve(this.builtInDir, 'open-with-plugin'))
+    new InstalledPlugin('_openWith', path.resolve(this.builtInDir, 'open-with-plugin')),
   ];
 
   constructor() {
@@ -41,9 +41,7 @@ export class Plugins extends EventEmitter {
     track(`plugin/installed/${name}`);
 
     this.modifyMainPackageJson(pkg => {
-      if (!pkg.dependencies) {
-        pkg.dependencies = {};
-      }
+      pkg.dependencies ||= {};
 
       pkg.dependencies[name] = 'latest';
     });
@@ -67,18 +65,20 @@ export class Plugins extends EventEmitter {
       // Const openConfig = () => openPrefsWindow({target: {name, action: 'configure'}});
       const openConfig = () => plugin.openConfig();
 
-      const options = (isValid && !hasConfig) ? {
-        title: 'Plugin installed',
-        body: `"${plugin.prettyName}" is ready for use`
-      } : {
-        title: plugin.isValid ? 'Plugin installed' : 'Configure plugin',
-        body: `"${plugin.prettyName}" ${plugin.isValid ? 'can be configured' : 'requires configuration'}`,
-        click: openConfig,
-        actions: [
-          {type: 'button' as const, text: 'Configure', action: openConfig},
-          {type: 'button' as const, text: 'Later'}
-        ]
-      };
+      const options = (isValid && !hasConfig)
+        ? {
+          title: 'Plugin installed',
+          body: `"${plugin.prettyName}" is ready for use`,
+        }
+        : {
+          title: plugin.isValid ? 'Plugin installed' : 'Configure plugin',
+          body: `"${plugin.prettyName}" ${plugin.isValid ? 'can be configured' : 'requires configuration'}`,
+          click: openConfig,
+          actions: [
+            {type: 'button' as const, text: 'Configure', action: openConfig},
+            {type: 'button' as const, text: 'Later'},
+          ],
+        };
 
       notify(options);
 
@@ -124,7 +124,7 @@ export class Plugins extends EventEmitter {
 
     return new NpmPlugin(json, {
       version: json.kapVersion,
-      ...json.kap
+      ...json.kap,
     });
   }
 
@@ -148,7 +148,7 @@ export class Plugins extends EventEmitter {
         return new NpmPlugin(x, {
           // Keeping for backwards compatibility
           version: kapVersion,
-          ...kap
+          ...kap,
         });
       }));
   }
@@ -156,7 +156,7 @@ export class Plugins extends EventEmitter {
   get allPlugins() {
     return [
       ...this.installedPlugins,
-      ...this.builtInPlugins
+      ...this.builtInPlugins,
     ];
   }
 
@@ -172,9 +172,7 @@ export class Plugins extends EventEmitter {
     return this.allPlugins.filter(plugin => plugin.recordServices.length > 0);
   }
 
-  openPluginConfig = async (pluginName: string) => {
-    return windowManager.config?.open(pluginName);
-  };
+  openPluginConfig = async (pluginName: string) => windowManager.config?.open(pluginName);
 
   private makePluginsDir() {
     if (!fs.existsSync(this.packageJsonPath)) {
@@ -194,8 +192,8 @@ export class Plugins extends EventEmitter {
       cwd: this.pluginsDir,
       env: {
         ELECTRON_RUN_AS_NODE: '1',
-        NODE_ENV: 'development'
-      }
+        NODE_ENV: 'development',
+      },
     });
   }
 

@@ -15,43 +15,41 @@ const getDurationLabel = () => {
 const getDurationMenuItem = () => ({
   id: MenuItemId.duration,
   label: getDurationLabel(),
-  enabled: false
+  enabled: false,
 });
 
 const getStopRecordingMenuItem = () => ({
   id: MenuItemId.stopRecording,
   label: 'Stop',
-  click: stopRecording
+  click: stopRecording,
 });
 
 const getPauseRecordingMenuItem = () => ({
   id: MenuItemId.pauseRecording,
   label: 'Pause',
-  click: pauseRecording
+  click: pauseRecording,
 });
 
 const getResumeRecordingMenuItem = () => ({
   id: MenuItemId.resumeRecording,
   label: 'Resume',
-  click: resumeRecording
+  click: resumeRecording,
 });
 
 export const getRecordMenuTemplate = (isPaused: boolean): MenuOptions => [
   getDurationMenuItem(),
   {
-    type: 'separator'
+    type: 'separator',
   },
   isPaused ? getResumeRecordingMenuItem() : getPauseRecordingMenuItem(),
   getStopRecordingMenuItem(),
   {
-    type: 'separator'
+    type: 'separator',
   },
   {
     role: 'quit',
-    accelerator: 'Command+Q'
-  }
+    accelerator: 'Command+Q',
+  },
 ];
 
-export const getRecordMenu = async (isPaused: boolean) => {
-  return Menu.buildFromTemplate(getRecordMenuTemplate(isPaused));
-};
+export const getRecordMenu = async (isPaused: boolean) => Menu.buildFromTemplate(getRecordMenuTemplate(isPaused));

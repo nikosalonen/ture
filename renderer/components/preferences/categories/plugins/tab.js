@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 
 import Plugin from './plugin';
 
-export const EmptyTab = ({title, subtitle, link, onClick, showIcon, image}) => {
-  return (
-    <div className="container">
-      <div className="content">
-        { showIcon && <div className="icon">📦</div> }
-        <div className="title">{title}</div>
-        <div className="subtitle">{subtitle}</div>
-        <div className="link" onClick={onClick}>{link}</div>
-      </div>
-      <footer/>
-      <style jsx>{`
+export const EmptyTab = ({title, subtitle, link, onClick, showIcon, image}) => (
+  <div className='container'>
+    <div className='content'>
+      { showIcon && <div className='icon'>📦</div> }
+      <div className='title'>{title}</div>
+      <div className='subtitle'>{subtitle}</div>
+      <div className='link' onClick={onClick}>{link}</div>
+    </div>
+    <footer/>
+    <style jsx>{`
         .container {
           height: 100%;
           width: 100%;
@@ -67,9 +66,8 @@ export const EmptyTab = ({title, subtitle, link, onClick, showIcon, image}) => {
           height: 180px;
         }
       `}</style>
-    </div>
-  );
-};
+  </div>
+);
 
 EmptyTab.propTypes = {
   title: PropTypes.string,
@@ -77,26 +75,22 @@ EmptyTab.propTypes = {
   link: PropTypes.string,
   onClick: PropTypes.elementType.isRequired,
   showIcon: PropTypes.bool,
-  image: PropTypes.string
+  image: PropTypes.string,
 };
 
-const Tab = ({current, plugins, disabled, onClick, onTransitionEnd, openConfig, tabIndex}) => {
-  return plugins.map(plugin => {
-    return (
-      <Plugin
-        key={plugin.name}
-        tabIndex={tabIndex}
-        plugin={plugin}
-        disabled={disabled}
-        loading={current === plugin.name}
-        checked={plugin.isInstalled ? (current !== plugin.name) : (current === plugin.name)}
-        openConfig={plugin.hasConfig ? (() => openConfig(plugin.name)) : undefined}
-        onClick={() => onClick(plugin)}
-        onTransitionEnd={onTransitionEnd}
-      />
-    );
-  });
-};
+const Tab = ({current, plugins, disabled, onClick, onTransitionEnd, openConfig, tabIndex}) => plugins.map(plugin => (
+  <Plugin
+    key={plugin.name}
+    tabIndex={tabIndex}
+    plugin={plugin}
+    disabled={disabled}
+    loading={current === plugin.name}
+    checked={plugin.isInstalled ? (current !== plugin.name) : (current === plugin.name)}
+    openConfig={plugin.hasConfig ? (() => openConfig(plugin.name)) : undefined}
+    onClick={() => onClick(plugin)}
+    onTransitionEnd={onTransitionEnd}
+  />
+));
 
 Tab.propTypes = {
   checked: PropTypes.bool,
@@ -106,7 +100,7 @@ Tab.propTypes = {
   onClick: PropTypes.func.isRequired,
   onTransitionEnd: PropTypes.func,
   openConfig: PropTypes.func,
-  tabIndex: PropTypes.number.isRequired
+  tabIndex: PropTypes.number.isRequired,
 };
 
 export default Tab;

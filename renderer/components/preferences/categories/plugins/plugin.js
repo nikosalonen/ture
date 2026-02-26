@@ -9,7 +9,7 @@ import {EditIcon, ErrorIcon} from '../../../../vectors';
 const PluginTitle = ({title, label, onClick}) => (
   <div>
     <div
-      className="plugin-title"
+      className='plugin-title'
       onClick={onClick}
     >
       {title}
@@ -37,18 +37,18 @@ const PluginTitle = ({title, label, onClick}) => (
 PluginTitle.propTypes = {
   title: PropTypes.string,
   label: PropTypes.string,
-  onClick: PropTypes.elementType
+  onClick: PropTypes.elementType,
 };
 
 const Plugin = ({plugin, checked, disabled, onTransitionEnd, onClick, loading, openConfig, tabIndex}) => {
   const requiredVersion = !plugin.isCompatible && (
-    (plugin.kapVersion && `Requires Kap version ${plugin.kapVersion}.`) ||
-    (plugin.macosVersion && `Requires macOS version ${plugin.macosVersion}`)
+    (plugin.kapVersion && `Requires Kap version ${plugin.kapVersion}.`)
+    || (plugin.macosVersion && `Requires macOS version ${plugin.macosVersion}`)
   );
 
   const error = !plugin.isCompatible && (
-    <div className="invalid" title={`This plugin is not supported. ${requiredVersion}`}>
-      <ErrorIcon fill="#ff6059" hoverFill="#ff6059" onClick={openConfig}/>
+    <div className='invalid' title={`This plugin is not supported. ${requiredVersion}`}>
+      <ErrorIcon fill='#ff6059' hoverFill='#ff6059' onClick={openConfig}/>
       <style jsx>{`
         .invalid {
           height: 36px;
@@ -65,8 +65,8 @@ const Plugin = ({plugin, checked, disabled, onTransitionEnd, onClick, loading, o
   );
 
   const warning = plugin.hasConfig && !plugin.isValid && (
-    <div className="invalid" title="This plugin requires configuration">
-      <ErrorIcon fill="#ff6059" hoverFill="#ff6059" onClick={openConfig}/>
+    <div className='invalid' title='This plugin requires configuration'>
+      <ErrorIcon fill='#ff6059' hoverFill='#ff6059' onClick={openConfig}/>
       <style jsx>{`
         .invalid {
           height: 36px;
@@ -103,8 +103,8 @@ const Plugin = ({plugin, checked, disabled, onTransitionEnd, onClick, loading, o
     >
       {
         openConfig && plugin.isCompatible && (
-          <div className="config-icon">
-            <EditIcon size="18px" tabIndex={tabIndex} onClick={openConfig}/>
+          <div className='config-icon'>
+            <EditIcon size='18px' tabIndex={tabIndex} onClick={openConfig}/>
             <style jsx>{`
               .config-icon {
                 margin-right: 16px;
@@ -133,7 +133,7 @@ Plugin.propTypes = {
   onClick: PropTypes.elementType,
   loading: PropTypes.bool,
   openConfig: PropTypes.func,
-  tabIndex: PropTypes.number.isRequired
+  tabIndex: PropTypes.number.isRequired,
 };
 
 export default Plugin;

@@ -1,5 +1,5 @@
-import {createServer} from 'http';
-import path from 'path';
+import {createServer} from 'node:http';
+import path from 'node:path';
 import {app} from 'electron';
 import {initialize as initializeRemote} from '@electron/remote/main';
 import log from 'electron-log';
@@ -127,10 +127,10 @@ const checkForUpdates = () => {
     openFiles(...filesToOpen);
     hasActiveRecording();
   } else if (
-    !(await hasActiveRecording()) &&
-    !app.getLoginItemSettings().wasOpenedAtLogin &&
-    ensureScreenCapturePermissions() &&
-    (!settings.get('recordAudio') || hasMicrophoneAccess())
+    !(await hasActiveRecording())
+    && !app.getLoginItemSettings().wasOpenedAtLogin
+    && ensureScreenCapturePermissions()
+    && (!settings.get('recordAudio') || hasMicrophoneAccess())
   ) {
     windowManager.cropper?.open();
   }

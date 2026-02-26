@@ -6,7 +6,7 @@ import {
   SwapIcon,
   BackIcon,
   LinkIcon,
-  DropdownArrowIcon
+  DropdownArrowIcon,
 } from '../../../vectors';
 
 import {connect, ActionBarContainer, CropperContainer} from '../../../containers';
@@ -18,7 +18,7 @@ import {
   minHeight,
   minWidth,
   handleKeyboardActivation,
-  RATIOS
+  RATIOS,
 } from '../../../utils/inputs';
 
 import KeyboardNumberInput from '../../keyboard-number-input';
@@ -63,7 +63,6 @@ const stopPropagation = event => event.stopPropagation();
 
 class Left extends React.Component {
   state = {};
-
   select = React.createRef();
 
   static getDerivedStateFromProps(nextProps, previousState) {
@@ -72,7 +71,7 @@ class Left extends React.Component {
     if (ratio !== previousState.ratio && !isResizing) {
       return {
         ratio,
-        menu: buildAspectRatioMenu({setRatio, ratio})
+        menu: buildAspectRatioMenu({setRatio, ratio}),
       };
     }
 
@@ -90,7 +89,7 @@ class Left extends React.Component {
     this.state.menu.popup({
       x: Math.round(left),
       y: Math.round(top) + 6,
-      positioningItem
+      positioningItem,
     });
   };
 
@@ -98,22 +97,22 @@ class Left extends React.Component {
     const {advanced, toggleAdvanced, toggleRatioLock, ratioLocked, ratio = []} = this.props;
 
     return (
-      <div className="advanced">
-        <div className="back">
+      <div className='advanced'>
+        <div className='back'>
           <BackIcon tabIndex={advanced ? 0 : -1} onClick={toggleAdvanced}/>
         </div>
         <div
           ref={this.select}
-          className="select"
+          className='select'
           tabIndex={advanced ? 0 : -1}
           onClick={this.openMenu}
           onMouseDown={stopPropagation}
           onKeyDown={handleKeyboardActivation(this.openMenu, {isMenu: true})}
         >
           <span>{ratio[0]}:{ratio[1]}</span>
-          <DropdownArrowIcon size="18px"/>
+          <DropdownArrowIcon size='18px'/>
         </div>
-        <div className="link" tabIndex={advanced ? 0 : -1} onKeyPress={handleKeyboardActivation(toggleRatioLock)}>
+        <div className='link' tabIndex={advanced ? 0 : -1} onKeyPress={handleKeyboardActivation(toggleRatioLock)}>
           <LinkIcon active={ratioLocked} onClick={() => toggleRatioLock()}/>
         </div>
         <style jsx>{advancedStyles}</style>
@@ -180,13 +179,15 @@ Left.propTypes = {
   isResizing: PropTypes.bool,
   ratio: PropTypes.array,
   setRatio: PropTypes.elementType.isRequired,
-  advanced: PropTypes.bool
+  advanced: PropTypes.bool,
 };
 
 AdvancedControls.Left = connect(
   [ActionBarContainer, CropperContainer],
-  ({ratioLocked, advanced}, {ratio, isResizing}) => ({advanced, ratio, ratioLocked, isResizing}),
-  ({toggleAdvanced, toggleRatioLock}, {setRatio}) => ({toggleAdvanced, toggleRatioLock, setRatio})
+  ({ratioLocked, advanced}, {ratio, isResizing}) => ({
+    advanced, ratio, ratioLocked, isResizing,
+  }),
+  ({toggleAdvanced, toggleRatioLock}, {setRatio}) => ({toggleAdvanced, toggleRatioLock, setRatio}),
 )(Left);
 
 class Right extends React.Component {
@@ -212,10 +213,9 @@ class Right extends React.Component {
       value,
       widthInput: widthInput.current.getRef(),
       heightInput: heightInput.current.getRef(),
-      ignoreEmpty
+      ignoreEmpty,
     });
   };
-
   onHeightChange = (event, {ignoreEmpty} = {}) => {
     const {bounds, width, setBounds, ratioLocked, ratio, setHeight} = this.props;
     const {value} = event.currentTarget;
@@ -231,15 +231,13 @@ class Right extends React.Component {
       value,
       widthInput: widthInput.current.getRef(),
       heightInput: heightInput.current.getRef(),
-      ignoreEmpty
+      ignoreEmpty,
     });
   };
-
   onWidthBlur = event => {
     this.onWidthChange(event, {ignoreEmpty: false});
     handleWidthInput.flush();
   };
-
   onHeightBlur = event => {
     this.onHeightChange(event, {ignoreEmpty: false});
     handleHeightInput.flush();
@@ -249,32 +247,32 @@ class Right extends React.Component {
     const {swapDimensions, width, height, screenWidth, screenHeight, advanced} = this.props;
 
     return (
-      <div className="advanced">
+      <div className='advanced'>
         <KeyboardNumberInput
           ref={this.widthInput}
           className={keyboardInputClass}
-          name="width"
-          size="5"
+          name='width'
+          size='5'
           min={minWidth}
           max={screenWidth}
-          maxLength="5"
+          maxLength='5'
           value={width}
           tabIndex={advanced ? 0 : -1}
           onChange={this.onWidthChange}
           onBlur={this.onWidthBlur}
           onMouseDown={stopPropagation}
         />
-        <div className="swap" tabIndex={advanced ? 0 : -1} onKeyPress={handleKeyboardActivation(swapDimensions)}>
+        <div className='swap' tabIndex={advanced ? 0 : -1} onKeyPress={handleKeyboardActivation(swapDimensions)}>
           <SwapIcon onClick={swapDimensions}/>
         </div>
         <KeyboardNumberInput
           ref={this.heightInput}
           className={keyboardInputClass}
-          name="height"
-          size="5"
+          name='height'
+          size='5'
           min={minHeight}
           max={screenHeight}
-          maxLength="5"
+          maxLength='5'
           value={height}
           tabIndex={advanced ? 0 : -1}
           onChange={this.onHeightChange}
@@ -317,33 +315,35 @@ Right.propTypes = {
   setWidth: PropTypes.elementType.isRequired,
   setHeight: PropTypes.elementType.isRequired,
   screenWidth: PropTypes.number,
-  screenHeight: PropTypes.number
+  screenHeight: PropTypes.number,
 };
 
 AdvancedControls.Right = connect(
   [CropperContainer, ActionBarContainer],
   (
     {x, y, ratio, width, height, screenWidth, screenHeight},
-    {cropperWidth, cropperHeight, ratioLocked, advanced}
+    {cropperWidth, cropperHeight, ratioLocked, advanced},
   ) => ({
     screenHeight,
     screenWidth,
-    bounds: {x, y, width, height},
+    bounds: {
+      x, y, width, height,
+    },
     width: cropperWidth,
     height: cropperHeight,
     ratio,
     ratioLocked,
-    advanced
+    advanced,
   }),
   (
     {setBounds, swapDimensions},
-    {setWidth, setHeight}
+    {setWidth, setHeight},
   ) => ({
     setBounds,
     swapDimensions,
     setWidth,
-    setHeight
-  })
+    setHeight,
+  }),
 )(Right);
 
 export default AdvancedControls;

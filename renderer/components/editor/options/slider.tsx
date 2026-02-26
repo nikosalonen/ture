@@ -52,14 +52,14 @@ const Slider = (props: Props) => {
   };
 
   return (
-    <div className="container">
+    <div className='container'>
       {isOpen && <div
-        className="overlay" onClick={() => {
+        className='overlay' onClick={() => {
           setIsOpen(false);
         }}/>}
       <input
-        type="text"
-        className="value"
+        type='text'
+        className='value'
         value={valueText || ''}
         onChange={onChange}
         onKeyDown={onKeyDown}
@@ -71,13 +71,13 @@ const Slider = (props: Props) => {
       {
         isOpen && (
           <div
-            className="popup" onClick={event => {
+            className='popup' onClick={event => {
               event.stopPropagation();
             }}
           >
             <input
-              type="range"
-              className="slider"
+              type='range'
+              className='slider'
               min={props.min}
               max={props.max}
               step={1}
@@ -87,8 +87,8 @@ const Slider = (props: Props) => {
                 setIsOpen(false);
               }}
             />
-            <div className="arrow">
-              <TooltipIcon fill="var(--slider-popup-background)" hoverFill="var(--slider-popup-background)"/>
+            <div className='arrow'>
+              <TooltipIcon fill='var(--slider-popup-background)' hoverFill='var(--slider-popup-background)'/>
             </div>
           </div>
         )

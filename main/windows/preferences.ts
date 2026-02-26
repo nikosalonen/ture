@@ -38,8 +38,8 @@ const openPrefsWindow = async (options?: PreferencesWindowOptions) => {
     vibrancy: 'under-window',
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
-    }
+      contextIsolation: false,
+    },
   });
   enableRemote(prefsWindow.webContents);
 
@@ -84,5 +84,5 @@ ipcMain.handle('open-preferences', async (_event, options) => {
 
 windowManager.setPreferences({
   open: openPrefsWindow,
-  close: closePrefsWindow
+  close: closePrefsWindow,
 });

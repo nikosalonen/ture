@@ -1,6 +1,5 @@
-/* eslint-disable array-element-newline */
 
-import path from 'path';
+import path from 'node:path';
 import execa from 'execa';
 import tempy from 'tempy';
 import {track} from '../common/analytics';
@@ -22,12 +21,17 @@ export const convertToH264 = async (inputPath: string) => {
   track('encoding/converted/hevc');
 
   await execa(ffmpegPath, [
-    '-i', inputPath,
-    '-vcodec', 'libx264',
-    '-crf', '27',
-    '-preset', 'veryfast',
-    '-c:a', 'copy',
-    outputPath
+    '-i',
+    inputPath,
+    '-vcodec',
+    'libx264',
+    '-crf',
+    '27',
+    '-preset',
+    'veryfast',
+    '-c:a',
+    'copy',
+    outputPath,
   ]);
 
   return outputPath;

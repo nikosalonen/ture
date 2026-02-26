@@ -24,14 +24,14 @@ Link.propTypes = {
   href: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
-  ])
+    PropTypes.node,
+  ]),
 };
 
 class Item extends React.Component {
   static defaultProps = {
     subtitle: [],
-    errors: []
+    errors: [],
   };
 
   render() {
@@ -50,7 +50,7 @@ class Item extends React.Component {
       last,
       parentItem,
       small,
-      help
+      help,
     } = this.props;
 
     const subtitleArray = Array.isArray(subtitle) ? subtitle : [subtitle];
@@ -61,15 +61,15 @@ class Item extends React.Component {
 
     return (
       <div className={containerClassName} onClick={onClick}>
-        <div className="item" id={id}>
+        <div className='item' id={id}>
           {warning}
-          <div className="content">
+          <div className='content'>
             <div className={className}>
               {title}
               {
                 help && (
                   <div title={help}>
-                    <HelpIcon hoverFill="var(--icon-color)" size="16px"/>
+                    <HelpIcon hoverFill='var(--icon-color)' size='16px'/>
                   </div>
                 )
               }
@@ -78,12 +78,12 @@ class Item extends React.Component {
               { subtitleArray.map(s => <div key={s}><Linkify component={Link}>{s}</Linkify></div>) }
             </div>
           </div>
-          <div className="input">
+          <div className='input'>
             {children}
           </div>
         </div>
         {errors && errors.length > 0 && (
-          <div className="errors">{errors.map(error => <div key={error}>{error}</div>)}</div>
+          <div className='errors'>{errors.map(error => <div key={error}>{error}</div>)}</div>
         )}
         <style jsx>{`
           .container {
@@ -186,29 +186,29 @@ Item.propTypes = {
   title: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   experimental: PropTypes.bool,
   tooltip: PropTypes.string,
   subtitle: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string)
+    PropTypes.arrayOf(PropTypes.string),
   ]),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   vertical: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.string),
   onSubtitleClick: PropTypes.elementType,
   warning: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]),
   onClick: PropTypes.elementType,
   last: PropTypes.bool,
   parentItem: PropTypes.bool,
-  small: PropTypes.bool
+  small: PropTypes.bool,
 };
 
 export default Item;

@@ -19,25 +19,22 @@ export default class ActionBarContainer extends Container {
     this.settings = remote.require('./common/settings').settings;
     this.state = {
       cropperWidth: '',
-      cropperHeight: ''
+      cropperHeight: '',
     };
   }
 
   setInputValues = ({width, height}) => {
     this.setState({
       cropperWidth: width ? width.toString() : '',
-      cropperHeight: height ? height.toString() : ''
+      cropperHeight: height ? height.toString() : '',
     });
   };
-
   setWidth = cropperWidth => {
     this.setState({cropperWidth});
   };
-
   setHeight = cropperHeight => {
     this.setState({cropperHeight});
   };
-
   setDisplay = display => {
     const {width, height, cropper} = display;
     const {x, y, ratioLocked} = cropper ? this.settings.get('actionBar') : {};
@@ -49,10 +46,9 @@ export default class ActionBarContainer extends Container {
       y: y ? y : Math.ceil(height * 0.8),
       width: barWidth,
       height: barHeight,
-      ratioLocked
+      ratioLocked,
     });
   };
-
   resetPosition = () => {
     const {screenWidth, screenHeight} = this.state;
 
@@ -60,18 +56,15 @@ export default class ActionBarContainer extends Container {
       x: (screenWidth - barWidth) / 2,
       y: Math.ceil(screenHeight * 0.8),
       width: barWidth,
-      height: barHeight
+      height: barHeight,
     });
   };
-
   bindCursor = cursorContainer => {
     this.cursorContainer = cursorContainer;
   };
-
   bindCropper = cropperContainer => {
     this.cropperContainer = cropperContainer;
   };
-
   updateSettings = updates => {
     const {x, y, ratioLocked} = this.state;
 
@@ -79,11 +72,10 @@ export default class ActionBarContainer extends Container {
       x,
       y,
       ratioLocked,
-      ...updates
+      ...updates,
     });
     this.setState(updates);
   };
-
   toggleRatioLock = ratioLocked => {
     const {ratioLocked: isLocked} = this.state;
     if (ratioLocked) {
@@ -94,7 +86,6 @@ export default class ActionBarContainer extends Container {
 
     this.cropperContainer.setOriginal();
   };
-
   toggleAdvanced = () => {
     if (!this.cropperContainer.state.isFullscreen) {
       const {advanced, screenWidth} = this.state;
@@ -105,30 +96,27 @@ export default class ActionBarContainer extends Container {
         const height = width * 0.75; // 4:3
         this.cropperContainer.setSize({
           width,
-          height
+          height,
         });
       }
     }
   };
-
   startMoving = ({pageX, pageY}) => {
     this.setState({isMoving: true, offsetX: pageX, offsetY: pageY});
     this.cursorContainer.addCursorObserver(this.move);
   };
-
   stopMoving = () => {
     const {x, y} = this.state;
     this.updateSettings({x, y});
     this.setState({isMoving: false});
     this.cursorContainer.removeCursorObserver(this.move);
   };
-
   move = ({pageX, pageY}) => {
     const {x, y, offsetX, offsetY, height, width, screenWidth, screenHeight} = this.state;
 
     const updates = {
       offsetX: pageX,
-      offsetY: pageY
+      offsetY: pageY,
     };
 
     if (y + pageY - offsetY + height <= screenHeight && y + pageY - offsetY >= 0) {

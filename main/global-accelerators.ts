@@ -10,7 +10,7 @@ const openCropper = () => {
 
 // All settings that should be loaded and handled as global accelerators
 const handlers = new Map<string, () => void>([
-  ['triggerCropper', openCropper]
+  ['triggerCropper', openCropper],
 ]);
 
 // If no action is passed, it resets
