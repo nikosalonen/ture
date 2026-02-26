@@ -1,7 +1,6 @@
 'use strict';
 
-import {BrowserWindow} from 'electron';
-import {ipcMain as ipc} from 'electron-better-ipc';
+import {BrowserWindow, ipcMain} from 'electron';
 import pEvent from 'p-event';
 
 import {loadRoute} from '../utils/routes';
@@ -30,8 +29,8 @@ const openConfigWindow = async (pluginName: string) => {
 
   loadRoute(configWindow, 'config');
 
-  configWindow.webContents.on('did-finish-load', async () => {
-    await ipc.callRenderer(configWindow, 'plugin', pluginName);
+  configWindow.webContents.on('did-finish-load', () => {
+    configWindow.webContents.send('plugin', pluginName);
     configWindow.show();
   });
 
@@ -60,15 +59,16 @@ const openEditorConfigWindow = async (pluginName: string, serviceTitle: string, 
 
   loadRoute(configWindow, 'config');
 
-  configWindow.webContents.on('did-finish-load', async () => {
-    await ipc.callRenderer(configWindow, 'edit-service', {pluginName, serviceTitle});
+  configWindow.webContents.on('did-finish-load', () => {
+    configWindow.webContents.send('edit-service', {pluginName, serviceTitle});
     configWindow.show();
   });
 
   await pEvent(configWindow, 'closed');
 };
 
-ipc.answerRenderer('open-edit-config', async ({pluginName, serviceTitle}, window) => {
+ipcMain.handle('open-edit-config', async (event, {pluginName, serviceTitle}) => {
+  const window = BrowserWindow.fromWebContents(event.sender)!;
   return openEditorConfigWindow(pluginName, serviceTitle, window);
 });
 

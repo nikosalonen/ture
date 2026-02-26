@@ -1,5 +1,6 @@
-import {remote} from 'electron';
 import {useEffect, useRef} from 'react';
+
+const remote = require('utils/electron-remote') as typeof import('@electron/remote');
 import {resizeKeepingCenter} from 'utils/window';
 
 const CONVERSION_WIDTH = 370;

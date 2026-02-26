@@ -1,6 +1,7 @@
-import electron from 'electron';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+const remote = require('../../../utils/electron-remote');
 
 import {DropdownArrowIcon} from '../../../vectors';
 import {handleKeyboardActivation} from '../../../utils/inputs';
@@ -22,11 +23,11 @@ class Select extends React.Component {
   static getDerivedStateFromProps(nextProps) {
     const {options, onSelect, selected} = nextProps;
 
-    if (!electron.remote || options.length === 0) {
+    if (!remote || options.length === 0) {
       return {};
     }
 
-    const {Menu, MenuItem} = electron.remote;
+    const {Menu, MenuItem} = remote;
     const menu = new Menu();
 
     for (const option of options) {

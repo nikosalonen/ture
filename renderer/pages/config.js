@@ -1,6 +1,6 @@
 import React from 'react';
 import {Provider} from '../utils/unstated-shim';
-import {ipcRenderer as ipc} from 'electron-better-ipc';
+import {ipcRenderer} from 'electron';
 
 import {ConfigContainer} from '../containers';
 import Config from '../components/config';
@@ -12,12 +12,12 @@ export default class ConfigPage extends React.Component {
   state = {title: ''};
 
   componentDidMount() {
-    ipc.answerMain('plugin', pluginName => {
+    ipcRenderer.on('plugin', (_event, pluginName) => {
       configContainer.setPlugin(pluginName);
       this.setState({title: pluginName.replace(/^kap-/, '')});
     });
 
-    ipc.answerMain('edit-service', ({pluginName, serviceTitle}) => {
+    ipcRenderer.on('edit-service', (_event, {pluginName, serviceTitle}) => {
       configContainer.setEditService(pluginName, serviceTitle);
       this.setState({title: serviceTitle});
     });

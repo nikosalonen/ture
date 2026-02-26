@@ -1,5 +1,7 @@
-import electron from 'electron';
+import {shell} from 'electron';
 import React from 'react';
+
+const remote = require('../../../utils/electron-remote');
 import PropTypes from 'prop-types';
 import tildify from 'tildify';
 
@@ -24,12 +26,12 @@ class General extends React.Component {
 
   componentDidMount() {
     this.setState({
-      showCursorSupported: electron.remote.require('macos-version').isGreaterThanOrEqualTo('10.13')
+      showCursorSupported: remote && remote.require('macos-version').isGreaterThanOrEqualTo('10.13')
     });
   }
 
   openKapturesDir = () => {
-    electron.shell.openPath(this.props.kapturesDir);
+    shell.openPath(this.props.kapturesDir);
   };
 
   render() {

@@ -1,5 +1,6 @@
-import {remote} from 'electron';
 import {useState, useEffect, FunctionComponent} from 'react';
+
+const remote = require('utils/electron-remote') as typeof import('@electron/remote');
 
 interface TrafficLightsProps {
   shouldClose?: () => PromiseLike<boolean>;

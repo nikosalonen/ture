@@ -1,12 +1,13 @@
-import electron from 'electron';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
 import {connect, CursorContainer, CropperContainer} from '../../containers';
 
+const remote = require('../../utils/electron-remote');
+
 class Cursor extends React.Component {
-  remote = electron.remote || false;
+  remote = remote;
 
   render() {
     if (!this.remote) {

@@ -1,5 +1,4 @@
-import electron, {app, BrowserWindow, Menu} from 'electron';
-import {ipcMain as ipc} from 'electron-better-ipc';
+import {app, BrowserWindow, ipcMain, Menu} from 'electron';
 import pEvent from 'p-event';
 import {customApplicationMenu, defaultApplicationMenu, MenuModifier} from '../menus/application';
 import {loadRoute} from '../utils/routes';
@@ -29,11 +28,13 @@ export default class KapWindow<State = any> {
   };
 
   private static readonly windows = new Map<number, KapWindow>();
+  private static readonly windowCallbacks = new Map<string, Map<number, (...args: any[]) => any>>();
 
   browserWindow: BrowserWindow;
   state?: State;
   menu: Menu = Menu.buildFromTemplate(defaultApplicationMenu());
   readonly id: number;
+  mountResolve?: () => void;
 
   private readonly readyPromise: Promise<void>;
   private readonly cleanupMethods: Array<() => void> = [];
@@ -57,7 +58,6 @@ export default class KapWindow<State = any> {
       },
       show: false
     });
-
     this.id = this.browserWindow.id;
     KapWindow.windows.set(this.id, this);
 
@@ -92,12 +92,30 @@ export default class KapWindow<State = any> {
     }
   };
 
-  callRenderer = async <T, R>(channel: string, data?: T) => {
-    return ipc.callRenderer<T, R>(this.browserWindow, channel, data);
+  callRenderer = (channel: string, data?: any) => {
+    if (!this.browserWindow.isDestroyed()) {
+      this.browserWindow.webContents.send(channel, data);
+    }
   };
 
-  answerRenderer = <T, R>(channel: string, callback: (data: T, window: electron.BrowserWindow) => R) => {
-    this.cleanupMethods.push(ipc.answerRenderer(this.browserWindow, channel, callback));
+  answerRenderer = (channel: string, callback: (...args: any[]) => any) => {
+    if (!KapWindow.windowCallbacks.has(channel)) {
+      KapWindow.windowCallbacks.set(channel, new Map());
+      ipcMain.handle(channel, (event, ...args) => {
+        const win = BrowserWindow.fromWebContents(event.sender);
+        if (!win) {
+          return;
+        }
+
+        const cb = KapWindow.windowCallbacks.get(channel)?.get(win.id);
+        return cb?.(...args);
+      });
+    }
+
+    KapWindow.windowCallbacks.get(channel)!.set(this.id, callback);
+    this.cleanupMethods.push(() => {
+      KapWindow.windowCallbacks.get(channel)?.delete(this.id);
+    });
   };
 
   setState = (partialState: State) => {
@@ -106,7 +124,9 @@ export default class KapWindow<State = any> {
       ...partialState
     };
 
-    this.callRenderer('kap-window-state', this.state);
+    if (!this.browserWindow.isDestroyed()) {
+      this.browserWindow.webContents.send('kap-window-state', this.state);
+    }
   };
 
   whenReady = async () => {
@@ -138,37 +158,42 @@ export default class KapWindow<State = any> {
       Menu.setApplicationMenu(this.menu);
     });
 
-    this.webContents.on('did-finish-load', async () => {
-      if (this.state) {
-        this.callRenderer('kap-window-state', this.state);
+    this.webContents.on('did-finish-load', () => {
+      if (this.state && !this.browserWindow.isDestroyed()) {
+        this.browserWindow.webContents.send('kap-window-state', this.state);
       }
     });
-
-    this.answerRenderer('kap-window-state', () => this.state);
 
     loadRoute(this.browserWindow, this.props.route);
 
     if (waitForMount) {
       return new Promise<void>(resolve => {
-        this.answerRenderer('kap-window-mount', () => {
-          if (!this.browserWindow.isVisible()) {
-            this.browserWindow.show();
-          }
-
-          resolve();
-        });
+        this.mountResolve = resolve;
       });
     }
 
     await pEvent(this.webContents, 'did-finish-load');
     this.browserWindow.show();
   }
-
-  // Use this around any call that causes:
-  // TypeError: Object has been destroyed
-  // private readonly executeIfNotDestroyed = (callback: () => void) => {
-  //   if (!this.browserWindow.isDestroyed()) {
-  //     callback();
-  //   }
-  // };
 }
+
+// Global IPC handlers for KapWindow — registered once at module load
+ipcMain.handle('kap-window-state', event => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  const kapWindow = win ? KapWindow.fromId(win.id) : undefined;
+  return kapWindow?.state;
+});
+
+ipcMain.handle('kap-window-mount', event => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  const kapWindow = win ? KapWindow.fromId(win.id) : undefined;
+
+  if (kapWindow) {
+    if (!kapWindow.browserWindow.isVisible()) {
+      kapWindow.browserWindow.show();
+    }
+
+    kapWindow.mountResolve?.();
+    kapWindow.mountResolve = undefined;
+  }
+});

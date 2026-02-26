@@ -1,4 +1,4 @@
-import {ipcMain, dialog, app} from 'electron';
+import {ipcMain, dialog, app, BrowserWindow} from 'electron';
 import {EventEmitter} from 'events';
 import PCancelable, {CancelError, OnCancelFunction} from 'p-cancelable';
 import Conversion from './conversion';
@@ -6,7 +6,6 @@ import {InstalledPlugin} from './plugins/plugin';
 import {ShareService} from './plugins/service';
 import {ShareServiceContext} from './plugins/service-context';
 import {prettifyFormat} from './utils/formats';
-import {ipcMain as ipc} from 'electron-better-ipc';
 import {setExportMenuItemState} from './menus/utils';
 import {Video} from './video';
 import {ConversionOptions, ExportState, ExportStatus, Format, CreateExportOptions} from './common/types';
@@ -251,9 +250,10 @@ export const setUpExportsListeners = () => {
     }
   });
 
-  ipc.answerRenderer('create-export', async ({
+  ipcMain.handle('create-export', async (event, {
     filePath, conversionOptions, format, plugins: pluginOptions
-  }: CreateExportOptions, window) => {
+  }: CreateExportOptions) => {
+    const window = BrowserWindow.fromWebContents(event.sender)!;
     const video = Video.fromId(filePath);
     const extras: Record<string, any> = {
       appUrl: pluginOptions.share.app?.url

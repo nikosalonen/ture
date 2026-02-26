@@ -1,6 +1,5 @@
 import ffmpeg from 'ffmpeg-static';
-import util from 'electron-util';
 
-const ffmpegPath = util.fixPathForAsarUnpack(ffmpeg);
+const ffmpegPath = ffmpeg.replace('app.asar', 'app.asar.unpacked');
 
 export default ffmpegPath;

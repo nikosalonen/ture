@@ -1,11 +1,12 @@
-import electron from 'electron';
 import {Container} from '../utils/unstated-shim';
+
+const remote = require('../utils/electron-remote');
 
 const barWidth = 464;
 const barHeight = 64;
 
 export default class ActionBarContainer extends Container {
-  remote = electron.remote || false;
+  remote = remote;
 
   constructor() {
     super();
@@ -15,7 +16,7 @@ export default class ActionBarContainer extends Container {
       return;
     }
 
-    this.settings = this.remote.require('./common/settings').settings;
+    this.settings = remote.require('./common/settings').settings;
     this.state = {
       cropperWidth: '',
       cropperHeight: ''

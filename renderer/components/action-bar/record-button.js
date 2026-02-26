@@ -1,4 +1,3 @@
-import electron from 'electron';
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -97,7 +96,7 @@ const RecordButton = ({
     event.stopPropagation();
 
     if (cropperExists) {
-      const {remote} = electron;
+      const remote = require('../../utils/electron-remote');
       const {startRecording} = remote.require('./aperture');
 
       willStartRecording();

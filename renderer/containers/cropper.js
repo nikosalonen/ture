@@ -1,6 +1,7 @@
-import electron from 'electron';
 import nearestNormalAspectRatio from 'nearest-normal-aspect-ratio';
 import {Container} from '../utils/unstated-shim';
+
+const remote = require('../utils/electron-remote');
 
 import {minHeight, minWidth, resizeTo, setScreenSize} from '../utils/inputs';
 
@@ -37,7 +38,7 @@ export const findRatioForSize = (width, height) => {
 };
 
 export default class CropperContainer extends Container {
-  remote = electron.remote || false;
+  remote = remote;
 
   constructor() {
     super();
@@ -47,9 +48,9 @@ export default class CropperContainer extends Container {
       return;
     }
 
-    const {settings} = this.remote.require('./common/settings');
+    const {settings} = remote.require('./common/settings');
     this.settings = settings;
-    this.settings.getSelectedInputDeviceId = this.remote.require('./utils/devices').getSelectedInputDeviceId;
+    this.settings.getSelectedInputDeviceId = remote.require('./utils/devices').getSelectedInputDeviceId;
 
     this.state = {
       isRecording: false,
@@ -281,7 +282,7 @@ export default class CropperContainer extends Container {
 
   stopPicking = () => {
     if (this.state.isPicking) {
-      this.remote.getCurrentWindow().close();
+      remote.getCurrentWindow().close();
     } else {
       this.cursorContainer.removeCursorObserver(this.pick);
     }

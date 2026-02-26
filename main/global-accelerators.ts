@@ -1,5 +1,4 @@
-import {globalShortcut} from 'electron';
-import {ipcMain as ipc} from 'electron-better-ipc';
+import {globalShortcut, ipcMain} from 'electron';
 import {settings} from './common/settings';
 import {windowManager} from './windows/manager';
 
@@ -50,7 +49,7 @@ const registerFromStore = () => {
 };
 
 export const initializeGlobalAccelerators = () => {
-  ipc.answerRenderer('update-shortcut', ({setting, shortcut}) => {
+  ipcMain.handle('update-shortcut', (_event, {setting, shortcut}) => {
     const oldShortcut = settings.get<string, string>(`shortcuts.${setting}`);
 
     try {
@@ -74,7 +73,7 @@ export const initializeGlobalAccelerators = () => {
     }
   });
 
-  ipc.answerRenderer('toggle-shortcuts', ({enabled}) => {
+  ipcMain.handle('toggle-shortcuts', (_event, {enabled}) => {
     if (enabled) {
       registerFromStore();
     } else {

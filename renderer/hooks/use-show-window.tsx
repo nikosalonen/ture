@@ -1,10 +1,10 @@
 import {useEffect} from 'react';
-import {ipcRenderer} from 'electron-better-ipc';
+import {ipcRenderer} from 'electron';
 
 export const useShowWindow = (show: boolean) => {
   useEffect(() => {
     if (show) {
-      ipcRenderer.callMain('kap-window-mount');
+      ipcRenderer.invoke('kap-window-mount');
     }
   }, [show]);
 };

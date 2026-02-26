@@ -1,13 +1,14 @@
-import electron from 'electron';
 import {Container} from '../utils/unstated-shim';
 
+const remote = require('../utils/electron-remote');
+
 export default class ConfigContainer extends Container {
-  remote = electron.remote || false;
+  remote = remote;
 
   state = {selectedTab: 0};
 
   setPlugin(pluginName) {
-    const {InstalledPlugin} = this.remote.require('./plugins/plugin');
+    const {InstalledPlugin} = remote.require('./plugins/plugin');
     this.plugin = new InstalledPlugin(pluginName);
     this.config = this.plugin.config;
     this.validators = this.config.validators;
@@ -20,7 +21,7 @@ export default class ConfigContainer extends Container {
   }
 
   setEditService = (pluginName, serviceTitle) => {
-    const {InstalledPlugin} = this.remote.require('./plugins/plugin');
+    const {InstalledPlugin} = remote.require('./plugins/plugin');
     this.plugin = new InstalledPlugin(pluginName);
     this.config = this.plugin.config;
     this.validators = this.config.validators.filter(({title}) => title === serviceTitle);
@@ -39,7 +40,7 @@ export default class ConfigContainer extends Container {
     }
   };
 
-  closeWindow = () => this.remote.getCurrentWindow().close();
+  closeWindow = () => remote.getCurrentWindow().close();
 
   openConfig = () => this.plugin.openConfigInEditor();
 

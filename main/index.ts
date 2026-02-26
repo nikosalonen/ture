@@ -1,13 +1,13 @@
 import {app} from 'electron';
-import {is, enforceMacOSAppLocation} from 'electron-util';
+import {initialize as initializeRemote} from '@electron/remote/main';
 import log from 'electron-log';
 import {autoUpdater} from 'electron-updater';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
 
 import './windows/load';
-import './utils/sentry';
 
-require('electron-timber').hookConsole({main: true, renderer: true});
+// electron-log is already used for auto-updater logging; it captures console output to log files
+log.transports.console.level = 'info';
 
 import {settings} from './common/settings';
 import {plugins} from './plugins';
@@ -45,7 +45,7 @@ app.on('open-file', (event, path) => {
 });
 
 const initializePlugins = async () => {
-  if (!is.development) {
+  if (app.isPackaged) {
     try {
       await plugins.upgrade();
     } catch (error) {
@@ -55,7 +55,7 @@ const initializePlugins = async () => {
 };
 
 const checkForUpdates = () => {
-  if (is.development) {
+  if (!app.isPackaged) {
     return false;
   }
 
@@ -83,6 +83,9 @@ const checkForUpdates = () => {
   await app.whenReady();
   require('./utils/errors').setupErrorHandling();
 
+  // Initialize @electron/remote for renderer process access
+  initializeRemote();
+
   // Initialize remote states
   setupRemoteStates();
 
@@ -92,7 +95,9 @@ const checkForUpdates = () => {
   app.setAboutPanelOptions({copyright: 'Copyright © Wulkano'});
 
   // Ensure the app is in the Applications folder
-  enforceMacOSAppLocation();
+  if (app.isPackaged && !app.isInApplicationsFolder()) {
+    app.moveToApplicationsFolder();
+  }
 
   await prepareNext('./renderer');
 

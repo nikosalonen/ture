@@ -1,4 +1,3 @@
-import util from 'electron-util';
 import execa from 'execa';
 import moment from 'moment';
 import PCancelable from 'p-cancelable';
@@ -12,7 +11,7 @@ import {settings} from '../common/settings';
 import ffmpegPath from '../utils/ffmpeg-path';
 
 const gifsicle = require('gifsicle');
-const gifsiclePath = util.fixPathForAsarUnpack(gifsicle);
+const gifsiclePath = (gifsicle as string).replace('app.asar', 'app.asar.unpacked');
 
 enum Mode {
   convert,

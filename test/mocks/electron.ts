@@ -21,4 +21,4 @@ export const clipboard = {
   writeText: sinon.fake()
 };
 
-export const remote = {};
+// remote module is now provided by @electron/remote package, not electron itself

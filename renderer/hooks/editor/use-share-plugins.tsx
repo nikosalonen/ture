@@ -1,6 +1,5 @@
 import OptionsContainer from 'components/editor/options-container';
-import {remote} from 'electron';
-import {ipcRenderer} from 'electron-better-ipc';
+import {remote, ipcRenderer} from 'electron';
 import {useMemo} from 'react';
 
 const useSharePlugins = () => {
@@ -67,7 +66,7 @@ const useSharePlugins = () => {
         label: 'Get Plugins…',
         checked: false,
         click: () => {
-          ipcRenderer.callMain('open-preferences', {category: 'plugins', tab: 'discover'});
+          ipcRenderer.invoke('open-preferences', {category: 'plugins', tab: 'discover'});
         }
       } as any);
     }

@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
-import {ipcRenderer} from 'electron-better-ipc';
+import {ipcRenderer} from 'electron';
 import {RemoteState, RemoteStateHook} from '../common/types';
 
 // TODO: Import these util exports from the `main/remote-states/utils` file once we figure out the correct TS configuration
@@ -24,23 +24,25 @@ const createRemoteStateHook = <Callback extends RemoteState>(
     const actionsRef = useRef<any>({});
 
     useEffect(() => {
-      const cleanup = ipcRenderer.answerMain(channelNames.stateUpdated, (data: {id?: string; state: any}) => {
+      const listener = (_event: any, data: {id?: string; state: any}) => {
         if (data.id === id) {
           setState(data.state);
         }
-      });
+      };
+
+      ipcRenderer.on(channelNames.stateUpdated, listener);
 
       (async () => {
-        const actionKeys = (await ipcRenderer.callMain<string, string[]>(channelNames.subscribe, id));
+        const actionKeys = (await ipcRenderer.invoke(channelNames.subscribe, id)) as string[];
 
         // eslint-disable-next-line unicorn/no-array-reduce
         const actions = actionKeys.reduce((acc, key) => ({
           ...acc,
-          [key]: async (...data: any) => ipcRenderer.callMain(channelNames.callAction, {key, data, id})
+          [key]: async (...data: any) => ipcRenderer.invoke(channelNames.callAction, {key, data, id})
         }), {});
 
         const getState = async () => {
-          const newState = (await ipcRenderer.callMain<string, any>(channelNames.getState, id));
+          const newState = await ipcRenderer.invoke(channelNames.getState, id);
           setState(newState);
         };
 
@@ -53,7 +55,9 @@ const createRemoteStateHook = <Callback extends RemoteState>(
         setIsLoading(false);
       })();
 
-      return cleanup;
+      return () => {
+        ipcRenderer.removeListener(channelNames.stateUpdated, listener);
+      };
     }, []);
 
     return {

@@ -1,6 +1,6 @@
 import delay from 'delay';
 import {app, dialog} from 'electron';
-import {openNewGitHubIssue} from 'electron-util';
+import {shell} from 'electron';
 import macosRelease from '../utils/macos-release';
 import {supportedVideoExtensions} from '../common/constants';
 import {getCurrentMenuItem, MenuItemId} from './utils';
@@ -56,11 +56,9 @@ export const getSendFeedbackMenuItem = () => ({
   id: MenuItemId.sendFeedback,
   label: 'Send Feedback…',
   click() {
-    openNewGitHubIssue({
-      user: 'wulkano',
-      repo: 'kap',
-      body: issueBody
-    });
+    const url = new URL('https://github.com/wulkano/kap/issues/new');
+    url.searchParams.set('body', issueBody);
+    shell.openExternal(url.toString());
   }
 });
 

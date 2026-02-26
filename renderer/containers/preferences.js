@@ -1,6 +1,7 @@
-import electron from 'electron';
+import {ipcRenderer, shell} from 'electron';
 import {Container} from '../utils/unstated-shim';
-import {ipcRenderer as ipc} from 'electron-better-ipc';
+
+const remote = require('../utils/electron-remote');
 // Import {defaultInputDeviceId} from 'common/constants';
 
 const defaultInputDeviceId = 'asd';
@@ -8,7 +9,7 @@ const defaultInputDeviceId = 'asd';
 const SETTINGS_ANALYTICS_BLACKLIST = ['kapturesDir'];
 
 export default class PreferencesContainer extends Container {
-  remote = electron.remote || false;
+  remote = remote;
 
   state = {
     category: 'general',
@@ -18,13 +19,13 @@ export default class PreferencesContainer extends Container {
 
   mount = async setOverlay => {
     this.setOverlay = setOverlay;
-    const {settings, shortcuts} = this.remote.require('./common/settings');
+    const {settings, shortcuts} = remote.require('./common/settings');
     this.settings = settings;
     this.settings.shortcuts = shortcuts;
-    this.systemPermissions = this.remote.require('./common/system-permissions');
-    this.plugins = this.remote.require('./plugins').plugins;
-    this.track = this.remote.require('./common/analytics').track;
-    this.showError = this.remote.require('./utils/errors').showError;
+    this.systemPermissions = remote.require('./common/system-permissions');
+    this.plugins = remote.require('./plugins').plugins;
+    this.track = remote.require('./common/analytics').track;
+    this.showError = remote.require('./utils/errors').showError;
 
     const pluginsInstalled = this.plugins.installedPlugins.sort((a, b) => a.prettyName.localeCompare(b.prettyName));
 
@@ -33,7 +34,7 @@ export default class PreferencesContainer extends Container {
     this.setState({
       shortcuts: {},
       ...this.settings.store,
-      openOnStartup: this.remote.app.getLoginItemSettings().openAtLogin,
+      openOnStartup: remote.app.getLoginItemSettings().openAtLogin,
       pluginsInstalled,
       isMounted: true,
       shortcutMap: this.settings.shortcuts
@@ -45,7 +46,7 @@ export default class PreferencesContainer extends Container {
   };
 
   getAudioDevices = async () => {
-    const {getAudioDevices, getDefaultInputDevice} = this.remote.require('./utils/devices');
+    const {getAudioDevices, getDefaultInputDevice} = remote.require('./utils/devices');
     const {audioInputDeviceId} = this.settings.store;
     const {name: currentDefaultName} = getDefaultInputDevice() || {};
 
@@ -87,7 +88,7 @@ export default class PreferencesContainer extends Container {
         this.scrollIntoView('discover', target.name);
         this.setState({category: 'plugins', tab: 'discover'});
 
-        const buttonIndex = this.remote.dialog.showMessageBoxSync(this.remote.getCurrentWindow(), {
+        const buttonIndex = remote.dialog.showMessageBoxSync(remote.getCurrentWindow(), {
           type: 'question',
           buttons: [
             'Install',
@@ -195,11 +196,11 @@ export default class PreferencesContainer extends Container {
     this.setState({category: 'plugins'});
     this.setOverlay(true);
     await this.plugins.openPluginConfig(name);
-    ipc.callMain('refresh-usage');
+    ipcRenderer.send('refresh-usage');
     this.setOverlay(false);
   };
 
-  openPluginsFolder = () => electron.shell.openPath(this.plugins.pluginsDir);
+  openPluginsFolder = () => shell.openPath(this.plugins.pluginsDir);
 
   selectCategory = category => {
     this.setState({category});
@@ -242,12 +243,12 @@ export default class PreferencesContainer extends Container {
     const setting = 'enableShortcuts';
     const newValue = !this.state[setting];
     this.toggleSetting(setting, newValue);
-    await ipc.callMain('toggle-shortcuts', {enabled: newValue});
+    await ipcRenderer.invoke('toggle-shortcuts', {enabled: newValue});
   };
 
   updateShortcut = async (setting, shortcut) => {
     try {
-      await ipc.callMain('update-shortcut', {setting, shortcut});
+      await ipcRenderer.invoke('update-shortcut', {setting, shortcut});
       this.setState({
         shortcuts: {
           ...this.state.shortcuts,
@@ -262,13 +263,11 @@ export default class PreferencesContainer extends Container {
   setOpenOnStartup = value => {
     const openOnStartup = typeof value === 'boolean' ? value : !this.state.openOnStartup;
     this.setState({openOnStartup});
-    this.remote.app.setLoginItemSettings({openAtLogin: openOnStartup});
+    remote.app.setLoginItemSettings({openAtLogin: openOnStartup});
   };
 
   pickKapturesDir = () => {
-    const {dialog, getCurrentWindow} = this.remote;
-
-    const directories = dialog.showOpenDialogSync(getCurrentWindow(), {
+    const directories = remote.dialog.showOpenDialogSync(remote.getCurrentWindow(), {
       properties: [
         'openDirectory',
         'createDirectory'

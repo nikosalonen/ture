@@ -2,8 +2,7 @@ import {EditorWindowState} from '../common/types';
 import type {Video} from '../video';
 import KapWindow from './kap-window';
 import {MenuItemId} from '../menus/utils';
-import {BrowserWindow, dialog} from 'electron';
-import {is} from 'electron-util';
+import {app, BrowserWindow, dialog} from 'electron';
 import fs from 'fs';
 import {saveSnapshot} from '../utils/image-preview';
 import {windowManager} from './manager';
@@ -40,7 +39,7 @@ const open = async (video: Video) => {
     height: MIN_WINDOW_HEIGHT,
     backgroundColor: '#222222',
     webPreferences: {
-      webSecurity: !is.development // Disable webSecurity in dev to load video over file:// protocol while serving over insecure http, this is not needed in production where we use file:// protocol for html serving.
+      webSecurity: app.isPackaged // Disable webSecurity in dev to load video over file:// protocol while serving over insecure http, this is not needed in production where we use file:// protocol for html serving.
     },
     frame: false,
     transparent: true,

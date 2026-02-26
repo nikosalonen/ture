@@ -1,14 +1,24 @@
-import {appMenu} from 'electron-util';
+import {app} from 'electron';
 import {getAboutMenuItem, getExportHistoryMenuItem, getOpenFileMenuItem, getPreferencesMenuItem, getSendFeedbackMenuItem} from './common';
 import {MenuItemId, MenuOptions} from './utils';
 
-const getAppMenuItem = () => {
-  const appMenuItem = appMenu([getPreferencesMenuItem()]);
-
-  // @ts-expect-error
-  appMenuItem.submenu[0] = getAboutMenuItem();
-  return {...appMenuItem, id: MenuItemId.app};
-};
+const getAppMenuItem = () => ({
+  label: app.name,
+  id: MenuItemId.app,
+  submenu: [
+    getAboutMenuItem(),
+    {type: 'separator' as const},
+    getPreferencesMenuItem(),
+    {type: 'separator' as const},
+    {role: 'services' as const},
+    {type: 'separator' as const},
+    {role: 'hide' as const},
+    {role: 'hideOthers' as const},
+    {role: 'unhide' as const},
+    {type: 'separator' as const},
+    {role: 'quit' as const}
+  ]
+});
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const defaultApplicationMenu = (): MenuOptions => [

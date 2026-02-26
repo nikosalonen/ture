@@ -1,10 +1,11 @@
 import {createContainer} from '../../utils/create-container';
-import electron from 'electron';
 import {useRef, useState, useEffect} from 'react';
+
+const remote = require('utils/electron-remote') as typeof import('@electron/remote');
 
 const useVideoControls = () => {
   const videoRef = useRef<HTMLVideoElement>();
-  const currentWindow = electron.remote.getCurrentWindow();
+  const currentWindow = remote.getCurrentWindow();
   const wasPaused = useRef(true);
   const transitioningPauseState = useRef<Promise<void>>();
 

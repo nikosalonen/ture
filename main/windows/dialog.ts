@@ -1,7 +1,6 @@
 'use strict';
 
-import {BrowserWindow, Rectangle} from 'electron';
-import {ipcMain as ipc} from 'electron-better-ipc';
+import {BrowserWindow, ipcMain} from 'electron';
 import {loadRoute} from '../utils/routes';
 import {windowManager} from './manager';
 
@@ -48,12 +47,17 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
 
     const cancelButton = buttons.findIndex(({label}) => label === 'Cancel');
 
-    const {width, height} = await ipc.callRenderer<any, Rectangle>(dialogWindow, 'data', {
-      cancelId: cancelButton > 0 ? cancelButton : undefined,
-      ...options,
-      ...newOptions,
-      buttons: buttons.map(({label, activeLabel}) => ({label, activeLabel})),
-      id: dialogWindow.id
+    const {width, height} = await new Promise<{width: number; height: number}>(resolveSize => {
+      ipcMain.once(`dialog-data-response-${dialogWindow.id}`, (_event, dimensions) => {
+        resolveSize(dimensions);
+      });
+      dialogWindow.webContents.send('data', {
+        cancelId: cancelButton > 0 ? cancelButton : undefined,
+        ...options,
+        ...newOptions,
+        buttons: buttons.map(({label, activeLabel}) => ({label, activeLabel})),
+        id: dialogWindow.id
+      });
     });
 
     const bounds = dialogWindow.getBounds();
@@ -65,7 +69,7 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
     });
   };
 
-  const unsubscribe = ipc.answerRenderer(`dialog-action-${dialogWindow.id}`, async (index: number) => {
+  ipcMain.handle(`dialog-action-${dialogWindow.id}`, async (_event, index: number) => {
     if (buttons[index]) {
       if (buttons[index].action) {
         wasActionTaken = false;
@@ -84,7 +88,7 @@ const showDialog = async (options: DialogOptions) => new Promise<number | void>(
 
   const cleanup = (value?: number) => {
     wasActionTaken = true;
-    unsubscribe();
+    ipcMain.removeHandler(`dialog-action-${dialogWindow.id}`);
     dialogWindow.close();
     resolve(value);
   };

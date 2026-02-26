@@ -1,7 +1,7 @@
 import {GearIcon} from '../../../vectors';
 import OptionsContainer from '../options-container';
 import Select from './select';
-import {ipcRenderer as ipc} from 'electron-better-ipc';
+import {ipcRenderer} from 'electron';
 import useConversionIdContext from 'hooks/editor/use-conversion-id';
 import useEditorWindowState from 'hooks/editor/use-editor-window-state';
 import VideoTimeContainer from '../video-time-container';
@@ -66,7 +66,7 @@ const EditPluginsControl = () => {
   }
 
   const openEditPluginConfig = () => {
-    ipc.callMain('open-edit-config', {
+    ipcRenderer.invoke('open-edit-config', {
       pluginName: editPlugin.pluginName,
       serviceTitle: editPlugin.title
     });
