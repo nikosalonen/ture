@@ -35,7 +35,7 @@
   "dependencies": {
     "@electron/notarize": "^2.3.0",
     "@electron/remote": "^2",
-    "@sindresorhus/to-milliseconds": "^1.2.0",
+    "@sindresorhus/to-milliseconds": "^2.0.0",
     "ajv": "^6.12.2",
     "aperture": "^6.1.2",
     "classnames": "^2.5.1",
